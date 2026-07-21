@@ -882,7 +882,7 @@ CAREERS.forEach(function(c){
   var pill = forks ? '<span class="pill">'+refCount(c)+' formações · com ramificação</span>' : '<span class="pill">'+refCount(c)+' formações</span>';
   var allBtn='<button class="add-all" type="button" aria-pressed="false" data-ids="'+careerIds(c).join(',')+'" data-hue="'+c.hue+'" title="Adicionar todas as formações desta trilha ao Meu plano">'
     +PLUS+CHECK
-    +'<span class="lbl-add">Adicionar conteúdo todo</span><span class="lbl-done">Conteúdo no plano</span></button>';
+    +'<span class="lbl-add">Adicionar roadmap todo</span><span class="lbl-done">Roadmap no plano</span></button>';
   var head='<div class="trail-head"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+c.icon+'</svg></span>'
     +'<div><h2>'+c.name+'</h2><p class="tag">'+c.tag+'</p><div class="trail-meta">'+pill+allBtn+'</div></div></div>';
 
