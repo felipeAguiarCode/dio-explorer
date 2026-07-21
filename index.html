@@ -270,7 +270,7 @@
 
   @media (prefers-reduced-motion:reduce){
     *{transition:none !important;scroll-behavior:auto !important}
-    .card:hover,.brick:hover,.brick:active{transform:none}
+    .card:hover,.brick:hover,.brick:active,.add-all:hover{transform:none}
   }
   @media (max-width:560px){
     .hero{padding:42px 0 40px}
@@ -370,6 +370,25 @@
   .brick.opt .add-brick.in-plan{background:var(--gold);border-color:var(--gold);color:#1c1600}
   .brick.sub .add-brick{width:22px;height:22px;border-radius:8px}
   .brick.sub .add-brick svg{width:13px;height:13px}
+
+  /* botão "adicionar conteúdo todo" no cabeçalho da trilha */
+  .trail-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:11px}
+  .trail-meta .pill{margin-top:0}
+  .add-all{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font:inherit;
+    font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase;
+    color:var(--huec);background:color-mix(in srgb,var(--huec) 12%,transparent);
+    border:1px solid color-mix(in srgb,var(--huec) 34%,transparent);border-radius:999px;padding:6px 13px;transition:.16s}
+  .add-all svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .add-all .i-check,.add-all .lbl-done{display:none}
+  .add-all:hover{background:color-mix(in srgb,var(--huec) 20%,transparent);border-color:var(--huec);transform:translateY(-1px);
+    box-shadow:0 0 0 3px color-mix(in srgb,var(--huec) 15%,transparent)}
+  .add-all:focus-visible{outline:2px solid var(--huec);outline-offset:2px}
+  .add-all.in-plan{color:#1c1600;background:var(--gold);border-color:var(--gold);
+    box-shadow:0 0 16px -3px color-mix(in srgb,var(--gold) 75%,transparent)}
+  .add-all.in-plan .i-plus,.add-all.in-plan .lbl-add{display:none}
+  .add-all.in-plan .i-check{display:inline-block}
+  .add-all.in-plan .lbl-done{display:inline}
+  .add-all.in-plan:hover{filter:brightness(1.04)}
 
   /* contador no header */
   .plan-count{min-width:20px;height:20px;padding:0 6px;border-radius:999px;display:inline-grid;place-items:center;
@@ -808,14 +827,15 @@ var GO='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=
 var PLUS='<svg class="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>';
 var CHECK='<svg class="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>';
 
-function refCount(c){
-  var set={};
+function careerIds(c){
+  var set={}, order=[];
   c.steps.forEach(function(st){
-    if(st.r) set[st.r]=1;
-    if(st.fork) st.opts.forEach(function(o){o.n.forEach(function(r){set[r]=1;});});
+    if(st.r&&!set[st.r]){ set[st.r]=1; order.push(st.r); }
+    if(st.fork) st.opts.forEach(function(o){o.n.forEach(function(r){ if(!set[r]){ set[r]=1; order.push(r); } });});
   });
-  return Object.keys(set).length;
+  return order;
 }
+function refCount(c){ return careerIds(c).length; }
 
 function studs(count){
   var s='<span class="studs" aria-hidden="true">';
@@ -860,8 +880,11 @@ CAREERS.forEach(function(c){
   sec.className='trail';sec.id='trail-'+c.id;sec.style.setProperty('--hue',c.hue);
   var forks=c.steps.filter(function(s){return s.fork;}).length;
   var pill = forks ? '<span class="pill">'+refCount(c)+' formações · com ramificação</span>' : '<span class="pill">'+refCount(c)+' formações</span>';
+  var allBtn='<button class="add-all" type="button" aria-pressed="false" data-ids="'+careerIds(c).join(',')+'" data-hue="'+c.hue+'" title="Adicionar todas as formações desta trilha ao Meu plano">'
+    +PLUS+CHECK
+    +'<span class="lbl-add">Adicionar conteúdo todo</span><span class="lbl-done">Conteúdo no plano</span></button>';
   var head='<div class="trail-head"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+c.icon+'</svg></span>'
-    +'<div><h2>'+c.name+'</h2><p class="tag">'+c.tag+'</p>'+pill+'</div></div>';
+    +'<div><h2>'+c.name+'</h2><p class="tag">'+c.tag+'</p><div class="trail-meta">'+pill+allBtn+'</div></div></div>';
 
   var n=0, rows='';
   c.steps.forEach(function(st){
@@ -943,6 +966,11 @@ backLink.addEventListener('click',function(){
     Array.prototype.forEach.call(document.querySelectorAll('.add-brick'),function(b){
       b.classList.toggle('in-plan',has(parseInt(b.getAttribute('data-id'),10)));
     });
+    Array.prototype.forEach.call(document.querySelectorAll('.add-all'),function(b){
+      var ids=idsOf(b), all=ids.length>0&&ids.every(has);
+      b.classList.toggle('in-plan',all);
+      b.setAttribute('aria-pressed',all?'true':'false');
+    });
   }
   function updateCount(){ countEl.textContent=plan.length; countEl.classList.toggle('zero',plan.length===0); }
 
@@ -1003,6 +1031,24 @@ backLink.addEventListener('click',function(){
     var id=parseInt(add.getAttribute('data-id'),10);
     if(has(id)){ plan=plan.filter(function(x){return x.id!==id;}); }
     else{ var hue=(getComputedStyle(add).getPropertyValue('--hue')||'').trim(); plan.push({id:id,hue:hue||'#B800E7'}); }
+    savePlan(); syncButtons();
+    if(panel.classList.contains('show')) render(); else updateCount();
+  });
+
+  /* "adicionar conteúdo todo": adiciona todas as formações da trilha (toggle) */
+  function idsOf(btn){
+    return (btn.getAttribute('data-ids')||'').split(',').filter(Boolean).map(function(s){return parseInt(s,10);});
+  }
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest('.add-all');
+    if(!btn) return;
+    e.preventDefault(); e.stopPropagation();
+    var ids=idsOf(btn), hue=(btn.getAttribute('data-hue')||'').trim()||'#B800E7';
+    if(ids.length && ids.every(has)){
+      plan=plan.filter(function(x){ return ids.indexOf(x.id)<0; });
+    } else {
+      ids.forEach(function(id){ if(!has(id)) plan.push({id:id,hue:hue}); });
+    }
     savePlan(); syncButtons();
     if(panel.classList.contains('show')) render(); else updateCount();
   });
