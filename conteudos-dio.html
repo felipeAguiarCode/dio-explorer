@@ -306,10 +306,10 @@
     {name:"Projetos",tier:"pro",ring:1,phase:.5,size:'15%',wdur:'17s',wdel:'-8s',desc:"desafios práticos de código para construir seu portfólio."},
     {name:"Formações",tier:"pro",ring:2,phase:.125,size:'16%',wdur:'15s',wdel:'-1s',desc:"trilhas completas por carreira, combinando cursos e projetos."},
     {name:"Bootcamps Ilimitados",tier:"pro",ring:2,phase:.375,size:'17%',wdur:'19s',wdel:'-11s',desc:"acesso sem limites aos bootcamps, com desafios reais de código."},
-    {name:"Acelerações",tier:"pro",ring:2,phase:.625,size:'16%',wdur:'12s',wdel:'-5s',desc:"programas intensivos para acelerar sua evolução em temas específicos."},
     {name:"Mentorias",tier:"pro",ring:2,phase:.875,size:'16%',wdur:'16s',wdel:'-9s',desc:"mentorias ao vivo com especialistas do mercado, com replay disponível."},
     {name:"English 4 Tech",tier:"global",ring:3,phase:0,size:'14%',wdur:'14s',wdel:'-6s',desc:"inglês focado em tecnologia para a carreira internacional."},
     {name:"MasterClass",tier:"global",ring:3,phase:.25,size:'14%',wdur:'18s',wdel:'-2s',desc:"aulas magnas com grandes nomes da tecnologia."},
+    {name:"Acelerações",tier:"global",ring:3,phase:.5,size:'16%',wdur:'12s',wdel:'-5s',desc:"programas intensivos para acelerar sua evolução em temas específicos."},
     {name:"Mural de Vagas Internacionais",tier:"global",ring:3,phase:.75,size:'18%',wdur:'21s',wdel:'-13s',desc:"oportunidades em empresas do mundo todo, em um só lugar."}
   ];
 
@@ -336,8 +336,8 @@
     btnGlobal.setAttribute('aria-pressed',String(m==='global'));
     sunLabel.textContent=m==='pro'?'DIO PRO':'DIO GLOBAL';
     caption.innerHTML=m==='pro'
-      ?'<b>DIO Pro</b> — 6 conteúdos orbitando. Clique em um planeta para ver o detalhe.'
-      :'<b>DIO Global</b> — 9 conteúdos, sendo 3 exclusivos em amarelo. Clique em um planeta para ver o detalhe.';
+      ?'<b>DIO Pro</b> — 5 conteúdos orbitando. Clique em um planeta para ver o detalhe.'
+      :'<b>DIO Global</b> — 9 conteúdos, sendo 4 exclusivos em amarelo. Clique em um planeta para ver o detalhe.';
   }
   btnPro.addEventListener('click',function(){setMode('pro')});
   btnGlobal.addEventListener('click',function(){setMode('global')});
