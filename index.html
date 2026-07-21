@@ -133,6 +133,8 @@
   .legbrick.opt::before,.legbrick.ment::before{background:color-mix(in srgb,var(--brand) 45%,var(--surface))}
   .legbrick.ment{border-style:dashed;background:color-mix(in srgb,#EDA486 20%,var(--surface));border-color:color-mix(in srgb,#EDA486 44%,var(--line))}
   .legbrick.ment::before{background:color-mix(in srgb,#EDA486 60%,var(--surface))}
+  .legbrick.proj{background:color-mix(in srgb,#2FD98A 20%,var(--surface));border-color:color-mix(in srgb,#2FD98A 44%,var(--line))}
+  .legbrick.proj::before{background:color-mix(in srgb,#2FD98A 60%,var(--surface))}
   .legplate{width:32px;height:19px;border-radius:5px;flex:none;background:var(--surface);border:1px solid var(--line-strong);
     background-image:radial-gradient(circle,var(--ink-faint) 1.4px,transparent 1.8px);background-size:8px 8px;background-position:4px 4px}
 
@@ -207,20 +209,22 @@
   .brick-badge{font-family:var(--mono);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     padding:3px 9px;border-radius:8px;background:rgba(255,255,255,.22);color:#fff;white-space:nowrap}
 
-  /* opt/ment = translucent pieces (mentoria usa a mesma pele, muda a tag) */
-  .brick.opt,.brick.ment{background:color-mix(in srgb,var(--hue) 15%,var(--surface));color:var(--ink);
+  /* opt/ment/proj = peças translúcidas (mesma pele, muda a tag/cor) */
+  .brick.opt,.brick.ment,.brick.proj{background:color-mix(in srgb,var(--hue) 15%,var(--surface));color:var(--ink);
     box-shadow:inset 0 2px 0 rgba(255,255,255,.5),inset 0 -4px 0 color-mix(in srgb,var(--hue) 20%,var(--surface)),
       0 5px 0 -1px color-mix(in srgb,var(--hue) 28%,var(--surface)),0 11px 16px -9px rgba(0,0,0,.3);
     border:1px solid color-mix(in srgb,var(--hue) 28%,var(--line))}
-  .brick.opt:hover,.brick.ment:hover{transform:translateY(-3px);
+  .brick.opt:hover,.brick.ment:hover,.brick.proj:hover{transform:translateY(-3px);
     box-shadow:inset 0 2px 0 rgba(255,255,255,.5),inset 0 -4px 0 color-mix(in srgb,var(--hue) 20%,var(--surface)),
       0 8px 0 -1px color-mix(in srgb,var(--hue) 28%,var(--surface)),0 16px 22px -9px rgba(0,0,0,.34)}
-  .brick.opt .stud,.brick.ment .stud{background:radial-gradient(circle at 50% 32%,#fff,color-mix(in srgb,var(--hue) 26%,var(--surface)) 85%);
+  .brick.opt .stud,.brick.ment .stud,.brick.proj .stud{background:radial-gradient(circle at 50% 32%,#fff,color-mix(in srgb,var(--hue) 26%,var(--surface)) 85%);
     box-shadow:inset 0 -2px 3px color-mix(in srgb,var(--hue) 22%,transparent),0 1px 1px rgba(0,0,0,.1)}
-  .brick.opt .brick-num,.brick.ment .brick-num{background:color-mix(in srgb,var(--huec) 18%,transparent);color:var(--huec)}
-  .brick.opt .brick-badge,.brick.ment .brick-badge{background:color-mix(in srgb,var(--huec) 16%,transparent);color:var(--huec)}
+  .brick.opt .brick-num,.brick.ment .brick-num,.brick.proj .brick-num{background:color-mix(in srgb,var(--huec) 18%,transparent);color:var(--huec)}
+  .brick.opt .brick-badge,.brick.ment .brick-badge,.brick.proj .brick-badge{background:color-mix(in srgb,var(--huec) 16%,transparent);color:var(--huec)}
   /* mentorias na cor laranja (claro) do Claude Code */
   .brick.ment{--hue:#EDA486;--huec:color-mix(in srgb,#EDA486 calc(100% - var(--hue-lift)),var(--hue-mix) var(--hue-lift))}
+  /* projetos na cor verde */
+  .brick.proj{--hue:#2FD98A;--huec:color-mix(in srgb,#2FD98A calc(100% - var(--hue-lift)),var(--hue-mix) var(--hue-lift))}
 
   /* tag "trilha" — marca discreta e contornada, presente em todas as peças */
   .brick .brick-badge.trilha{background:transparent;border:1px solid currentColor;opacity:.75;padding:2px 8px}
@@ -374,9 +378,9 @@
     box-shadow:0 0 14px -2px color-mix(in srgb,var(--gold) 75%,transparent)}
   .add-brick.in-plan .i-plus{display:none}
   .add-brick.in-plan .i-check{display:block}
-  .brick.opt .add-brick,.brick.ment .add-brick{border-color:color-mix(in srgb,var(--huec) 45%,var(--line));
+  .brick.opt .add-brick,.brick.ment .add-brick,.brick.proj .add-brick{border-color:color-mix(in srgb,var(--huec) 45%,var(--line));
     background:color-mix(in srgb,var(--huec) 14%,var(--surface));color:var(--huec)}
-  .brick.opt .add-brick.in-plan,.brick.ment .add-brick.in-plan{background:var(--gold);border-color:var(--gold);color:#1c1600}
+  .brick.opt .add-brick.in-plan,.brick.ment .add-brick.in-plan,.brick.proj .add-brick.in-plan{background:var(--gold);border-color:var(--gold);color:#1c1600}
   .brick.sub .add-brick{width:22px;height:22px;border-radius:8px}
   .brick.sub .add-brick svg{width:13px;height:13px}
 
@@ -685,6 +689,7 @@
     <span class="leg"><span class="legplate" aria-hidden="true"></span> Escolha uma opção</span>
     <span class="leg"><span class="legbrick opt" aria-hidden="true"></span> Opcional / complementar</span>
     <span class="leg"><span class="legbrick ment" aria-hidden="true"></span> Mentoria</span>
+    <span class="leg"><span class="legbrick proj" aria-hidden="true"></span> Projeto</span>
   </div>
 
   <div class="cards" id="cards"></div>
@@ -841,7 +846,28 @@ var TRACKS={
   69:{t:"Sessão 01: Setup do Claude Code para acelerar 100x a produtividade no desenvolvimento",u:"https://web.dio.me/lives/setup-do-claude-code-para-acelerar-100x-a-produtividade-no-desenvolvimento"},
   70:{t:"Sessão 02: Construindo os Agentes de Inteligência Artificial Back-end, Front-end, QA e DevOps com Claude Code",u:"https://web.dio.me/lives/construindo-os-agentes-de-inteligencia-artificial-back-end-front-end-qa-e-devops-com-claude-code"},
   71:{t:"Sessão 03: Criação do Kanban ao vivo para orquestração do seu time de Agentes de AI",u:"https://web.dio.me/lives/criacao-do-kanban-ao-vivo-para-orquestracao-do-seu-time-de-agentes-de-ai"},
-  72:{t:"Construindo um time de agentes de AI para prospecção de freelas",u:"https://web.dio.me/lives/construindo-um-time-de-agentes-de-ai-para-prospeccao-de-vagas-e-projetos-freelancer-em-tecnologia"}
+  72:{t:"Construindo um time de agentes de AI para prospecção de freelas",u:"https://web.dio.me/lives/construindo-um-time-de-agentes-de-ai-para-prospeccao-de-vagas-e-projetos-freelancer-em-tecnologia"},
+  /* projetos (labs) */
+  73:{t:"Criando uma Dashboard da Porsche com Agentes de IA",u:"https://web.dio.me/lab/criando-agentes-de-criacao-de-dashboards-com-excel-e-claude-code/learning/d77a7428-f40b-451b-a890-1b942712194e"},
+  74:{t:"Copiloto de Vendas com IA para Atendimento ao Cliente",u:"https://web.dio.me/lab/copiloto-de-vendas-com-ia-para-atendimento-em-loja/learning/30b2b6c1-ee9c-433a-af21-d97ac9fee691"},
+  75:{t:"Criando um Agente para Automatizar um Fluxo de Trabalho em Python",u:"https://web.dio.me/lab/criando-um-agente-para-automatizar-um-fluxo-de-trabalho/learning/6634e12c-42c2-4d96-92bb-55058f769fbe"},
+  76:{t:"Plataformas e Arquiteturas Inteligentes para Dados e IA",u:"https://web.dio.me/lab/plataformas-e-arquiteturas-inteligentes-para-dados-e-ia/learning/44207581-32d3-4cd9-ae5f-430c1dac0fca"},
+  77:{t:"Agente para Criar Processo de Deploy Automatizado com Azure DevOps",u:"https://web.dio.me/lab/agente-para-criar-processo-de-deploy-automatizado-com-azure-devops/learning/fdfbc15c-2a89-438e-a784-923b5163a289"},
+  78:{t:"Criando um Agente de Revisão de Qualidade de Código com Microsoft Copilot Studio",u:"https://web.dio.me/lab/criando-um-agente-de-revisao-de-qualidade-de-codigo-com-microsoft-copilot-studio/learning/3a35d382-66bf-41ef-887b-cdc301482898"},
+  79:{t:"Agente de IA para Criar Serviços Serverless com GitHub Copilot e Azure Functions",u:"https://web.dio.me/lab/agente-de-ia-para-criar-servicos-serverless-com-github-copilot-e-azure-functions/learning/50cf2641-eae8-46d3-84b5-ef8c7aa1c8db"},
+  80:{t:"Treinando uma IA de Aprendizagem: Explore o Poder do NotebookLM",u:"https://web.dio.me/lab/acelere-sua-aprendizagem-com-ia-explore-o-poder-do-notebooklm/learning/36ac21c8-859c-430b-aa28-1ea3521799b0"},
+  81:{t:"Construa seu Assistente Virtual com Inteligência Artificial",u:"https://web.dio.me/lab/construa-seu-assistente-virtual-com-inteligencia-artificial/learning/26e69a48-c98d-4f01-ac54-0841a8c417a0"},
+  82:{t:"Calculadora EcoTrip: Simulador de Impacto Ambiental para Viagens",u:"https://web.dio.me/lab/calculadora-ecotrip-simulador-de-impacto-ambiental-para-viagens/learning/0c97038d-5595-4102-924a-eae2d11fc090"},
+  83:{t:"IA Entrevistador: Seu Simulador Inteligente de Entrevistas",u:"https://web.dio.me/lab/ia-entrevistador-seu-simulador-inteligente-de-entrevistas/learning/20285967-5eee-4f43-a1da-e7e5a90eb473"},
+  84:{t:"IA Mentor de Carreira: Descubra Seu Futuro em Tech",u:"https://web.dio.me/lab/ia-mentor-de-carreira-descubra-seu-futuro-em-tech/learning/23f5a8f4-88e3-4fc1-b7fd-93decc384de5"},
+  85:{t:"Criando um APP de Organização de Finanças Pessoais com Vibe Coding",u:"https://web.dio.me/lab/criando-um-app-de-organizacao-de-financas-pessoais-com-vibe-coding/learning/56e71f84-8be7-43e5-a9a6-5799eb3eac66"},
+  86:{t:"Criando um Plano de Aula Interativo e Personalizado com Ecossistema IA",u:"https://web.dio.me/lab/plano-de-aula-interativo-e-personalizado-com-ecossistema-ia/learning/afb8967f-c58a-483c-84be-24d615d3378c"},
+  87:{t:"Gerenciando uma Fábrica de Agentes com Azure IA Foundry",u:"https://web.dio.me/lab/gerenciando-uma-fabrica-de-agentes-com-azure-ia-foundry/learning/f7dbbe32-573b-42cc-b064-3e3c228f4a32"},
+  88:{t:"Criando um Agente para Detecção de Vulnerabilidades em Arquiteturas",u:"https://web.dio.me/lab/geracao-de-vulnerabilidades/learning/e2a0f011-72fc-4928-a216-868742656279"},
+  89:{t:"Gerando Testes Unitários com LangChain e Azure ChatGPT",u:"https://web.dio.me/lab/gerando-testes-unitarios-com-langchain-e-azure-chatgpt/learning/2ba57c3e-cd6f-4295-b60b-2b26704a03a5"},
+  90:{t:"Agente de IA para Consultas SQL",u:"https://web.dio.me/lab/agente-de-ia-para-consultas-sql/learning/d29374c1-6aa6-44b9-98c4-41515fe7465a"},
+  91:{t:"Treinando seu Primeiro Modelo de Machine Learning para prever Vendas",u:"https://web.dio.me/lab/treinando-um-modelo-de-machine-learning-para-prever-vendas/learning/2923a5ee-1a38-4844-a00c-aac5ebc2214d"},
+  92:{t:"Criando um Chatbot Baseado em Conteúdo de PDFs",u:"https://web.dio.me/lab/como-criar-um-chat-que-responde-com-base-em-pdfs-proprios/learning/c2168e0e-783c-4977-a13f-20a064147b0c"}
 };
 
 var IC={
@@ -868,7 +894,8 @@ var CAREERS=[
    tag:"Construa o que o usuário vê: sites, telas e interações no navegador.",
    steps:[{r:28,s:'base'},{r:47},{r:48},{r:64},{r:21},
      {fork:"Escolha um framework",opts:[{l:"React",n:[62]},{l:"Angular",n:[46]}]},
-     {r:44},{r:9,s:'opt'}]},
+     {r:44},{r:9,s:'opt'},
+     {d:"Projetos"},{r:82,s:'proj'},{r:85,s:'proj'}]},
 
   {id:"backend",name:"Back-end",hue:"#0F766E",icon:IC.backend,
    tag:"APIs, regras de negócio, bancos de dados e servidores. Escolha uma linguagem para começar.",
@@ -884,7 +911,8 @@ var CAREERS=[
        {l:"Ruby",n:[33,23]},
        {l:"Rust",n:[19]}
      ]},
-     {r:58},{r:49}]},
+     {r:58},{r:49},
+     {d:"Projetos"},{r:90,s:'proj'}]},
 
   {id:"fullstack",name:"Full Stack",hue:"#8B2FC9",icon:IC.fullstack,
    tag:"Do banco de dados à interface — domine as duas pontas do desenvolvimento web.",
@@ -904,21 +932,25 @@ var CAREERS=[
    tag:"Transforme dados em insights, dashboards e modelos de machine learning.",
    steps:[{r:28,s:'base'},{r:18},{r:58},{r:26},{r:6},{r:38},{r:61},{r:11},{r:7,s:'opt'},
      {d:"Certificações Azure para IA (opcional)"},
-     {r:16,s:'opt'},{r:13,s:'opt'},{r:12,s:'opt'}]},
+     {r:16,s:'opt'},{r:13,s:'opt'},{r:12,s:'opt'},
+     {d:"Projetos"},{r:73,s:'proj'},{r:76,s:'proj'},{r:91,s:'proj'}]},
 
   {id:"ai-builder",name:"AI Builder / GenAI",hue:"#B800E7",icon:IC.ai,
    tag:"Crie produtos e automações com IA — dá para começar mesmo sem saber programar.",
-   steps:[{r:26,s:'base'},{r:29},{r:5},{r:1},{r:4},{r:2},{r:8,s:'opt'}]},
+   steps:[{r:26,s:'base'},{r:29},{r:5},{r:1},{r:4},{r:2},{r:8,s:'opt'},
+     {d:"Projetos"},{r:74,s:'proj'},{r:81,s:'proj'},{r:83,s:'proj'},{r:92,s:'proj'}]},
 
   {id:"ia-non-devs",name:"AI & Low Code",hue:"#15803D",icon:IC.wand,
    tag:"Crie apps, automações e análises com IA sem escrever código — feito para quem não é programador.",
-   steps:[{r:26,s:'base'},{r:1},{r:4},{r:6},{r:8,s:'opt'}]},
+   steps:[{r:26,s:'base'},{r:1},{r:4},{r:6},{r:8,s:'opt'},
+     {d:"Projetos"},{r:80,s:'proj'},{r:84,s:'proj'},{r:86,s:'proj'}]},
 
   {id:"ia-developer",name:"IA Developer",hue:"#0891B2",icon:IC.iadev,
    tag:"Programe com inteligência artificial: dos fundamentos ao código assistido por IA no dia a dia.",
    steps:[{r:26,s:'base'},{r:29},{r:5},
      {d:"Mentorias · Claude Code"},
-     {r:68,s:'ment'},{r:69,s:'ment'},{r:70,s:'ment'},{r:71,s:'ment'},{r:72,s:'ment'}]},
+     {r:68,s:'ment'},{r:69,s:'ment'},{r:70,s:'ment'},{r:71,s:'ment'},{r:72,s:'ment'},
+     {d:"Projetos"},{r:75,s:'proj'}]},
 
   {id:"devops-cloud",name:"DevOps & Cloud",hue:"#3949AB",icon:IC.devops,
    tag:"Automatize deploys, containers e infraestrutura. Escolha uma nuvem para se certificar.",
@@ -927,7 +959,8 @@ var CAREERS=[
        {l:"AWS",n:[3,15,32]},
        {l:"Azure",n:[22,10]},
        {l:"Google Cloud",n:[53]}
-     ]}]},
+     ]},
+     {d:"Projetos"},{r:77,s:'proj'}]},
 
   {id:"aws",name:"AWS Cloud",hue:"#D97706",icon:IC.aws,
    tag:"Foque seus estudos na nuvem da Amazon — do fundamento à certificação Cloud Practitioner.",
@@ -943,11 +976,13 @@ var CAREERS=[
        {l:"Dados & Machine Learning",n:[13]}
      ]},
      {d:"Bases que reforçam seus estudos (opcional)"},
-     {r:54,s:'opt'},{r:49,s:'opt'}]},
+     {r:54,s:'opt'},{r:49,s:'opt'},
+     {d:"Projetos"},{r:79,s:'proj'},{r:87,s:'proj'}]},
 
   {id:"qa",name:"QA & Testes",hue:"#4D7C0F",icon:IC.qa,
    tag:"Garanta qualidade de software com testes manuais e automação.",
-   steps:[{r:28,s:'base'},{r:21},{r:65},{r:24}]},
+   steps:[{r:28,s:'base'},{r:21},{r:65},{r:24},
+     {d:"Projetos"},{r:78,s:'proj'},{r:89,s:'proj'}]},
 
   {id:"game",name:"Game Dev",hue:"#CC0000",icon:IC.game,
    tag:"Crie jogos 2D/3D e experiências no metaverso.",
@@ -966,7 +1001,8 @@ var CAREERS=[
        {l:"IoT",n:[37]},
        {l:"Low-code (OutSystems)",n:[30]},
        {l:"CRM (Dynamics 365)",n:[63]}
-     ]}]},
+     ]},
+     {d:"Projetos"},{r:88,s:'proj'}]},
 
   {id:"gestao",name:"Gestão & Ágil",hue:"#475569",icon:IC.gestao,
    tag:"Lidere times e processos ágeis — complementa qualquer trilha técnica.",
@@ -988,16 +1024,19 @@ function careerIds(c){
   return order;
 }
 function careerCounts(c){
-  var set={}, f=0, m=0;
+  var set={}, f=0, m=0, p=0;
   c.steps.forEach(function(st){
-    if(st.r&&!set[st.r]){ set[st.r]=1; if(st.s==='ment') m++; else f++; }
+    if(st.r&&!set[st.r]){ set[st.r]=1; if(st.s==='ment') m++; else if(st.s==='proj') p++; else f++; }
     if(st.fork) st.opts.forEach(function(o){o.n.forEach(function(r){ if(!set[r]){ set[r]=1; f++; } });});
   });
-  return {f:f,m:m};
+  return {f:f,m:m,p:p};
 }
 function countLabel(c){
-  var cc=careerCounts(c);
-  return cc.m ? (cc.f+' formações · '+cc.m+' mentorias') : (cc.f+' formações');
+  var cc=careerCounts(c), parts=[];
+  if(cc.f) parts.push(cc.f+(cc.f>1?' formações':' formação'));
+  if(cc.m) parts.push(cc.m+(cc.m>1?' mentorias':' mentoria'));
+  if(cc.p) parts.push(cc.p+(cc.p>1?' projetos':' projeto'));
+  return parts.join(' · ');
 }
 
 function studs(count){
@@ -1014,7 +1053,7 @@ function brick(id,variant,num,badge){
   if(variant.indexOf('base')>=0){ lead='<span class="brick-num flag">'+FLAG+'</span>'; }
   else if(num!=null){ lead='<span class="brick-num">'+num+'</span>'; }
   else { lead=''; }
-  var tagWord=variant.indexOf('ment')>=0?'mentoria':'trilha';
+  var tagWord=variant.indexOf('ment')>=0?'mentoria':(variant.indexOf('proj')>=0?'projeto':'trilha');
   var bh=(badge?('<span class="brick-badge">'+badge+'</span>'):'')+'<span class="brick-badge trilha">'+tagWord+'</span>';
   var add='<button class="add-brick" type="button" data-id="'+id+'" aria-label="Adicionar ao plano de estudos" title="Adicionar ao plano de estudos">'+PLUS+CHECK+'</button>';
   return '<a class="'+cls+'" href="'+tk.u+'" target="_blank" rel="noopener">'
@@ -1067,6 +1106,7 @@ CAREERS.forEach(function(c){
     if(st.s==='base'){ rows+=brick(st.r,'base',null,'comece aqui'); }
     else if(st.s==='opt'){ n++; rows+=brick(st.r,'opt',n,'opcional'); }
     else if(st.s==='ment'){ n++; rows+=brick(st.r,'ment',n,null); }
+    else if(st.s==='proj'){ n++; rows+=brick(st.r,'proj',n,null); }
     else { n++; rows+=brick(st.r,'',n,null); }
   });
 
@@ -1349,6 +1389,7 @@ backLink.addEventListener('click',function(){
   var sMeta=document.getElementById('searchMeta');
   var SPAL=['#B800E7','#1E5FC0','#0F766E','#8B2FC9','#D60A52','#C2410C','#0891B2','#3949AB','#D97706','#0078D4','#4D7C0F','#A21CAF','#15803D','#0E7490'];
   var MENT=(function(){ var s={}; CAREERS.forEach(function(c){ c.steps.forEach(function(st){ if(st.s==='ment'&&st.r) s[st.r]=1; }); }); return s; })();
+  var PROJ=(function(){ var s={}; CAREERS.forEach(function(c){ c.steps.forEach(function(st){ if(st.s==='proj'&&st.r) s[st.r]=1; }); }); return s; })();
   var IDS=Object.keys(TRACKS).map(function(k){ return parseInt(k,10); });
   function norm(x){ return String(x).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
   function hl(name,q){
@@ -1371,9 +1412,11 @@ backLink.addEventListener('click',function(){
     }
     var html='';
     hits.forEach(function(id,i){
-      var tk=TRACKS[id], isM=!!MENT[id], hue=isM?'#EDA486':SPAL[i%SPAL.length];
+      var tk=TRACKS[id], isM=!!MENT[id], isP=!!PROJ[id];
+      var hue=isM?'#EDA486':(isP?'#2FD98A':SPAL[i%SPAL.length]);
+      var tipo=isM?'Mentoria':(isP?'Projeto':'Formação');
       html+='<div class="sr-block" style="--hue:'+hue+'">'
-        +'<span class="sr-type">'+(isM?'Mentoria':'Formação')+'</span>'
+        +'<span class="sr-type">'+tipo+'</span>'
         +'<div class="sr-name">'+hl(tk.t,q)+'</div>'
         +'<div class="sr-foot">'
           +'<button class="add-brick" type="button" data-id="'+id+'" aria-label="Adicionar ao plano" title="Adicionar ao plano">'+PLUS+CHECK+'</button>'
