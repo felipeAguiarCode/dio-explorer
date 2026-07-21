@@ -129,7 +129,8 @@
   .legbrick.opt,.legbrick.ment{background:color-mix(in srgb,var(--brand) 15%,var(--surface));border:1px solid color-mix(in srgb,var(--brand) 32%,var(--line));
     box-shadow:0 3px 0 -1px color-mix(in srgb,var(--brand) 20%,var(--surface))}
   .legbrick.opt::before,.legbrick.ment::before{background:color-mix(in srgb,var(--brand) 45%,var(--surface))}
-  .legbrick.ment{border-style:dashed}
+  .legbrick.ment{border-style:dashed;background:color-mix(in srgb,#D97757 18%,var(--surface));border-color:color-mix(in srgb,#D97757 40%,var(--line))}
+  .legbrick.ment::before{background:color-mix(in srgb,#D97757 55%,var(--surface))}
   .legplate{width:32px;height:19px;border-radius:5px;flex:none;background:var(--surface);border:1px solid var(--line-strong);
     background-image:radial-gradient(circle,var(--ink-faint) 1.4px,transparent 1.8px);background-size:8px 8px;background-position:4px 4px}
 
@@ -216,6 +217,8 @@
     box-shadow:inset 0 -2px 3px color-mix(in srgb,var(--hue) 22%,transparent),0 1px 1px rgba(0,0,0,.1)}
   .brick.opt .brick-num,.brick.ment .brick-num{background:color-mix(in srgb,var(--huec) 18%,transparent);color:var(--huec)}
   .brick.opt .brick-badge,.brick.ment .brick-badge{background:color-mix(in srgb,var(--huec) 16%,transparent);color:var(--huec)}
+  /* mentorias na cor laranja do Claude Code */
+  .brick.ment{--hue:#D97757;--huec:color-mix(in srgb,#D97757 calc(100% - var(--hue-lift)),var(--hue-mix) var(--hue-lift))}
 
   /* tag "trilha" — marca discreta e contornada, presente em todas as peças */
   .brick .brick-badge.trilha{background:transparent;border:1px solid currentColor;opacity:.75;padding:2px 8px}
@@ -619,7 +622,7 @@
     <span class="leg"><span class="legbrick core" aria-hidden="true"></span> Passo do núcleo</span>
     <span class="leg"><span class="legplate" aria-hidden="true"></span> Escolha uma opção</span>
     <span class="leg"><span class="legbrick opt" aria-hidden="true"></span> Opcional / complementar</span>
-    <span class="leg"><span class="legbrick ment" aria-hidden="true"></span> Mentoria ao vivo</span>
+    <span class="leg"><span class="legbrick ment" aria-hidden="true"></span> Mentoria</span>
   </div>
 
   <div class="cards" id="cards"></div>
@@ -838,7 +841,7 @@ var CAREERS=[
   {id:"ia-developer",name:"IA Developer",hue:"#0891B2",icon:IC.iadev,
    tag:"Programe com inteligência artificial: dos fundamentos ao código assistido por IA no dia a dia.",
    steps:[{r:26,s:'base'},{r:29},{r:5},
-     {d:"Mentorias ao vivo · Claude Code"},
+     {d:"Mentorias · Claude Code"},
      {r:68,s:'ment'},{r:69,s:'ment'},{r:70,s:'ment'},{r:71,s:'ment'},{r:72,s:'ment'}]},
 
   {id:"devops-cloud",name:"DevOps & Cloud",hue:"#3949AB",icon:IC.devops,
