@@ -216,6 +216,9 @@
   .brick.opt .brick-num{background:color-mix(in srgb,var(--huec) 18%,transparent);color:var(--huec)}
   .brick.opt .brick-badge{background:color-mix(in srgb,var(--huec) 16%,transparent);color:var(--huec)}
 
+  /* tag "trilha" — marca discreta e contornada, presente em todas as peças */
+  .brick .brick-badge.trilha{background:transparent;border:1px solid currentColor;opacity:.75;padding:2px 8px}
+
   /* base = starter brick (magenta) */
   .brick.base{background:linear-gradient(135deg,var(--mag-a),var(--mag-b));--deep:#5e0075}
   .brick.base .stud{background:radial-gradient(circle at 50% 32%,color-mix(in srgb,var(--mag-a) 45%,#fff),var(--mag-b) 82%)}
@@ -527,12 +530,6 @@
       <li class="step-chip"><span class="n">2</span> Monte a torre de baixo para cima</li>
       <li class="step-chip"><span class="n">3</span> Clique em cada peça para abrir na DIO</li>
     </ul>
-
-    <div class="stats">
-      <div class="stat"><div class="num">67</div><div class="lab">formações completas</div></div>
-      <div class="stat"><div class="num">15</div><div class="lab">trilhas de carreira</div></div>
-      <div class="stat"><div class="num">0</div><div class="lab">pré-requisitos para começar</div></div>
-    </div>
     </div>
   </section>
 
@@ -834,7 +831,7 @@ function brick(id,variant,num,badge){
   if(variant.indexOf('base')>=0){ lead='<span class="brick-num flag">'+FLAG+'</span>'; }
   else if(num!=null){ lead='<span class="brick-num">'+num+'</span>'; }
   else { lead=''; }
-  var bh=badge?('<span class="brick-badge">'+badge+'</span>'):'';
+  var bh=(badge?('<span class="brick-badge">'+badge+'</span>'):'')+'<span class="brick-badge trilha">trilha</span>';
   var add='<button class="add-brick" type="button" data-id="'+id+'" aria-label="Adicionar ao plano de estudos" title="Adicionar ao plano de estudos">'+PLUS+CHECK+'</button>';
   return '<a class="'+cls+'" href="'+tk.u+'" target="_blank" rel="noopener">'
     +studs(sc)+lead
