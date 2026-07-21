@@ -270,7 +270,8 @@
 
   @media (prefers-reduced-motion:reduce){
     *{transition:none !important;scroll-behavior:auto !important}
-    .card:hover,.brick:hover,.brick:active,.add-all:hover{transform:none}
+    .card:hover,.brick:hover,.brick:active,.add-all:hover,.ag-day:hover{transform:none}
+    .ag-day.enter{animation:none !important}
   }
   @media (max-width:560px){
     .hero{padding:42px 0 40px}
@@ -431,12 +432,12 @@
 
   /* overlay + painel */
   .plan-overlay{position:fixed;inset:0;z-index:60;background:rgba(6,2,12,.55);
-    -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);opacity:0;transition:opacity .25s}
+    -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);opacity:0;transition:opacity .4s ease}
   .plan-overlay.show{opacity:1}
   body.plan-open{overflow:hidden}
   .plan-panel{position:fixed;top:0;right:0;height:100vh;height:100dvh;width:min(440px,94vw);z-index:70;
     display:flex;flex-direction:column;background:var(--surface);border-left:1px solid var(--line);
-    box-shadow:-40px 0 80px -40px rgba(0,0,0,.7);transform:translateX(102%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+    box-shadow:-40px 0 80px -40px rgba(0,0,0,.7);transform:translateX(102%);transition:transform .5s cubic-bezier(.22,1,.36,1)}
   .plan-panel.show{transform:translateX(0)}
   .plan-head{padding:20px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;color:#fff;
     background:linear-gradient(150deg,#0C0118,#2A0038 70%,#360046)}
@@ -459,18 +460,33 @@
   .plan-tool.danger:hover{background:#E5484D;color:#fff;border-color:#E5484D}
   .plan-body{flex:1;overflow-y:auto;padding:6px 16px 28px}
 
-  /* lista ordenável do plano */
-  .ag-day{display:flex;gap:11px;align-items:center;padding:12px 2px;border-bottom:1px dashed var(--line)}
+  /* lista ordenável do plano — cards de fase (level-select) */
+  .ag-day{display:flex;gap:12px;align-items:center;padding:13px 12px;margin:10px 0;border-radius:18px;
+    background:linear-gradient(180deg,color-mix(in srgb,var(--evhue) 10%,var(--surface)),var(--surface));
+    border:1.5px solid color-mix(in srgb,var(--evhue) 30%,var(--line));
+    box-shadow:var(--shadow);transition:transform .18s ease,box-shadow .18s ease}
+  .ag-day:hover{transform:translateY(-2px);
+    box-shadow:0 0 0 1.5px color-mix(in srgb,var(--evhue) 45%,transparent),
+      0 0 22px -6px color-mix(in srgb,var(--evhue) 55%,transparent),var(--shadow)}
   .ag-day.dragging{opacity:.4}
-  .ag-day.drag-over-top{box-shadow:inset 0 3px 0 -1px var(--mag-a)}
-  .ag-day.drag-over-bottom{box-shadow:inset 0 -3px 0 -1px var(--mag-a)}
-  .ag-order{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
-    font-weight:700;font-size:1.2rem;letter-spacing:-.02em;color:var(--evhue);
-    background:color-mix(in srgb,var(--evhue) 15%,var(--surface));
-    border:1px solid color-mix(in srgb,var(--evhue) 32%,var(--line))}
-  .ag-event{flex:1;position:relative;background:var(--surface);border:1px solid var(--line);
-    border-left:4px solid var(--evhue);border-radius:0 12px 12px 0;padding:11px 13px;box-shadow:var(--shadow)}
+  .ag-day.drag-over-top{box-shadow:inset 0 3px 0 -1px var(--mag-a),var(--shadow)}
+  .ag-day.drag-over-bottom{box-shadow:inset 0 -3px 0 -1px var(--mag-a),var(--shadow)}
+  .ag-order{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;position:relative;
+    font-weight:750;font-size:1.3rem;letter-spacing:-.02em;color:#fff;
+    background:linear-gradient(135deg,var(--evhue),color-mix(in srgb,var(--evhue) 66%,#000));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -3px 0 rgba(0,0,0,.22),
+      0 0 16px -4px color-mix(in srgb,var(--evhue) 70%,transparent)}
+  .ag-order::before,.ag-order::after{content:"";position:absolute;top:-4px;width:9px;height:9px;border-radius:50%;
+    background:radial-gradient(circle at 50% 32%,#fff,color-mix(in srgb,var(--evhue) 55%,#fff) 80%);
+    box-shadow:0 1px 1px rgba(0,0,0,.25)}
+  .ag-order::before{left:9px}
+  .ag-order::after{right:9px}
+  .ag-event{flex:1;position:relative;min-width:0}
+  .ag-fase{font-family:var(--mono);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;
+    color:var(--evhue);display:block;margin-bottom:3px}
   .ag-name{font-weight:650;font-size:.92rem;line-height:1.3;margin:0 0 9px;padding-right:22px}
+  @keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+  .ag-day.enter{animation:cardIn .5s cubic-bezier(.22,1,.36,1) backwards}
   .ag-handle{flex:none;width:26px;height:40px;display:grid;place-items:center;cursor:grab;
     border:0;background:transparent;color:var(--ink-faint);border-radius:8px;transition:.15s;touch-action:none}
   .ag-handle svg{width:16px;height:16px;fill:currentColor}
@@ -1032,7 +1048,21 @@ backLink.addEventListener('click',function(){
     t.addEventListener('click', close);
   }
 
-  function render(){
+  /* paleta de cores das fases: hues do projeto, embaralhada a cada abertura
+     do painel — cada etapa ganha uma cor diferente, com um toque aleatório */
+  var PAL=['#B800E7','#1E5FC0','#0F766E','#8B2FC9','#D60A52','#C2410C','#0891B2','#3949AB','#D97706','#0078D4','#4D7C0F','#A21CAF','#15803D','#0E7490'];
+  var palOrder=PAL.slice();
+  function shufflePal(){
+    palOrder=PAL.slice();
+    for(var i=palOrder.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1)),t=palOrder[i];
+      palOrder[i]=palOrder[j];palOrder[j]=t;
+    }
+  }
+  shufflePal();
+
+  var reduceAnim=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function render(animate){
     updateCount();
     var n=plan.length;
     subEl.textContent = n ? (n+(n>1?' formações':' formação')+' no seu plano') : 'Nenhuma formação adicionada ainda';
@@ -1041,13 +1071,16 @@ backLink.addEventListener('click',function(){
         +'<p>Toque no <span class="pe-plus">+</span> em qualquer bloco das trilhas para montar seu plano de estudos.</p></div>';
       return;
     }
+    var doAnim=animate&&!reduceAnim;
     var html='';
     plan.forEach(function(item,i){
       var tk=TRACKS[item.id]||{t:'—',u:'#'};
-      html+='<div class="ag-day" draggable="true" data-idx="'+i+'" style="--evhue:'+esc(item.hue||'#B800E7')+'">'
-        +'<div class="ag-order">'+(i+1)+'</div>'
+      var hue=palOrder[i%palOrder.length];
+      html+='<div class="ag-day'+(doAnim?' enter':'')+'" draggable="true" data-idx="'+i+'" style="--evhue:'+hue+(doAnim?';animation-delay:'+(i*70)+'ms':'')+'">'
+        +'<div class="ag-order" aria-hidden="true">'+(i+1)+'</div>'
         +'<div class="ag-event">'
           +'<button class="ag-remove" type="button" data-id="'+item.id+'" aria-label="Remover do plano" title="Remover">✕</button>'
+          +'<span class="ag-fase">Fase '+(i+1)+'</span>'
           +'<div class="ag-name">'+esc(tk.t)+'</div>'
           +'<a class="ag-open" href="'+tk.u+'" target="_blank" rel="noopener" draggable="false">Ver na plataforma'
             +'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a>'
@@ -1068,7 +1101,7 @@ backLink.addEventListener('click',function(){
     savePlan(); render();
   }
 
-  function openPanel(){ render(); overlay.hidden=false;
+  function openPanel(){ shufflePal(); render(true); overlay.hidden=false;
     requestAnimationFrame(function(){ overlay.classList.add('show'); panel.classList.add('show'); });
     panel.setAttribute('aria-hidden','false'); document.body.classList.add('plan-open'); }
   function closePanel(){ overlay.classList.remove('show'); panel.classList.remove('show');
