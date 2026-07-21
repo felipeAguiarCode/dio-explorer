@@ -77,16 +77,21 @@
   .icon-btn{padding:7px;width:36px;justify-content:center}
 
   /* ---------- hero ---------- */
+  /* hero Frutiger Aero: céu aqua glossy, escuro no canto do texto p/ legibilidade */
   .hero{position:relative;width:100%;margin:0;padding:64px 0 58px;border-radius:0 0 34px 34px;overflow:hidden;
-    background:linear-gradient(155deg,#0C0118 0%,#23002F 55%,#320043 100%);color:#fff;
-    box-shadow:0 30px 70px -38px rgba(48,0,64,.9)}
+    background:
+      radial-gradient(90% 120% at 8% 100%, rgba(4,48,68,.55), transparent 60%),
+      linear-gradient(115deg,#075E86 0%,#1290C4 32%,#31B0E8 60%,#83DBF9 100%);
+    color:#fff;
+    box-shadow:0 30px 70px -38px rgba(7,64,96,.9), inset 0 -1px 0 rgba(255,255,255,.35)}
   .hero-in{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:0 24px}
   .hero-in>*{position:relative}
-  .hero::before{content:"";position:absolute;right:-130px;top:-150px;width:460px;height:460px;border-radius:50%;
-    background:radial-gradient(circle,rgba(184,0,231,.5),transparent 62%);pointer-events:none;z-index:1}
-  .hero-deco{position:absolute;right:8px;top:22px;bottom:auto;width:min(620px,50%);height:auto;opacity:.85;pointer-events:none;color:rgba(255,255,255,.42);z-index:1}
-  .hero-deco .mag{color:var(--mag-a)}
-  .hero-deco .gold{color:var(--gold)}
+  .hero::before{content:"";position:absolute;right:-110px;top:-140px;width:460px;height:460px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,.55),transparent 60%);pointer-events:none;z-index:1}
+  .hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.20) 42%,rgba(255,255,255,.04) 52%,transparent 60%)}
+  .hero-bubbles{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+  .hero-deco{position:absolute;right:8px;top:22px;bottom:auto;width:min(620px,50%);height:auto;opacity:.95;pointer-events:none;color:rgba(7,58,84,.55);z-index:1}
   @media (max-width:820px){.hero-deco{display:none}}
   .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
     color:var(--gold);display:flex;align-items:center;gap:8px;margin-bottom:16px}
@@ -350,6 +355,7 @@
   @media (prefers-reduced-motion:reduce){
     .hero-deco,footer a.dio,.brick.base{animation:none !important}
     .card:hover,.tbtn:hover,.tbtn:active{transform:none !important}
+    .mnode,.mdot{transition:none !important}
   }
 
   /* ============================================================
@@ -508,6 +514,33 @@
     .topbar-in{flex-wrap:wrap}
     .tabs{order:10;width:100%;justify-content:center}
   }
+
+  /* ============================================================
+     AERO HERO — overrides Frutiger Aero (só no hero) + mapa vivo
+     ============================================================ */
+  .hero h1{text-shadow:0 1px 0 rgba(255,255,255,.28),0 2px 14px rgba(3,48,66,.6),0 0 34px rgba(0,229,255,.35)}
+  .hero h1 .u{background:linear-gradient(100deg,#FFFFFF,#BDF0FF 55%,#E9FBFF);-webkit-background-clip:text;background-clip:text;
+    color:transparent;filter:drop-shadow(0 2px 6px rgba(4,60,84,.65))}
+  .hero .eyebrow{color:#EAFBFF;text-shadow:0 0 14px rgba(255,255,255,.65)}
+  .hero .eyebrow::before{background:#EAFBFF}
+  .hero .lede{color:rgba(255,255,255,.95);text-shadow:0 1px 8px rgba(6,58,84,.5)}
+  .hero .step-chip{color:#053A50;font-weight:600;border:1px solid rgba(255,255,255,.6);
+    background:linear-gradient(180deg,rgba(255,255,255,.45),rgba(255,255,255,.16) 48%,rgba(255,255,255,.3));
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset 0 -6px 12px -8px rgba(6,90,120,.35),0 8px 18px -12px rgba(4,60,90,.55)}
+  .hero .step-chip .n{background:linear-gradient(180deg,#8FE9FF,#18A5DE);color:#04384E;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 0 12px rgba(120,220,255,.7)}
+
+  /* mapa vivo: nós/pontinhos aparecem com pop suave */
+  .mnode,.mdot{opacity:0;transform:scale(.2);transform-box:fill-box;transform-origin:center;
+    transition:transform .38s cubic-bezier(.34,1.56,.64,1),opacity .22s ease}
+  .mdot{transition-duration:.3s,.18s}
+  .mnode.on,.mdot.on{opacity:1;transform:scale(1)}
+  #mapTrail{transition:opacity .4s ease}
+  #mapTrail.out{opacity:0}
+  .spark{opacity:0;transform-box:fill-box;transform-origin:center}
+  .spark.on{animation:sparkFly .7s ease-out forwards}
+  @keyframes sparkFly{from{opacity:1;transform:translate(0,0)}to{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.4)}}
 </style>
 
 <header class="topbar">
@@ -541,44 +574,27 @@
 </header>
 
 <section class="hero">
+    <canvas class="hero-bubbles" id="heroBubbles" aria-hidden="true"></canvas>
     <svg class="hero-deco" viewBox="0 0 640 300" fill="none" aria-hidden="true">
-      <!-- terreno: colinas do mapa -->
-      <path d="M0 300 V232 C 70 212 130 234 196 224 C 268 213 322 240 396 228 C 462 217 520 238 582 228 C 606 224 624 230 640 226 V300 Z" fill="currentColor" opacity=".08"/>
-      <path d="M0 300 V260 C 84 248 156 268 236 256 C 322 243 402 270 484 258 C 554 248 602 264 640 256 V300 Z" fill="currentColor" opacity=".13"/>
-      <!-- trilha sinuosa pontilhada (world map) -->
-      <path d="M60 256 C 140 256 140 214 214 214 C 288 214 286 172 356 172 C 426 172 424 126 496 126 C 540 126 536 108 554 106"
-        stroke="currentColor" stroke-width="4" stroke-dasharray="1.5 12" stroke-linecap="round"/>
-      <!-- casa inicial (ponto de partida) -->
-      <g stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
-        <path d="M46 266 v-19 h30 v19"/>
-        <path d="M40 249 l21 -17 21 17"/>
-        <path d="M55 266 v-11 h12 v11"/>
+      <defs>
+        <radialGradient id="orbG" cx=".35" cy=".3" r=".8">
+          <stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#CFF3FF"/><stop offset="1" stop-color="#45B7E8"/>
+        </radialGradient>
+        <linearGradient id="hillG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#B7EC7A"/><stop offset="1" stop-color="#3E9E45"/>
+        </linearGradient>
+        <!-- castelo com origem no fim da trilha (deslocado de 560,106) -->
+        <g id="castleTpl" stroke="#0A4B66" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M-8 0 V-34 h7 v-7 h7 v7 h7 v-7 h7 v7 h7 v-7 h7 v7 h7 V0 Z" fill="rgba(255,255,255,.6)"/>
+          <path d="M14 0 V-14 a7 7 0 0 1 14 0 v14" fill="rgba(255,255,255,.75)"/>
+          <path d="M16 -41 v-18 h15 l-4.5 5 4.5 5 h-15" fill="#FFD34D" stroke="none"/>
+        </g>
+      </defs>
+      <g id="mapTerrain">
+        <path d="M0 300 V232 C 70 212 130 234 196 224 C 268 213 322 240 396 228 C 462 217 520 238 582 228 C 606 224 624 230 640 226 V300 Z" fill="#fff" opacity=".18"/>
+        <path d="M0 300 V260 C 84 248 156 268 236 256 C 322 243 402 270 484 258 C 554 248 602 264 640 256 V300 Z" fill="url(#hillG)" opacity=".5"/>
       </g>
-      <!-- fase concluída A -->
-      <g class="mag">
-        <circle cx="214" cy="214" r="13" fill="currentColor"/>
-        <circle cx="214" cy="214" r="5.4" fill="#fff" opacity=".85"/>
-      </g>
-      <!-- fase concluída B -->
-      <g class="gold">
-        <circle cx="356" cy="172" r="13" fill="currentColor"/>
-        <circle cx="356" cy="172" r="5.4" fill="#1A0322" opacity=".55"/>
-      </g>
-      <!-- próxima fase C -->
-      <circle cx="496" cy="126" r="12" stroke="currentColor" stroke-width="3"/>
-      <circle cx="496" cy="126" r="3.6" fill="currentColor"/>
-      <!-- moedas flutuantes -->
-      <g class="gold" fill="currentColor">
-        <circle cx="140" cy="196" r="3.4"/>
-        <circle cx="284" cy="150" r="3.4"/>
-        <circle cx="452" cy="104" r="3.4"/>
-      </g>
-      <!-- castelo (destino final) -->
-      <g stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
-        <path d="M552 106 V72 h7 v-7 h7 v7 h7 v-7 h7 v7 h7 v-7 h7 v7 h7 V106 Z"/>
-        <path d="M574 106 V92 a7 7 0 0 1 14 0 v14"/>
-      </g>
-      <path class="gold" d="M576 65 v-18 h15 l-4.5 5 4.5 5 h-15" fill="currentColor"/>
+      <g id="mapTrail"></g>
     </svg>
 
     <div class="hero-in">
@@ -1210,5 +1226,208 @@ backLink.addEventListener('click',function(){
   });
 
   syncButtons(); updateCount();
+})();
+
+/* ---------- hero: mapa vivo estilo Mario World ---------- */
+(function(){
+  var SVGNS='http://www.w3.org/2000/svg';
+  var layer=document.getElementById('mapTrail');
+  if(!layer) return;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var mqSmall=window.matchMedia?window.matchMedia('(max-width:820px)'):{matches:false};
+
+  var timers=[];
+  function later(fn,ms){ timers.push(setTimeout(fn,ms)); }
+  function stopMap(){ timers.forEach(clearTimeout); timers=[]; }
+
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function genWaypoints(){
+    var N=3+Math.floor(Math.random()*3);
+    var sx=60,sy=255,ex=545+Math.random()*25,ey=98+Math.random()*14;
+    var pts=[{x:sx,y:sy}],i;
+    for(i=1;i<=N;i++){
+      var t=i/(N+1);
+      var x=sx+t*(ex-sx)+(Math.random()*44-22);
+      var base=sy+t*(ey-sy);
+      var dir=(i%2?-1:1);
+      pts.push({x:x,y:clamp(base+dir*(18+Math.random()*20),70,265)});
+    }
+    pts.push({x:ex,y:ey});
+    for(i=1;i<pts.length;i++) if(pts[i].x-pts[i-1].x<48) pts[i].x=pts[i-1].x+48;
+    return pts;
+  }
+  function segD(a,b){ var mx=(a.x+b.x)/2;
+    return 'M'+a.x+' '+a.y+' C '+mx+' '+a.y+', '+mx+' '+b.y+', '+b.x+' '+b.y; }
+  function el(name,attrs,cls){
+    var e=document.createElementNS(SVGNS,name);
+    for(var k in attrs) e.setAttribute(k,attrs[k]);
+    if(cls) e.setAttribute('class',cls);
+    return e;
+  }
+  function sampleDots(d){
+    var p=el('path',{d:d,fill:'none',stroke:'none'});
+    layer.appendChild(p);
+    var L=p.getTotalLength(),out=[],s;
+    for(s=6.5;s<L-6;s+=13){ var pt=p.getPointAtLength(s); out.push({x:pt.x,y:pt.y}); }
+    return out;
+  }
+
+  function buildTrail(pts){
+    var built={segDots:[],orbs:[],coins:[],sparks:[]};
+    /* herói no início — posição no grupo externo (atributo), pop no interno
+       (a classe .mnode usa transform via CSS, que sobrepõe o atributo transform) */
+    var heroPos=el('g',{transform:'translate('+pts[0].x+' '+pts[0].y+')'});
+    var hero=el('g',{stroke:'#06465F','stroke-width':'2.4','stroke-linecap':'round','stroke-linejoin':'round',fill:'none'},'mnode');
+    hero.appendChild(el('circle',{cx:0,cy:-14,r:16,fill:'rgba(255,255,255,.4)',stroke:'none'}));
+    hero.appendChild(el('circle',{cx:0,cy:-24,r:5.5,fill:'rgba(255,255,255,.85)'}));
+    hero.appendChild(el('path',{d:'M0 -18 v11 M0 -7 l-6 9 M0 -7 l6 9 M-7 -13 h14'}));
+    hero.appendChild(el('path',{d:'M7 -13 v-14 h9 l-3 3.5 3 3.5 h-9',fill:'#FFD34D',stroke:'none'}));
+    heroPos.appendChild(hero); layer.appendChild(heroPos); built.hero=hero;
+
+    var i,j;
+    for(i=0;i<pts.length-1;i++){
+      var dots=sampleDots(segD(pts[i],pts[i+1])),dotEls=[];
+      for(j=0;j<dots.length;j++){
+        var dot=el('circle',{cx:dots[j].x,cy:dots[j].y,r:2.2,fill:'rgba(7,58,84,.65)'},'mdot');
+        layer.appendChild(dot); dotEls.push(dot);
+      }
+      built.segDots.push(dotEls);
+      if(i<pts.length-2){
+        var orb=el('g',{},'mnode');
+        orb.appendChild(el('circle',{cx:pts[i+1].x,cy:pts[i+1].y,r:11,fill:'url(#orbG)',stroke:'rgba(255,255,255,.85)','stroke-width':'1.4'}));
+        orb.appendChild(el('circle',{cx:pts[i+1].x-3.4,cy:pts[i+1].y-3.8,r:3.2,fill:'#fff',opacity:'.9'}));
+        layer.appendChild(orb); built.orbs.push(orb);
+      }
+    }
+    /* moedas: 2-3 acima de pontos aleatórios do meio */
+    var coinN=2+Math.floor(Math.random()*2);
+    for(i=0;i<coinN;i++){
+      var wp=pts[1+Math.floor(Math.random()*(pts.length-2))];
+      var cx=wp.x+(Math.random()*46-23),cy=wp.y-(24+Math.random()*20);
+      var coin=el('g',{},'mnode');
+      coin.appendChild(el('circle',{cx:cx,cy:cy,r:3.6,fill:'#FFD34D'}));
+      coin.appendChild(el('circle',{cx:cx-1.1,cy:cy-1.2,r:1,fill:'#fff',opacity:'.85'}));
+      layer.appendChild(coin); built.coins.push(coin);
+    }
+    /* castelo no fim + sparks (mesmo padrão: posição fora, pop dentro) */
+    var end=pts[pts.length-1];
+    var castlePos=el('g',{transform:'translate('+end.x+' '+end.y+')'});
+    var castle=el('use',{},'mnode');
+    castle.setAttribute('href','#castleTpl');
+    castle.setAttributeNS('http://www.w3.org/1999/xlink','xlink:href','#castleTpl');
+    castlePos.appendChild(castle); layer.appendChild(castlePos); built.castle=castle;
+    for(i=0;i<6;i++){
+      var ang=Math.PI*2*i/6, dist=26+Math.random()*14;
+      var sp=el('circle',{cx:end.x,cy:end.y-22,r:2.6,fill:'#FFD34D'},'spark');
+      sp.style.setProperty('--dx',Math.cos(ang)*dist+'px');
+      sp.style.setProperty('--dy',(Math.sin(ang)*dist-8)+'px');
+      layer.appendChild(sp); built.sparks.push(sp);
+    }
+    return built;
+  }
+  function on(e){ e.classList.add('on'); }
+
+  function runCycle(){
+    stopMap();
+    layer.classList.remove('out');
+    layer.innerHTML='';
+    var pts=genWaypoints();
+    var b=buildTrail(pts);
+    var t=200;
+    later(function(){ on(b.hero); },t);
+    t+=300;
+    b.segDots.forEach(function(dotEls,i){
+      t+=150;
+      dotEls.forEach(function(dot,j){
+        (function(dd,tt){ later(function(){ on(dd); },tt); })(dot,t+j*28);
+      });
+      t+=dotEls.length*28+60;
+      if(i<b.orbs.length){
+        (function(o,tt){ later(function(){ on(o); },tt); })(b.orbs[i],t);
+        t+=240;
+      }
+    });
+    later(function(){
+      on(b.castle);
+      b.sparks.forEach(on);
+      b.coins.forEach(on);
+    },t);
+    t+=600;
+    t+=2600; /* hold */
+    later(function(){ layer.classList.add('out'); },t);
+    later(runCycle,t+450);
+  }
+
+  function staticTrail(){
+    stopMap(); layer.classList.remove('out'); layer.innerHTML='';
+    var b=buildTrail(genWaypoints());
+    on(b.hero); on(b.castle);
+    b.segDots.forEach(function(ds){ ds.forEach(on); });
+    b.orbs.forEach(on); b.coins.forEach(on);
+  }
+
+  function start(){ if(reduce){ staticTrail(); } else if(!mqSmall.matches){ runCycle(); } }
+  document.addEventListener('visibilitychange',function(){
+    if(reduce) return;
+    if(document.hidden) stopMap();
+    else if(!mqSmall.matches) runCycle();
+  });
+  if(mqSmall.addEventListener) mqSmall.addEventListener('change',function(){ if(reduce) return; if(mqSmall.matches) stopMap(); else runCycle(); });
+  else if(mqSmall.addListener) mqSmall.addListener(function(){ if(reduce) return; if(mqSmall.matches) stopMap(); else runCycle(); });
+  start();
+})();
+
+/* ---------- hero: bolhas Frutiger Aero (canvas) ---------- */
+(function(){
+  var canvas=document.getElementById('heroBubbles');
+  var hero=document.querySelector('.hero');
+  if(!canvas||!hero) return;
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var ctx=canvas.getContext('2d');
+  var sprite=(function(){
+    var s=64,c=document.createElement('canvas');c.width=c.height=s;
+    var x=c.getContext('2d'),cx=32,cy=32,r=29;
+    var g=x.createRadialGradient(cx-10,cy-13,3,cx,cy,r);
+    g.addColorStop(0,'rgba(255,255,255,.5)');g.addColorStop(.5,'rgba(255,255,255,.06)');
+    g.addColorStop(.92,'rgba(255,255,255,.12)');g.addColorStop(1,'rgba(255,255,255,.5)');
+    x.fillStyle=g;x.beginPath();x.arc(cx,cy,r,0,7);x.fill();
+    x.strokeStyle='rgba(255,255,255,.75)';x.lineWidth=1.5;x.stroke();
+    x.fillStyle='rgba(255,255,255,.9)';
+    x.beginPath();x.ellipse(cx-12,cy-14,6,3.6,-.6,0,7);x.fill();
+    return c;
+  })();
+  var W=0,H=0,bubbles=[],raf=0,last=0,resizeT=0;
+  function rand(a,b){ return a+Math.random()*(b-a); }
+  function spawn(anyY){
+    return {x:rand(0,W),y:anyY?rand(0,H):H+rand(6,40),r:rand(4,20),
+      v:rand(10,26),amp:rand(4,12),f:rand(.4,1.1),ph:rand(0,6.28),a:rand(.14,.4)};
+  }
+  function size(){
+    W=hero.clientWidth;H=hero.clientHeight;
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    canvas.width=W*dpr;canvas.height=H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    var n=Math.min(26,Math.max(8,Math.round(W/48)));
+    bubbles=[];for(var i=0;i<n;i++) bubbles.push(spawn(true));
+  }
+  function frame(now){
+    var dt=Math.min(.05,(now-last)/1000)||.016;last=now;
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<bubbles.length;i++){
+      var b=bubbles[i];
+      b.y-=b.v*dt;
+      if(b.y<-2*b.r) bubbles[i]=b=spawn(false);
+      var x=b.x+Math.sin(now/1000*b.f+b.ph)*b.amp;
+      ctx.globalAlpha=b.a;
+      ctx.drawImage(sprite,x-b.r,b.y-b.r,b.r*2,b.r*2);
+    }
+    ctx.globalAlpha=1;
+    raf=requestAnimationFrame(frame);
+  }
+  function play(){ if(!raf){ last=performance.now(); raf=requestAnimationFrame(frame); } }
+  function stop(){ if(raf){ cancelAnimationFrame(raf); raf=0; } }
+  window.addEventListener('resize',function(){ clearTimeout(resizeT); resizeT=setTimeout(size,150); });
+  document.addEventListener('visibilitychange',function(){ document.hidden?stop():play(); });
+  size(); play();
 })();
 </script>
