@@ -1401,7 +1401,7 @@ backLink.addEventListener('click',function(){
     var raw=sInput.value.trim(), q=norm(raw);
     if(!q){
       sMeta.textContent='';
-      sResults.innerHTML='<div class="search-empty"><span class="se-ic">🔎</span>Digite para buscar entre '+IDS.length+' conteúdos da DIO.</div>';
+      sResults.innerHTML='<div class="search-empty"><span class="se-ic">🔎</span>O que você quer aprender hoje?</div>';
       return;
     }
     var hits=IDS.filter(function(id){ return norm(TRACKS[id].t).indexOf(q)>=0; });
