@@ -1,0 +1,350 @@
+<title>Conteúdos DIO — Pro & Global</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+  /* página sempre escura: o espaço não tem tema claro */
+  :root{
+    --paper:#0D0D12; --surface:#1B1C24; --surface-2:#15161B;
+    --ink:#FFFFFF; --ink-soft:#C7C7CE; --ink-faint:#98989C;
+    --line:#2D2D37; --line-strong:#3C3C48;
+    --brand:#A44DDA; --brand-ink:#C58BEA;
+    --mag-a:#B800E7; --mag-b:#A200CC; --gold:#E5E145;
+    --hue-mix:#FFFFFF; --hue-lift:44%;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 14px 34px -18px rgba(0,0,0,.8);
+    --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",Roboto,system-ui,"Helvetica Neue",Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,Menlo,Monaco,"Cascadia Code",Consolas,monospace;
+    --neon-green:#3DFF8E; --neon-yellow:#F5F543;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+    line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility;overflow-x:hidden;}
+  a{color:inherit}
+  ::selection{background:color-mix(in srgb,var(--mag-a) 32%,transparent)}
+  h1,h2,h3{letter-spacing:-.021em}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+  /* ---------- top bar ---------- */
+  .topbar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--paper) 82%,transparent);
+    backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--line)}
+  .topbar-in{max-width:1080px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:14px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600}
+  .brand .pin{width:30px;height:30px;flex:none;display:grid;place-items:center;border-radius:12px;
+    background:linear-gradient(135deg,var(--mag-a),var(--mag-b));color:#fff;
+    box-shadow:0 4px 12px -4px color-mix(in srgb,var(--mag-a) 75%,transparent)}
+  .brand .pin svg{width:17px;height:17px}
+  .brand b{font-weight:650;font-size:1.05rem;letter-spacing:-.01em}
+  .brand span{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-faint);display:block;margin-top:-2px}
+  .spacer{flex:1}
+
+  /* ---------- abas de navegação ---------- */
+  .tabs{display:flex;gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px}
+  .tab{font-family:var(--mono);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+    text-decoration:none;color:var(--ink-soft);padding:6px 13px;border-radius:999px;transition:.15s}
+  .tab:hover{color:var(--ink)}
+  .tab[aria-current="page"]{color:#fff;background:linear-gradient(135deg,var(--mag-a),var(--mag-b));
+    box-shadow:0 0 14px -2px color-mix(in srgb,var(--mag-a) 60%,transparent)}
+
+  /* ---------- section heading ---------- */
+  .sec-head{margin:34px 0 6px}
+  .sec-head .eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--brand-ink);display:flex;align-items:center;gap:8px;margin:0 0 10px}
+  .sec-head .eyebrow::before{content:"";width:26px;height:1.5px;background:var(--gold)}
+  .sec-head h2{font-weight:700;font-size:clamp(1.5rem,3.4vw,2.1rem);margin:0 0 6px}
+  .sec-head p{margin:0;color:var(--ink-soft);font-size:.95rem;max-width:64ch}
+  .sec-head p b{color:var(--ink)}
+
+  /* ---------- palco espacial (o fundo estrelado é do body, largura total) ---------- */
+  .space{position:relative;width:100%;margin:22px 0 0;padding:26px 18px 20px;color:#fff}
+  .space>*{position:relative;z-index:1}
+
+  /* botões de modo */
+  .mode-tabs{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+  .mode{--mc:var(--neon-green);font:inherit;font-family:var(--mono);font-size:.78rem;font-weight:700;
+    letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.75);
+    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);border-radius:999px;
+    padding:9px 20px;cursor:pointer;transition:.2s;box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+  #modeGlobal{--mc:var(--neon-yellow)}
+  .mode:hover{border-color:color-mix(in srgb,var(--mc) 70%,transparent);color:#fff;
+    box-shadow:0 0 16px -4px color-mix(in srgb,var(--mc) 60%,transparent),inset 0 1px 0 rgba(255,255,255,.12)}
+  .mode[aria-pressed="true"]{color:#0D140A;background:color-mix(in srgb,var(--mc) 85%,#fff);
+    border-color:var(--mc);
+    box-shadow:0 0 22px color-mix(in srgb,var(--mc) 55%,transparent),inset 0 1px 0 rgba(255,255,255,.5)}
+  .mode:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+  /* ---------- sistema solar ---------- */
+  .system{position:relative;width:min(680px,94vw,74vh);aspect-ratio:1;margin:10px auto 2px;container-type:size}
+
+  .ring{position:absolute;inset:calc(50% - var(--r));border-radius:50%;
+    border:1px dashed rgba(255,255,255,.15);transition:opacity .5s ease}
+  #stage[data-mode="pro"] .ring.r3{opacity:.07}
+
+  /* órbita: o wrapper gira 0→360; o planeta contra-gira para manter o rótulo na horizontal.
+     --phase entra como transform base (layout estático p/ reduced-motion) E como delay negativo. */
+  /* cada planeta ganha uma oscilação própria (amplitude --wob, período --wdur, defasagem --wdel)
+     somada à rotação base sincronizada — movimento orgânico com sobreposição impossível,
+     pois as amplitudes cabem na folga angular entre vizinhos */
+  .orbit{position:absolute;inset:0;pointer-events:none;
+    transform:rotate(calc(var(--phase)*1turn));
+    animation:orbit var(--dur) linear infinite,
+              wob var(--wdur,16s) ease-in-out infinite alternate;
+    animation-delay:calc(var(--dur)*var(--phase)*-1),var(--wdel,0s)}
+  .planet{position:absolute;left:50%;top:calc(50% - var(--r));width:var(--size);height:var(--size);
+    min-width:0;min-height:0;
+    translate:-50% -50%;pointer-events:auto;cursor:pointer;
+    display:grid;place-content:center;place-items:center;text-align:center;padding:6%;
+    font:inherit;border-radius:50%;-webkit-tap-highlight-color:transparent;
+    --pc:var(--neon-green);
+    border:1.5px solid color-mix(in srgb,var(--pc) 70%,transparent);
+    background:radial-gradient(circle at 32% 28%, rgba(255,255,255,.5), rgba(255,255,255,.05) 58%),
+               color-mix(in srgb,var(--pc) 15%,transparent);
+    box-shadow:0 0 18px color-mix(in srgb,var(--pc) 50%,transparent),
+               0 0 46px -6px color-mix(in srgb,var(--pc) 45%,transparent),
+               inset 0 0 22px color-mix(in srgb,var(--pc) 30%,transparent);
+    transform:rotate(calc(var(--phase)*-1turn));
+    animation:counter var(--dur) linear infinite,
+              wobc var(--wdur,16s) ease-in-out infinite alternate;
+    animation-delay:calc(var(--dur)*var(--phase)*-1),var(--wdel,0s);
+    transition:box-shadow .3s ease,scale .5s ease}
+  .planet.yellow{--pc:var(--neon-yellow)}
+  .planet:hover{box-shadow:0 0 26px color-mix(in srgb,var(--pc) 75%,transparent),
+    0 0 60px -4px color-mix(in srgb,var(--pc) 55%,transparent),
+    inset 0 0 26px color-mix(in srgb,var(--pc) 40%,transparent)}
+  .planet:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  @keyframes orbit{from{transform:rotate(0turn)}to{transform:rotate(1turn)}}
+  @keyframes counter{from{transform:rotate(0turn)}to{transform:rotate(-1turn)}}
+  /* oscilação via propriedade `rotate` (compõe com o transform da rotação base);
+     wobc espelha wob com os mesmos parâmetros p/ manter o rótulo na horizontal */
+  @keyframes wob{from{rotate:calc(var(--wob,0deg)*-1)}to{rotate:var(--wob,0deg)}}
+  @keyframes wobc{from{rotate:var(--wob,0deg)}to{rotate:calc(var(--wob,0deg)*-1)}}
+
+  .p-label{display:block;width:100%;text-align:center;
+    font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+    font-size:clamp(.5rem,2.1cqw,.72rem);line-height:1.3;color:#fff;
+    text-shadow:0 0 10px color-mix(in srgb,var(--pc) 80%,transparent)}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+  /* sol central */
+  #stage{--sunc:var(--neon-green)}
+  #stage[data-mode="global"]{--sunc:var(--neon-yellow)}
+  .sun{position:absolute;left:50%;top:50%;width:22%;height:22%;min-width:0;min-height:0;
+    translate:-50% -50%;border-radius:50%;
+    display:grid;place-content:center;text-align:center;gap:1px;color:#101408;
+    background:radial-gradient(circle at 35% 30%, #FFFFFF,
+      color-mix(in srgb,var(--neon-green) 34%,#fff) 52%,
+      color-mix(in srgb,var(--neon-green) 72%,#fff) 100%);
+    border:1.5px solid color-mix(in srgb,var(--sunc) 80%,#fff);
+    box-shadow:0 0 34px color-mix(in srgb,var(--sunc) 60%,transparent),
+               0 0 90px -6px color-mix(in srgb,var(--sunc) 55%,transparent),
+               inset 0 -6px 18px color-mix(in srgb,var(--sunc) 45%,transparent);
+    transition:box-shadow .6s ease,border-color .6s ease;
+    animation:sunPulse 5s ease-in-out infinite}
+  .sun::before{content:"";position:absolute;inset:-1.5px;border-radius:50%;opacity:0;transition:opacity .6s ease;
+    background:radial-gradient(circle at 35% 30%, #FFFFFF,
+      color-mix(in srgb,var(--neon-yellow) 34%,#fff) 52%,
+      color-mix(in srgb,var(--neon-yellow) 72%,#fff) 100%)}
+  #stage[data-mode="global"] .sun::before{opacity:1}
+  .sun>*{position:relative}
+  .sun .s-eyebrow{font-family:var(--mono);font-size:clamp(.4rem,1.5cqw,.58rem);font-weight:700;
+    letter-spacing:.18em;text-transform:uppercase;opacity:.55}
+  .sun b{font-weight:750;font-size:clamp(.72rem,3.1cqw,1.06rem);letter-spacing:-.01em;line-height:1.1}
+  @keyframes sunPulse{0%,100%{scale:1}50%{scale:1.035}}
+
+  /* exclusivos Global: entram/saem com fade + scale (só CSS, via data-mode) */
+  .orbit.gx{transition:opacity .5s ease,visibility .5s}
+  #stage[data-mode="pro"] .orbit.gx{opacity:0;visibility:hidden}
+  #stage[data-mode="pro"] .orbit.gx .planet{scale:.35}
+
+  /* pausa suave p/ ler os rótulos */
+  .system:hover .orbit,.system:hover .planet,
+  .system:focus-within .orbit,.system:focus-within .planet{animation-play-state:paused}
+
+  /* legenda + caption */
+  .caption{margin:14px auto 2px;text-align:center;font-family:var(--mono);font-size:.78rem;
+    color:rgba(255,255,255,.62);min-height:1.5em;max-width:72ch;padding:0 10px}
+  .caption b{color:#fff;font-weight:700}
+  .sky-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 22px;margin-top:10px;
+    font-size:.78rem;color:rgba(255,255,255,.6)}
+  .sky-legend span{display:inline-flex;align-items:center;gap:8px}
+  .dot{width:11px;height:11px;border-radius:50%;flex:none;font-style:normal}
+  .dot.g{background:color-mix(in srgb,var(--neon-green) 30%,transparent);border:1px solid var(--neon-green);
+    box-shadow:0 0 10px color-mix(in srgb,var(--neon-green) 70%,transparent)}
+  .dot.y{background:color-mix(in srgb,var(--neon-yellow) 30%,transparent);border:1px solid var(--neon-yellow);
+    box-shadow:0 0 10px color-mix(in srgb,var(--neon-yellow) 70%,transparent)}
+
+  /* ---------- footer ---------- */
+  footer{margin:56px 0 30px;padding-top:24px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+  footer p{margin:0;font-size:.86rem;color:var(--ink-faint);max-width:52ch}
+  footer a.dio{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:700;text-decoration:none;
+    color:#fff;background:linear-gradient(135deg,var(--mag-a),var(--mag-b));border-radius:999px;padding:12px 22px;transition:.16s;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 8px 20px -10px color-mix(in srgb,var(--mag-a) 80%,transparent)}
+  footer a.dio:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  footer a.dio svg{width:15px;height:15px}
+
+  /* ============================================================
+     ESPAÇO — fundo estrelado na página inteira
+     ============================================================ */
+  body{position:relative;background:radial-gradient(120% 90% at 50% -10%, #1A0526, #0A0112 58%, #06000B) fixed #06000B}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background:
+      radial-gradient(46% 40% at 6% 2%, color-mix(in srgb,var(--mag-a) 24%,transparent), transparent 70%),
+      radial-gradient(44% 40% at 99% 8%, color-mix(in srgb,var(--brand) 26%,transparent), transparent 72%),
+      radial-gradient(52% 46% at 94% 98%, color-mix(in srgb,var(--gold) 14%,transparent), transparent 70%)}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+    background-image:
+      radial-gradient(rgba(255,255,255,.55) 1px,transparent 1.7px),
+      radial-gradient(rgba(255,255,255,.25) 1px,transparent 1.7px);
+    background-size:210px 210px,90px 90px;background-position:0 0,55px 40px}
+
+  .brand .pin{box-shadow:0 4px 12px -4px color-mix(in srgb,var(--mag-a) 75%,transparent),0 0 16px -2px color-mix(in srgb,var(--mag-a) 60%,transparent)}
+
+  footer a.dio{animation:ctaPulse 2.6s ease-in-out infinite}
+  @keyframes ctaPulse{
+    0%,100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 0 16px -4px color-mix(in srgb,var(--mag-a) 55%,transparent),0 10px 24px -10px color-mix(in srgb,var(--mag-a) 80%,transparent)}
+    50%{box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 0 30px 0 color-mix(in srgb,var(--mag-a) 78%,transparent),0 12px 28px -10px color-mix(in srgb,var(--mag-a) 85%,transparent)}}
+
+  /* ---------- movimento & telas pequenas ---------- */
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important;scroll-behavior:auto !important}
+    .orbit,.planet,.sun,footer a.dio{animation:none !important}
+    footer a.dio:hover{transform:none !important}
+  }
+  @media (max-width:640px){
+    .topbar-in{flex-wrap:wrap}
+    .tabs{order:10;width:100%;justify-content:center}
+  }
+  @media (max-width:560px){
+    .space{padding:18px 10px 16px}
+    .mode{font-size:.7rem;padding:8px 14px}
+    .sec-head{margin-top:26px}
+  }
+</style>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <span class="pin" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4.4"/>
+          <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-20 12 12)"/>
+        </svg>
+      </span>
+      <span><b>Conteúdos DIO</b><span>pro &amp; global</span></span>
+    </div>
+    <nav class="tabs" aria-label="Páginas do guia">
+      <a class="tab" href="index.html">Roadmap</a>
+      <a class="tab" href="conteudos-dio.html" aria-current="page">Conteúdos</a>
+    </nav>
+    <div class="spacer"></div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Assinatura · Plataforma DIO</p>
+      <h2>O que você recebe em cada plano</h2>
+      <p>Explore o ecossistema de conteúdos como um sistema solar: escolha o plano no centro e veja
+        tudo o que orbita em volta dele. <b>Verde</b> faz parte do Pro e do Global;
+        <b>amarelo</b> é exclusivo do Global.</p>
+    </div>
+  </div>
+
+  <section class="space" id="stage" data-mode="pro" aria-label="Conteúdos da assinatura DIO">
+    <div class="mode-tabs" role="group" aria-label="Escolher plano">
+      <button class="mode" id="modePro" type="button" aria-pressed="true">DIO Pro</button>
+      <button class="mode" id="modeGlobal" type="button" aria-pressed="false">DIO Global</button>
+    </div>
+
+    <div class="system" id="system">
+      <div class="ring r1" style="--r:20%"></div>
+      <div class="ring r2" style="--r:32%"></div>
+      <div class="ring r3" style="--r:43%"></div>
+      <div class="sun"><span class="s-eyebrow">assinatura</span><b id="sunLabel" aria-live="polite">DIO PRO</b></div>
+    </div>
+
+    <p class="caption" id="caption">Clique em um planeta para ver o detalhe de cada conteúdo.</p>
+
+    <div class="sky-legend">
+      <span><i class="dot g"></i> Incluído no Pro e no Global</span>
+      <span><i class="dot y"></i> Exclusivo DIO Global</span>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <footer>
+      <p>Os conteúdos fazem parte das assinaturas DIO Pro e DIO Global. Escolha o seu plano e comece a estudar hoje mesmo.</p>
+      <a class="dio" href="https://web.dio.me/" target="_blank" rel="noopener">
+        Conhecer os planos DIO
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </footer>
+  </div>
+</main>
+
+<script>
+/* ---------- sistema solar ---------- */
+(function(){
+  var stage=document.getElementById('stage');
+  var system=document.getElementById('system');
+  var sunLabel=document.getElementById('sunLabel');
+  var caption=document.getElementById('caption');
+  var btnPro=document.getElementById('modePro');
+  var btnGlobal=document.getElementById('modeGlobal');
+
+  /* rotação base na MESMA velocidade angular em todos os anéis (posições relativas
+     fixas = sem sobreposição) + oscilação individual por planeta (--wob/--wdur/--wdel),
+     cuja amplitude por anel cabe na folga angular mínima entre vizinhos */
+  var RINGS={1:{r:'20%',dur:'80s',wob:'10deg'},2:{r:'32%',dur:'80s',wob:'8deg'},3:{r:'43%',dur:'80s',wob:'14deg'}};
+
+  var PLANETS=[
+    {name:"Cursos",tier:"pro",ring:1,phase:0,size:'15%',wdur:'13s',wdel:'-3s',desc:"milhares de cursos de tecnologia, do zero ao avançado."},
+    {name:"Projetos",tier:"pro",ring:1,phase:.5,size:'15%',wdur:'17s',wdel:'-8s',desc:"desafios práticos de código para construir seu portfólio."},
+    {name:"Formações",tier:"pro",ring:2,phase:.125,size:'16%',wdur:'15s',wdel:'-1s',desc:"trilhas completas por carreira, combinando cursos e projetos."},
+    {name:"Bootcamps Ilimitados",tier:"pro",ring:2,phase:.375,size:'17%',wdur:'19s',wdel:'-11s',desc:"acesso sem limites aos bootcamps, com desafios reais de código."},
+    {name:"Acelerações",tier:"pro",ring:2,phase:.625,size:'16%',wdur:'12s',wdel:'-5s',desc:"programas intensivos para acelerar sua evolução em temas específicos."},
+    {name:"Mentorias",tier:"pro",ring:2,phase:.875,size:'16%',wdur:'16s',wdel:'-9s',desc:"mentorias ao vivo com especialistas do mercado, com replay disponível."},
+    {name:"English 4 Tech",tier:"global",ring:3,phase:0,size:'14%',wdur:'14s',wdel:'-6s',desc:"inglês focado em tecnologia para a carreira internacional."},
+    {name:"MasterClass",tier:"global",ring:3,phase:.25,size:'14%',wdur:'18s',wdel:'-2s',desc:"aulas magnas com grandes nomes da tecnologia."},
+    {name:"Mural de Vagas Internacionais",tier:"global",ring:3,phase:.75,size:'18%',wdur:'21s',wdel:'-13s',desc:"oportunidades em empresas do mundo todo, em um só lugar."}
+  ];
+
+  PLANETS.forEach(function(p){
+    var ring=RINGS[p.ring];
+    var o=document.createElement('div');
+    o.className='orbit'+(p.tier==='global'?' gx':'');
+    o.style.cssText='--r:'+ring.r+';--dur:'+ring.dur+';--phase:'+p.phase
+      +';--wob:'+ring.wob+';--wdur:'+p.wdur+';--wdel:'+p.wdel;
+    var b=document.createElement('button');
+    b.type='button';
+    b.className='planet'+(p.tier==='global'?' yellow':'');
+    b.style.setProperty('--size',p.size);
+    b.setAttribute('data-name',p.name);
+    b.setAttribute('data-desc',p.desc);
+    b.innerHTML='<span class="p-label">'+p.name+(p.tier==='global'?'<span class="sr"> (exclusivo DIO Global)</span>':'')+'</span>';
+    o.appendChild(b);
+    system.appendChild(o);
+  });
+
+  function setMode(m){
+    stage.setAttribute('data-mode',m);
+    btnPro.setAttribute('aria-pressed',String(m==='pro'));
+    btnGlobal.setAttribute('aria-pressed',String(m==='global'));
+    sunLabel.textContent=m==='pro'?'DIO PRO':'DIO GLOBAL';
+    caption.innerHTML=m==='pro'
+      ?'<b>DIO Pro</b> — 6 conteúdos orbitando. Clique em um planeta para ver o detalhe.'
+      :'<b>DIO Global</b> — 9 conteúdos, sendo 3 exclusivos em amarelo. Clique em um planeta para ver o detalhe.';
+  }
+  btnPro.addEventListener('click',function(){setMode('pro')});
+  btnGlobal.addEventListener('click',function(){setMode('global')});
+
+  system.addEventListener('click',function(e){
+    var b=e.target.closest('.planet'); if(!b) return;
+    caption.innerHTML='<b>'+b.getAttribute('data-name')+'</b> — '+b.getAttribute('data-desc');
+  });
+})();
+</script>

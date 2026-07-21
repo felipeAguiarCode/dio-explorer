@@ -1,0 +1,1023 @@
+<title>Roadmap DIO — Por onde eu começo?</title>
+
+<style>
+  :root{
+    --paper:#FAFAFA; --surface:#FFFFFF; --surface-2:#F1F1F5;
+    --ink:#15161B; --ink-soft:#38393D; --ink-faint:#8B8B92;
+    --line:#E1E1E6; --line-strong:#C9C9D2;
+    --brand:#A44DDA; --brand-ink:#8021B8;
+    --mag-a:#B800E7; --mag-b:#A200CC; --gold:#E5E145;
+    --hue-mix:#0A0A0F; --hue-lift:0%;
+    --shadow:0 1px 2px rgba(21,22,27,.06), 0 12px 30px -16px rgba(21,22,27,.22);
+    --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",Roboto,system-ui,"Helvetica Neue",Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,Menlo,Monaco,"Cascadia Code",Consolas,monospace;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#0D0D12; --surface:#1B1C24; --surface-2:#15161B;
+      --ink:#FFFFFF; --ink-soft:#C7C7CE; --ink-faint:#98989C;
+      --line:#2D2D37; --line-strong:#3C3C48;
+      --brand:#A44DDA; --brand-ink:#C58BEA;
+      --mag-a:#B800E7; --mag-b:#A200CC; --gold:#E5E145;
+      --hue-mix:#FFFFFF; --hue-lift:44%;
+      --shadow:0 1px 2px rgba(0,0,0,.35), 0 14px 34px -18px rgba(0,0,0,.8);
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="light"]{
+    --paper:#FAFAFA; --surface:#FFFFFF; --surface-2:#F1F1F5;
+    --ink:#15161B; --ink-soft:#38393D; --ink-faint:#8B8B92;
+    --line:#E1E1E6; --line-strong:#C9C9D2;
+    --brand:#A44DDA; --brand-ink:#8021B8;
+    --mag-a:#B800E7; --mag-b:#A200CC; --gold:#E5E145;
+    --hue-mix:#0A0A0F; --hue-lift:0%;
+    --shadow:0 1px 2px rgba(21,22,27,.06), 0 12px 30px -16px rgba(21,22,27,.22);
+    color-scheme:light;
+  }
+  :root[data-theme="dark"]{
+    --paper:#0D0D12; --surface:#1B1C24; --surface-2:#15161B;
+    --ink:#FFFFFF; --ink-soft:#C7C7CE; --ink-faint:#98989C;
+    --line:#2D2D37; --line-strong:#3C3C48;
+    --brand:#A44DDA; --brand-ink:#C58BEA;
+    --mag-a:#B800E7; --mag-b:#A200CC; --gold:#E5E145;
+    --hue-mix:#FFFFFF; --hue-lift:44%;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 14px 34px -18px rgba(0,0,0,.8);
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+    line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility;overflow-x:hidden;}
+  a{color:inherit}
+  ::selection{background:color-mix(in srgb,var(--mag-a) 32%,transparent)}
+  h1,h2,h3{letter-spacing:-.021em}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+  /* ---------- top bar ---------- */
+  .topbar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--paper) 82%,transparent);
+    backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--line)}
+  .topbar-in{max-width:1080px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:14px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600}
+  .brand .pin{width:30px;height:30px;flex:none;display:grid;place-items:center;border-radius:12px;
+    background:linear-gradient(135deg,var(--mag-a),var(--mag-b));color:#fff;
+    box-shadow:0 4px 12px -4px color-mix(in srgb,var(--mag-a) 75%,transparent)}
+  .brand .pin svg{width:17px;height:17px}
+  .brand b{font-weight:650;font-size:1.05rem;letter-spacing:-.01em}
+  .brand span{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-faint);display:block;margin-top:-2px}
+  .spacer{flex:1}
+  .tbtn{font:inherit;font-size:.82rem;font-weight:500;color:var(--ink-soft);background:var(--surface);border:1px solid var(--line);
+    border-radius:999px;padding:8px 15px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.18s}
+  .tbtn:hover{border-color:var(--brand);color:var(--ink)}
+  .tbtn svg{width:16px;height:16px}
+  #reset{display:none}
+  #reset.show{display:inline-flex}
+  .icon-btn{padding:7px;width:36px;justify-content:center}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;width:100%;margin:0;padding:64px 0 58px;border-radius:0 0 34px 34px;overflow:hidden;
+    background:linear-gradient(155deg,#0C0118 0%,#23002F 55%,#320043 100%);color:#fff;
+    box-shadow:0 30px 70px -38px rgba(48,0,64,.9)}
+  .hero-in{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:0 24px}
+  .hero-in>*{position:relative}
+  .hero::before{content:"";position:absolute;right:-130px;top:-150px;width:460px;height:460px;border-radius:50%;
+    background:radial-gradient(circle,rgba(184,0,231,.5),transparent 62%);pointer-events:none;z-index:1}
+  .hero-deco{position:absolute;right:8px;top:22px;bottom:auto;width:min(620px,50%);height:auto;opacity:.85;pointer-events:none;color:rgba(255,255,255,.42);z-index:1}
+  .hero-deco .mag{color:var(--mag-a)}
+  .hero-deco .gold{color:var(--gold)}
+  @media (max-width:820px){.hero-deco{display:none}}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--gold);display:flex;align-items:center;gap:8px;margin-bottom:16px}
+  .eyebrow::before{content:"";width:26px;height:1.5px;background:var(--gold)}
+  h1{font-weight:700;font-size:clamp(2.1rem,5.4vw,3.5rem);line-height:1.03;
+    letter-spacing:-.033em;margin:0 0 16px;max-width:16ch;text-wrap:balance;color:#fff}
+  h1 .u{background:linear-gradient(100deg,#D14BF0,#A200CC);-webkit-background-clip:text;background-clip:text;
+    color:transparent;white-space:nowrap}
+  .lede{font-size:1.08rem;color:rgba(255,255,255,.82);max-width:56ch;margin:0 0 26px}
+  .lede b{color:#fff;font-weight:600}
+
+  .how{display:flex;flex-wrap:wrap;gap:10px;padding:0;margin:0 0 28px}
+  .how li{list-style:none}
+  .step-chip{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:8px 15px 8px 8px;font-size:.9rem;color:rgba(255,255,255,.86)}
+  .step-chip .n{width:24px;height:24px;flex:none;border-radius:50%;
+    background:linear-gradient(135deg,var(--mag-a),var(--mag-b));color:#fff;
+    font-family:var(--mono);font-size:.8rem;font-weight:600;display:grid;place-items:center}
+
+  .stats{display:flex;gap:26px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.16);padding-top:20px}
+  .stat .num{font-weight:700;font-size:1.9rem;line-height:1;color:#fff;letter-spacing:-.03em}
+  .stat .lab{font-size:.8rem;color:rgba(255,255,255,.6);margin-top:5px}
+
+  /* ---------- section heading ---------- */
+  .sec-head{margin:46px 0 18px}
+  .sec-head h2{font-weight:700;font-size:1.5rem;margin:0 0 6px}
+  .sec-head p{margin:0;color:var(--ink-soft);font-size:.95rem;max-width:60ch}
+
+  /* ---------- legend ---------- */
+  .legend{display:flex;flex-wrap:wrap;gap:10px 20px;margin:14px 0 6px;padding:14px 16px;
+    background:var(--surface-2);border:1px solid var(--line);border-radius:22px}
+  .leg{display:flex;align-items:center;gap:11px;font-size:.82rem;color:var(--ink-soft)}
+  .legbrick{width:32px;height:19px;border-radius:5px;position:relative;flex:none}
+  .legbrick::before{content:"";position:absolute;top:-4px;left:7px;width:8px;height:8px;border-radius:50%}
+  .legbrick.base{background:linear-gradient(135deg,var(--mag-a),var(--mag-b));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -3px 0 rgba(0,0,0,.2),0 3px 0 -1px #5e0075}
+  .legbrick.base::before{background:rgba(255,255,255,.6)}
+  .legbrick.core{background:var(--brand);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -3px 0 rgba(0,0,0,.2),0 3px 0 -1px color-mix(in srgb,var(--brand) 55%,#000)}
+  .legbrick.core::before{background:rgba(255,255,255,.6)}
+  .legbrick.opt{background:color-mix(in srgb,var(--brand) 15%,var(--surface));border:1px solid color-mix(in srgb,var(--brand) 32%,var(--line));
+    box-shadow:0 3px 0 -1px color-mix(in srgb,var(--brand) 20%,var(--surface))}
+  .legbrick.opt::before{background:color-mix(in srgb,var(--brand) 45%,var(--surface))}
+  .legplate{width:32px;height:19px;border-radius:5px;flex:none;background:var(--surface);border:1px solid var(--line-strong);
+    background-image:radial-gradient(circle,var(--ink-faint) 1.4px,transparent 1.8px);background-size:8px 8px;background-position:4px 4px}
+
+  /* ---------- career cards ---------- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px}
+  .card{--huec:color-mix(in srgb,var(--hue) calc(100% - var(--hue-lift)),var(--hue-mix) var(--hue-lift));
+    text-align:left;font:inherit;cursor:pointer;background:var(--surface);border:1px solid var(--line);
+    border-radius:24px;padding:18px;display:flex;flex-direction:column;gap:10px;transition:transform .16s,border-color .16s,box-shadow .16s;position:relative}
+  .card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--huec) 55%,var(--line));box-shadow:var(--shadow)}
+  .card[aria-pressed="true"]{border-color:var(--huec);background:color-mix(in srgb,var(--huec) 9%,var(--surface));box-shadow:var(--shadow)}
+  .card:focus-visible{outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--huec) 45%,transparent)}
+  .card-top{display:flex;align-items:center;gap:11px}
+  .card .ic{width:40px;height:40px;flex:none;border-radius:15px;display:grid;place-items:center;color:#fff;position:relative;
+    background:var(--hue);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -3px 0 rgba(0,0,0,.18),0 5px 12px -6px color-mix(in srgb,var(--hue) 75%,transparent)}
+  .card .ic::after{content:"";position:absolute;top:-3px;left:9px;width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55)}
+  .card .ic::before{content:"";position:absolute;top:-3px;left:24px;width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55)}
+  .card .ic svg{width:21px;height:21px}
+  .card h3{margin:0;font-size:1.02rem;font-weight:650}
+  .card .cnt{font-family:var(--mono);font-size:.72rem;color:var(--huec);font-weight:600;letter-spacing:.02em}
+  .card p{margin:0;font-size:.86rem;color:var(--ink-soft);line-height:1.42}
+  .card .go{margin-top:2px;font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;
+    color:var(--ink-faint);display:flex;align-items:center;gap:6px}
+  .card:hover .go,.card[aria-pressed="true"] .go{color:var(--huec)}
+  .card .go svg{width:13px;height:13px;transition:transform .16s}
+  .card:hover .go svg{transform:translateX(3px)}
+
+  /* ---------- trails (LEGO) ---------- */
+  .trail{--huec:color-mix(in srgb,var(--hue) calc(100% - var(--hue-lift)),var(--hue-mix) var(--hue-lift));
+    --deep:color-mix(in srgb,var(--hue) 58%,#000);
+    scroll-margin-top:76px;margin-top:34px;padding-top:26px;border-top:1px solid var(--line)}
+  .trail-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:22px}
+  .trail-head .ic{width:46px;height:46px;flex:none;border-radius:18px;display:grid;place-items:center;color:#fff;position:relative;
+    background:var(--hue);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -4px 0 rgba(0,0,0,.2),0 6px 14px -6px color-mix(in srgb,var(--hue) 75%,transparent)}
+  .trail-head .ic::after{content:"";position:absolute;top:-3px;left:11px;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55)}
+  .trail-head .ic::before{content:"";position:absolute;top:-3px;left:27px;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55)}
+  .trail-head .ic svg{width:24px;height:24px}
+  .trail-head h2{margin:0;font-weight:700;font-size:1.5rem}
+  .trail-head .tag{margin:4px 0 0;color:var(--ink-soft);font-size:.94rem;max-width:62ch}
+  .trail-head .pill{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:.7rem;font-weight:600;
+    letter-spacing:.02em;color:var(--huec);background:color-mix(in srgb,var(--huec) 12%,transparent);
+    border:1px solid color-mix(in srgb,var(--huec) 28%,transparent);border-radius:999px;padding:3px 10px}
+
+  .tower{display:flex;flex-direction:column;gap:11px;max-width:640px}
+
+  /* the LEGO brick */
+  .brick{position:relative;display:flex;align-items:center;gap:12px;text-decoration:none;
+    background:var(--hue);color:#fff;border-radius:15px;padding:15px 16px;
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.32),inset 0 -5px 0 rgba(0,0,0,.2),
+      0 6px 0 -1px var(--deep),0 13px 18px -9px rgba(0,0,0,.4);
+    transition:transform .14s ease, box-shadow .14s ease}
+  .brick:hover{transform:translateY(-3px);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.32),inset 0 -5px 0 rgba(0,0,0,.2),
+      0 9px 0 -1px var(--deep),0 18px 24px -9px rgba(0,0,0,.46)}
+  .brick:active{transform:translateY(2px);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.32),inset 0 -4px 0 rgba(0,0,0,.2),
+      0 3px 0 -1px var(--deep),0 6px 10px -6px rgba(0,0,0,.4)}
+  .brick:focus-visible{outline:none;box-shadow:inset 0 2px 0 rgba(255,255,255,.32),inset 0 -5px 0 rgba(0,0,0,.2),
+      0 6px 0 -1px var(--deep),0 0 0 4px color-mix(in srgb,var(--huec) 55%,transparent)}
+  .studs{position:absolute;top:-7px;left:16px;display:flex;gap:11px;pointer-events:none}
+  .stud{width:15px;height:15px;border-radius:50%;
+    background:radial-gradient(circle at 50% 32%,color-mix(in srgb,var(--hue) 45%,#fff),var(--hue) 78%);
+    box-shadow:inset 0 -2px 3px rgba(0,0,0,.22),0 1px 1px rgba(0,0,0,.16)}
+  .brick-num{flex:none;width:27px;height:27px;border-radius:10px;display:grid;place-items:center;
+    background:rgba(255,255,255,.22);color:#fff;font-family:var(--mono);font-weight:700;font-size:.82rem;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+  .brick-num.flag{background:rgba(255,255,255,.24)}
+  .brick-num.flag svg{width:15px;height:15px}
+  .brick-t{flex:1;font-weight:600;font-size:1rem;line-height:1.25;letter-spacing:-.01em}
+  .brick-tail{flex:none;display:flex;align-items:center;gap:9px}
+  .brick .ext{width:16px;height:16px;color:currentColor;opacity:.8}
+  .brick:hover .ext{opacity:1;transform:translate(2px,-2px)}
+  .brick-badge{font-family:var(--mono);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+    padding:3px 9px;border-radius:8px;background:rgba(255,255,255,.22);color:#fff;white-space:nowrap}
+
+  /* opt = translucent piece */
+  .brick.opt{background:color-mix(in srgb,var(--hue) 15%,var(--surface));color:var(--ink);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.5),inset 0 -4px 0 color-mix(in srgb,var(--hue) 20%,var(--surface)),
+      0 5px 0 -1px color-mix(in srgb,var(--hue) 28%,var(--surface)),0 11px 16px -9px rgba(0,0,0,.3);
+    border:1px solid color-mix(in srgb,var(--hue) 28%,var(--line))}
+  .brick.opt:hover{transform:translateY(-3px);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.5),inset 0 -4px 0 color-mix(in srgb,var(--hue) 20%,var(--surface)),
+      0 8px 0 -1px color-mix(in srgb,var(--hue) 28%,var(--surface)),0 16px 22px -9px rgba(0,0,0,.34)}
+  .brick.opt .stud{background:radial-gradient(circle at 50% 32%,#fff,color-mix(in srgb,var(--hue) 26%,var(--surface)) 85%);
+    box-shadow:inset 0 -2px 3px color-mix(in srgb,var(--hue) 22%,transparent),0 1px 1px rgba(0,0,0,.1)}
+  .brick.opt .brick-num{background:color-mix(in srgb,var(--huec) 18%,transparent);color:var(--huec)}
+  .brick.opt .brick-badge{background:color-mix(in srgb,var(--huec) 16%,transparent);color:var(--huec)}
+
+  /* base = starter brick (magenta) */
+  .brick.base{background:linear-gradient(135deg,var(--mag-a),var(--mag-b));--deep:#5e0075}
+  .brick.base .stud{background:radial-gradient(circle at 50% 32%,color-mix(in srgb,var(--mag-a) 45%,#fff),var(--mag-b) 82%)}
+
+  /* fork = baseplate with mini towers */
+  .fork .fork-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:9px;padding-left:2px}
+  .fork .fork-h .lbl{font-weight:650;font-size:1.02rem;color:var(--ink)}
+  .fork .fork-h .choose{font-family:var(--mono);font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--huec);background:color-mix(in srgb,var(--huec) 12%,transparent);
+    border:1px solid color-mix(in srgb,var(--huec) 26%,transparent);border-radius:999px;padding:3px 9px}
+  .baseplate{background:var(--surface-2);border:1px solid var(--line);border-radius:26px;padding:20px 18px 18px;
+    background-image:radial-gradient(circle,color-mix(in srgb,var(--ink-faint) 20%,transparent) 2.2px,transparent 2.7px);
+    background-size:26px 26px;background-position:16px 15px}
+  .baseplate .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(216px,1fr));gap:15px 14px}
+  .opt-stack{display:flex;flex-direction:column;gap:10px}
+  .opt-label{font-family:var(--mono);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--huec);display:flex;align-items:center;gap:8px;margin-bottom:1px}
+  .opt-label::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--huec);flex:none;
+    box-shadow:0 0 0 3px color-mix(in srgb,var(--huec) 22%,transparent)}
+  .brick.sub{padding:11px 12px;border-radius:12px;gap:10px}
+  .brick.sub .studs{top:-6px;left:12px;gap:9px}
+  .brick.sub .stud{width:12px;height:12px}
+  .brick.sub .brick-num{width:22px;height:22px;border-radius:9px;font-size:.74rem}
+  .brick.sub .brick-t{font-size:.9rem}
+  .brick.sub .ext{width:14px;height:14px}
+
+  .plate-label{font-family:var(--mono);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+    color:var(--ink-faint);display:flex;align-items:center;gap:10px;margin:3px 0 1px}
+  .plate-label::before{content:"";width:16px;height:2px;border-radius:2px;background:var(--line-strong)}
+  .plate-label::after{content:"";flex:1;height:2px;border-radius:2px;background:var(--line)}
+
+  .backlink{display:none;font:inherit;font-family:var(--mono);font-size:.74rem;letter-spacing:.02em;color:var(--ink-soft);
+    background:none;border:0;cursor:pointer;padding:0;margin-bottom:14px;align-items:center;gap:7px}
+  .backlink svg{width:14px;height:14px}
+  body.filtered .backlink{display:inline-flex}
+  .backlink:hover{color:var(--brand-ink)}
+
+  /* footer */
+  footer{margin:56px 0 30px;padding-top:24px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+  footer p{margin:0;font-size:.86rem;color:var(--ink-faint);max-width:52ch}
+  footer a.dio{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:700;text-decoration:none;
+    color:#fff;background:linear-gradient(135deg,var(--mag-a),var(--mag-b));border-radius:999px;padding:12px 22px;transition:.16s;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 8px 20px -10px color-mix(in srgb,var(--mag-a) 80%,transparent)}
+  footer a.dio:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  footer a.dio svg{width:15px;height:15px}
+
+  .hidden{display:none !important}
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important;scroll-behavior:auto !important}
+    .card:hover,.brick:hover,.brick:active{transform:none}
+  }
+  @media (max-width:560px){
+    .hero{padding:42px 0 40px}
+    .brick{padding:13px 13px}
+    .brick-t{font-size:.94rem}
+  }
+
+  /* ============================================================
+     GAMER SKIN — vibe de jogo mobile (mantém a paleta DIO)
+     ============================================================ */
+  /* fundo arcade: brilhos neon + grade sutil */
+  body{position:relative;background:radial-gradient(130% 90% at 50% -12%,color-mix(in srgb,var(--brand) 12%,var(--paper)),var(--paper) 62%)}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background:
+      radial-gradient(46% 40% at 6% 2%, color-mix(in srgb,var(--mag-a) 28%,transparent), transparent 70%),
+      radial-gradient(44% 40% at 99% 8%, color-mix(in srgb,var(--brand) 30%,transparent), transparent 72%),
+      radial-gradient(52% 46% at 94% 98%, color-mix(in srgb,var(--gold) 18%,transparent), transparent 70%)}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+    background-image:
+      linear-gradient(color-mix(in srgb,var(--brand) 26%,transparent) 1px,transparent 1px),
+      linear-gradient(90deg,color-mix(in srgb,var(--brand) 26%,transparent) 1px,transparent 1px);
+    background-size:46px 46px;
+    -webkit-mask-image:radial-gradient(125% 80% at 50% 0%,#000 0%,transparent 78%);
+            mask-image:radial-gradient(125% 80% at 50% 0%,#000 0%,transparent 78%)}
+
+  /* títulos com brilho */
+  h1{text-shadow:0 0 36px color-mix(in srgb,var(--mag-a) 48%,transparent),0 2px 0 rgba(0,0,0,.22)}
+  .eyebrow{text-shadow:0 0 14px color-mix(in srgb,var(--gold) 55%,transparent)}
+
+  /* HUD de status */
+  .stats{border-top:0;padding-top:6px;gap:14px}
+  .stat{flex:1;min-width:118px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);
+    border-radius:18px;padding:12px 16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 12px 26px -18px #000}
+  .stat .num{font-size:2.05rem;background:linear-gradient(180deg,#fff,#EAD0FF);-webkit-background-clip:text;background-clip:text;
+    color:transparent;text-shadow:0 0 22px color-mix(in srgb,var(--mag-a) 55%,transparent)}
+
+  /* chips de missão */
+  .step-chip{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.22);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 8px 18px -12px #000}
+  .step-chip .n{box-shadow:0 0 16px color-mix(in srgb,var(--mag-a) 75%,transparent),inset 0 1px 0 rgba(255,255,255,.45)}
+
+  /* pin da marca com glow */
+  .brand .pin{box-shadow:0 4px 12px -4px color-mix(in srgb,var(--mag-a) 75%,transparent),0 0 16px -2px color-mix(in srgb,var(--mag-a) 60%,transparent)}
+
+  /* botões chunky */
+  .tbtn{background:linear-gradient(180deg,var(--surface),color-mix(in srgb,var(--brand) 9%,var(--surface)));font-weight:600;
+    box-shadow:0 3px 0 -1px color-mix(in srgb,var(--brand) 24%,var(--line)),0 8px 18px -12px rgba(0,0,0,.5)}
+  .tbtn:hover{border-color:var(--brand);transform:translateY(-1px);
+    box-shadow:0 3px 0 -1px color-mix(in srgb,var(--brand) 42%,var(--line)),0 0 0 3px color-mix(in srgb,var(--brand) 20%,transparent),0 10px 22px -12px rgba(0,0,0,.5)}
+  .tbtn:active{transform:translateY(1px);box-shadow:0 1px 0 -1px color-mix(in srgb,var(--brand) 42%,var(--line)),0 6px 14px -12px rgba(0,0,0,.5)}
+
+  /* cards estilo level-select */
+  .card{background:linear-gradient(180deg,color-mix(in srgb,var(--huec) 7%,var(--surface)),var(--surface));border-width:1.5px}
+  .card .ic{box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -3px 0 rgba(0,0,0,.2),
+    0 0 18px color-mix(in srgb,var(--hue) 60%,transparent),0 6px 14px -6px color-mix(in srgb,var(--hue) 70%,transparent)}
+  .card .cnt{text-shadow:0 0 12px color-mix(in srgb,var(--huec) 45%,transparent)}
+  .card:hover{transform:translateY(-5px) scale(1.015);border-color:var(--huec);
+    box-shadow:0 0 0 1.5px color-mix(in srgb,var(--huec) 60%,transparent),0 0 30px -4px color-mix(in srgb,var(--huec) 55%,transparent),0 22px 42px -22px #000}
+  .card[aria-pressed="true"]{box-shadow:0 0 0 2px var(--huec),0 0 32px -4px color-mix(in srgb,var(--huec) 60%,transparent)}
+
+  /* peças de LEGO brilhando */
+  .brick:hover{box-shadow:inset 0 2px 0 rgba(255,255,255,.32),inset 0 -5px 0 rgba(0,0,0,.2),
+    0 9px 0 -1px var(--deep),0 0 26px -2px color-mix(in srgb,var(--hue) 65%,transparent),0 18px 26px -9px rgba(0,0,0,.5)}
+  .brick.base{animation:startGlow 2.4s ease-in-out infinite}
+  @keyframes startGlow{0%,100%{filter:drop-shadow(0 0 0 transparent)}50%{filter:drop-shadow(0 0 12px color-mix(in srgb,var(--mag-a) 65%,transparent))}}
+
+  /* CTA pulsante */
+  footer a.dio{animation:ctaPulse 2.6s ease-in-out infinite}
+  @keyframes ctaPulse{
+    0%,100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 0 16px -4px color-mix(in srgb,var(--mag-a) 55%,transparent),0 10px 24px -10px color-mix(in srgb,var(--mag-a) 80%,transparent)}
+    50%{box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 0 30px 0 color-mix(in srgb,var(--mag-a) 78%,transparent),0 12px 28px -10px color-mix(in srgb,var(--mag-a) 85%,transparent)}}
+
+  /* mapa flutuante */
+  .hero-deco{animation:floatMap 7s ease-in-out infinite}
+  @keyframes floatMap{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+  @media (prefers-reduced-motion:reduce){
+    .hero-deco,footer a.dio,.brick.base{animation:none !important}
+    .card:hover,.tbtn:hover,.tbtn:active{transform:none !important}
+  }
+
+  /* ============================================================
+     PLANO DE ESTUDOS — botão "+" + agenda estilo Outlook
+     ============================================================ */
+  /* botão + nas peças */
+  .add-brick{flex:none;width:26px;height:26px;border-radius:9px;display:grid;place-items:center;cursor:pointer;padding:0;
+    border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.18);color:#fff;transition:.15s;position:relative;z-index:4}
+  .add-brick svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .add-brick .i-check{display:none}
+  .add-brick:hover{background:rgba(255,255,255,.34);transform:scale(1.1)}
+  .add-brick.in-plan{background:var(--gold);border-color:var(--gold);color:#1c1600;
+    box-shadow:0 0 14px -2px color-mix(in srgb,var(--gold) 75%,transparent)}
+  .add-brick.in-plan .i-plus{display:none}
+  .add-brick.in-plan .i-check{display:block}
+  .brick.opt .add-brick{border-color:color-mix(in srgb,var(--huec) 45%,var(--line));
+    background:color-mix(in srgb,var(--huec) 14%,var(--surface));color:var(--huec)}
+  .brick.opt .add-brick.in-plan{background:var(--gold);border-color:var(--gold);color:#1c1600}
+  .brick.sub .add-brick{width:22px;height:22px;border-radius:8px}
+  .brick.sub .add-brick svg{width:13px;height:13px}
+
+  /* contador no header */
+  .plan-count{min-width:20px;height:20px;padding:0 6px;border-radius:999px;display:inline-grid;place-items:center;
+    background:linear-gradient(135deg,var(--mag-a),var(--mag-b));color:#fff;font-family:var(--mono);font-size:.68rem;font-weight:700;
+    box-shadow:0 0 12px -2px color-mix(in srgb,var(--mag-a) 70%,transparent)}
+  .plan-count.zero{background:var(--surface-2);color:var(--ink-faint);box-shadow:none}
+
+  /* overlay + painel */
+  .plan-overlay{position:fixed;inset:0;z-index:60;background:rgba(6,2,12,.55);
+    -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);opacity:0;transition:opacity .25s}
+  .plan-overlay.show{opacity:1}
+  body.plan-open{overflow:hidden}
+  .plan-panel{position:fixed;top:0;right:0;height:100vh;height:100dvh;width:min(440px,94vw);z-index:70;
+    display:flex;flex-direction:column;background:var(--surface);border-left:1px solid var(--line);
+    box-shadow:-40px 0 80px -40px rgba(0,0,0,.7);transform:translateX(102%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+  .plan-panel.show{transform:translateX(0)}
+  .plan-head{padding:20px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;color:#fff;
+    background:linear-gradient(150deg,#0C0118,#2A0038 70%,#360046)}
+  .plan-title{font-size:1.16rem;font-weight:700;letter-spacing:-.01em}
+  .plan-sub{font-family:var(--mono);font-size:.7rem;letter-spacing:.02em;color:rgba(255,255,255,.72);margin-top:5px}
+  .plan-x{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;cursor:pointer;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;transition:.15s}
+  .plan-x svg{width:18px;height:18px}
+  .plan-x:hover{background:rgba(255,255,255,.24)}
+  .plan-toolbar{display:flex;gap:10px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+  .plan-tool{flex:1;min-width:140px;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;
+    font:inherit;font-size:.82rem;font-weight:600;text-decoration:none;padding:10px 14px;border-radius:999px;transition:.15s;border:1px solid var(--line)}
+  .plan-tool svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .plan-tool.ghost{background:var(--surface);color:var(--ink-soft)}
+  .plan-tool.ghost:hover{border-color:var(--brand);color:var(--ink)}
+  .plan-tool.danger{background:color-mix(in srgb,#E5484D 12%,var(--surface));border-color:color-mix(in srgb,#E5484D 34%,var(--line));color:#E5484D}
+  .plan-tool.danger:hover{background:#E5484D;color:#fff;border-color:#E5484D}
+  .plan-body{flex:1;overflow-y:auto;padding:6px 16px 28px}
+
+  /* agenda (Outlook) */
+  .ag-day{display:flex;gap:12px;padding:14px 2px;border-bottom:1px dashed var(--line)}
+  .ag-date{flex:none;width:48px;display:flex;flex-direction:column;align-items:center;padding-top:4px;line-height:1}
+  .ag-dow{font-family:var(--mono);font-size:.64rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint)}
+  .ag-dnum{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;margin:3px 0}
+  .ag-mon{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint)}
+  .ag-date.ag-today .ag-dow,.ag-date.ag-today .ag-dnum,.ag-date.ag-today .ag-mon{color:var(--brand-ink)}
+  .ag-event{flex:1;position:relative;background:var(--surface);border:1px solid var(--line);
+    border-left:4px solid var(--evhue);border-radius:0 12px 12px 0;padding:11px 13px;box-shadow:var(--shadow)}
+  .ag-time{font-family:var(--mono);font-size:.7rem;color:var(--ink-faint);letter-spacing:.02em}
+  .ag-name{font-weight:650;font-size:.92rem;line-height:1.3;margin:4px 0 9px;padding-right:22px}
+  .ag-open{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:600;text-decoration:none;
+    color:var(--evhue);padding:5px 11px;border-radius:999px;border:1px solid color-mix(in srgb,var(--evhue) 38%,var(--line));
+    background:color-mix(in srgb,var(--evhue) 10%,var(--surface));transition:.15s}
+  .ag-open svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .ag-open:hover{background:var(--evhue);color:#fff;border-color:var(--evhue)}
+  .ag-remove{position:absolute;top:9px;right:9px;width:22px;height:22px;border-radius:7px;cursor:pointer;
+    display:grid;place-items:center;border:0;background:transparent;color:var(--ink-faint);font-size:.85rem;line-height:1;transition:.15s}
+  .ag-remove:hover{background:color-mix(in srgb,#E5484D 14%,transparent);color:#E5484D}
+
+  .plan-empty{text-align:center;padding:56px 24px;color:var(--ink-soft)}
+  .plan-empty .pe-ic{font-size:2.6rem;margin-bottom:10px}
+  .plan-empty p{margin:6px 0;font-size:.9rem;line-height:1.5}
+  .plan-empty .pe-plus{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:6px;
+    background:var(--gold);color:#1c1600;font-weight:700;font-size:.8rem;vertical-align:middle}
+
+  @media (max-width:560px){
+    .plan-panel{width:100vw}
+    #planBtn{font-size:0;gap:0;padding:8px 10px}
+    #planBtn .plan-count{font-size:.68rem}
+  }
+
+  /* ---------- abas de navegação (Roadmap | Conteúdos) ---------- */
+  .tabs{display:flex;gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px}
+  .tab{font-family:var(--mono);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+    text-decoration:none;color:var(--ink-soft);padding:6px 13px;border-radius:999px;transition:.15s}
+  .tab:hover{color:var(--ink)}
+  .tab[aria-current="page"]{color:#fff;background:linear-gradient(135deg,var(--mag-a),var(--mag-b));
+    box-shadow:0 0 14px -2px color-mix(in srgb,var(--mag-a) 60%,transparent)}
+  @media (max-width:640px){
+    .topbar-in{flex-wrap:wrap}
+    .tabs{order:10;width:100%;justify-content:center}
+  }
+</style>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <span class="pin" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21s7-6.3 7-11a7 7 0 0 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/>
+        </svg>
+      </span>
+      <span><b>Roadmap DIO</b><span>por onde começar</span></span>
+    </div>
+    <nav class="tabs" aria-label="Páginas do guia">
+      <a class="tab" href="index.html" aria-current="page">Roadmap</a>
+      <a class="tab" href="conteudos-dio.html">Conteúdos</a>
+    </nav>
+    <div class="spacer"></div>
+    <button class="tbtn" id="planBtn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>
+      Meu plano
+      <span class="plan-count zero" id="planCount">0</span>
+    </button>
+    <button class="tbtn" id="reset" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Todas as trilhas
+    </button>
+    <button class="tbtn icon-btn" id="theme" type="button" aria-label="Alternar tema claro/escuro" title="Alternar tema">
+      <svg id="theme-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></svg>
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+    <svg class="hero-deco" viewBox="0 0 640 300" fill="none" aria-hidden="true">
+      <!-- terreno: colinas do mapa -->
+      <path d="M0 300 V232 C 70 212 130 234 196 224 C 268 213 322 240 396 228 C 462 217 520 238 582 228 C 606 224 624 230 640 226 V300 Z" fill="currentColor" opacity=".08"/>
+      <path d="M0 300 V260 C 84 248 156 268 236 256 C 322 243 402 270 484 258 C 554 248 602 264 640 256 V300 Z" fill="currentColor" opacity=".13"/>
+      <!-- trilha sinuosa pontilhada (world map) -->
+      <path d="M60 256 C 140 256 140 214 214 214 C 288 214 286 172 356 172 C 426 172 424 126 496 126 C 540 126 536 108 554 106"
+        stroke="currentColor" stroke-width="4" stroke-dasharray="1.5 12" stroke-linecap="round"/>
+      <!-- casa inicial (ponto de partida) -->
+      <g stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M46 266 v-19 h30 v19"/>
+        <path d="M40 249 l21 -17 21 17"/>
+        <path d="M55 266 v-11 h12 v11"/>
+      </g>
+      <!-- fase concluída A -->
+      <g class="mag">
+        <circle cx="214" cy="214" r="13" fill="currentColor"/>
+        <circle cx="214" cy="214" r="5.4" fill="#fff" opacity=".85"/>
+      </g>
+      <!-- fase concluída B -->
+      <g class="gold">
+        <circle cx="356" cy="172" r="13" fill="currentColor"/>
+        <circle cx="356" cy="172" r="5.4" fill="#1A0322" opacity=".55"/>
+      </g>
+      <!-- próxima fase C -->
+      <circle cx="496" cy="126" r="12" stroke="currentColor" stroke-width="3"/>
+      <circle cx="496" cy="126" r="3.6" fill="currentColor"/>
+      <!-- moedas flutuantes -->
+      <g class="gold" fill="currentColor">
+        <circle cx="140" cy="196" r="3.4"/>
+        <circle cx="284" cy="150" r="3.4"/>
+        <circle cx="452" cy="104" r="3.4"/>
+      </g>
+      <!-- castelo (destino final) -->
+      <g stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M552 106 V72 h7 v-7 h7 v7 h7 v-7 h7 v7 h7 v-7 h7 v7 h7 V106 Z"/>
+        <path d="M574 106 V92 a7 7 0 0 1 14 0 v14"/>
+      </g>
+      <path class="gold" d="M576 65 v-18 h15 l-4.5 5 4.5 5 h-15" fill="currentColor"/>
+    </svg>
+
+    <div class="hero-in">
+    <div class="eyebrow">Guia de trilhas · plataforma DIO</div>
+    <h1>Por onde eu <span class="u">começo?</span></h1>
+    <p class="lede">Todas as formações da DIO, montadas como torres de LEGO. <b>Escolha a carreira que você quer seguir</b> e vá encaixando as peças, do zero ao avançado — cada bloco abre a formação direto na plataforma.</p>
+
+    <ul class="how">
+      <li class="step-chip"><span class="n">1</span> Escolha sua carreira</li>
+      <li class="step-chip"><span class="n">2</span> Monte a torre de baixo para cima</li>
+      <li class="step-chip"><span class="n">3</span> Clique em cada peça para abrir na DIO</li>
+    </ul>
+
+    <div class="stats">
+      <div class="stat"><div class="num">67</div><div class="lab">formações completas</div></div>
+      <div class="stat"><div class="num">15</div><div class="lab">trilhas de carreira</div></div>
+      <div class="stat"><div class="num">0</div><div class="lab">pré-requisitos para começar</div></div>
+    </div>
+    </div>
+  </section>
+
+  <main class="wrap">
+  <div class="sec-head">
+    <h2>Escolha sua carreira</h2>
+    <p>Cada trilha traz sua própria base do zero — não existe ordem “certa” entre elas. Comece pela que combina com o profissional que você quer ser.</p>
+  </div>
+
+  <div class="legend" aria-label="Legenda dos passos">
+    <span class="leg"><span class="legbrick base" aria-hidden="true"></span> Ponto de partida</span>
+    <span class="leg"><span class="legbrick core" aria-hidden="true"></span> Passo do núcleo</span>
+    <span class="leg"><span class="legplate" aria-hidden="true"></span> Escolha uma opção</span>
+    <span class="leg"><span class="legbrick opt" aria-hidden="true"></span> Opcional / complementar</span>
+  </div>
+
+  <div class="cards" id="cards"></div>
+
+  <button class="backlink" id="backlink" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    Ver todas as trilhas
+  </button>
+
+  <div id="trails"></div>
+
+  <footer>
+    <p>As 67 formações fazem parte da plataforma de ensino DIO. A ordem é uma sugestão de estudo — adapte ao seu ritmo e objetivo.</p>
+    <a class="dio" href="https://web.dio.me/" target="_blank" rel="noopener">
+      Explorar na plataforma DIO
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+    </a>
+  </footer>
+</main>
+
+<!-- ===== painel: plano de estudos (agenda estilo Outlook) ===== -->
+<div class="plan-overlay" id="planOverlay" hidden></div>
+<aside class="plan-panel" id="planPanel" aria-hidden="true" aria-label="Plano de estudos">
+  <div class="plan-head">
+    <div class="plan-head-t">
+      <div class="plan-title">🎯 Meu plano de estudos</div>
+      <div class="plan-sub" id="planSub">Nenhuma formação adicionada ainda</div>
+    </div>
+    <button class="plan-x" id="planClose" type="button" aria-label="Fechar plano">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="plan-toolbar">
+    <a class="plan-tool ghost" href="https://web.dio.me/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      Ver na plataforma
+    </a>
+    <button class="plan-tool danger" id="planReset" type="button">
+      <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 10v7M14 10v7"/></svg>
+      Resetar estudos
+    </button>
+  </div>
+  <div class="plan-body" id="planBody"></div>
+</aside>
+
+<script>
+/* ---------- theme ---------- */
+(function(){
+  var root=document.documentElement;
+  var SUN='<circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2 12h2.4M19.6 12H22M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/>';
+  var MOON='<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/>';
+  function saved(){try{return localStorage.getItem('dio-theme')}catch(e){return null}}
+  function sysDark(){return window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches}
+  function isDark(){var t=root.getAttribute('data-theme');return t?t==='dark':sysDark()}
+  function paint(){document.getElementById('theme-ic').innerHTML=isDark()?SUN:MOON}
+  var s=saved(); if(s){root.setAttribute('data-theme',s);}
+  paint();
+  document.getElementById('theme').addEventListener('click',function(){
+    var next=isDark()?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem('dio-theme',next)}catch(e){}
+    paint();
+  });
+})();
+
+/* ---------- data ---------- */
+var TRACKS={
+  1:{t:"AI Builder com Lovable",u:"https://web.dio.me/track/ai-builder-com-lovable"},
+  2:{t:"CrewAI Fundamentals",u:"https://web.dio.me/track/crew-ai-fundalmentals"},
+  3:{t:"AWS Cloud Foundations",u:"https://web.dio.me/track/formacao-aws-cloud-fundations"},
+  4:{t:"AI Automation com N8N",u:"https://web.dio.me/track/ai-automation-com-n8n"},
+  5:{t:"GitHub Copilot",u:"https://web.dio.me/track/formacao-github-copilot"},
+  6:{t:"Análise de Dados com Excel e IA",u:"https://web.dio.me/track/formacao-analise-de-dados-com-excel-e-ia"},
+  7:{t:"Neo4J: Análise de Dados com Grafos",u:"https://web.dio.me/track/formacao-neo4j-analise-de-dado-com-grafos"},
+  8:{t:"AI for Teachers",u:"https://web.dio.me/track/formacao-ai-for-teachers"},
+  9:{t:"UI/UX Designer",u:"https://web.dio.me/track/formacao-uiux-designer"},
+  10:{t:"AZ-204 Certification",u:"https://web.dio.me/track/formacao-az-204-certification"},
+  11:{t:"Databricks Data Engineer",u:"https://web.dio.me/track/formacao-databricks-data-engineer"},
+  12:{t:"AI-102 Certification",u:"https://web.dio.me/track/formacao-ai-102-certification"},
+  13:{t:"DP-100 (Microsoft)",u:"https://web.dio.me/track/formacao-dp-100-da-microsoft"},
+  14:{t:"Java Fundamentals",u:"https://web.dio.me/track/formacao-java-fundamentals"},
+  15:{t:"AWS CLF-02 Practitioner",u:"https://web.dio.me/track/formacao-aws-clf-02"},
+  16:{t:"Azure AI Fundamentals (AI-900)",u:"https://web.dio.me/track/formacao-microsoft-azure-ai-900-fundamentals"},
+  17:{t:"Python Backend Developer",u:"https://web.dio.me/track/formacao-python-backend-developer"},
+  18:{t:"Python Fundamentals",u:"https://web.dio.me/track/formacao-python-fundamentals"},
+  19:{t:"Rust Fundamentals",u:"https://web.dio.me/track/formacao-rust-fundamentals"},
+  20:{t:"Node.js Fundamentals",u:"https://web.dio.me/track/formacao-nodejs-fundamentals"},
+  21:{t:"GitHub Certification",u:"https://web.dio.me/track/formacao-github-certification"},
+  22:{t:"Microsoft AZ-900 Certification",u:"https://web.dio.me/track/formacao-microsoft-az-900-certification"},
+  23:{t:"Ruby on Rails Developer",u:"https://web.dio.me/track/formacao-ruby-rails-developer"},
+  24:{t:"Automação de Testes com Cypress",u:"https://web.dio.me/track/formacao-automacao-testes-cypress"},
+  25:{t:"Kotlin Back-end Developer",u:"https://web.dio.me/track/formacao-kotlin-backend-developer"},
+  26:{t:"Fundamentos de Inteligência Artificial",u:"https://web.dio.me/track/formacao-fundamentos-de-inteligencia-artificial"},
+  27:{t:"DevOps Fundamentals",u:"https://web.dio.me/track/formacao-devops-fundamentals"},
+  28:{t:"Lógica de Programação",u:"https://web.dio.me/track/formacao-logica-de-programacao"},
+  29:{t:"ChatGPT for Devs",u:"https://web.dio.me/track/formacao-chatgpt-devs"},
+  30:{t:"OutSystems Fundamentals",u:"https://web.dio.me/track/formacao-outsystems-fundamentals"},
+  31:{t:"Lua Developer",u:"https://web.dio.me/track/formacao-lua-developer"},
+  32:{t:"AWS Cloud Practitioner Certification",u:"https://web.dio.me/track/formacao-aws-cloud-practitioner-certification"},
+  33:{t:"Ruby Developer",u:"https://web.dio.me/track/formacao-ruby-developer"},
+  34:{t:"Web3 Fundamentals",u:"https://web.dio.me/track/formacao-web3-fundamentals"},
+  35:{t:"Unity 3D Game Developer",u:"https://web.dio.me/track/formacao-unity-3d-game-developer"},
+  36:{t:"Cybersecurity Specialist",u:"https://web.dio.me/track/formacao-cybersecurity"},
+  37:{t:"IoT Specialist",u:"https://web.dio.me/track/formacao-iot-specialist"},
+  38:{t:"Power BI Analyst",u:"https://web.dio.me/track/formacao-power-bi-analyst"},
+  39:{t:"React Native Developer",u:"https://web.dio.me/track/formacao-react-native-developer"},
+  40:{t:"CI/CD com GitLab",u:"https://web.dio.me/track/formacao-gitlab-cicd"},
+  41:{t:"Android Developer",u:"https://web.dio.me/track/formacao-android-developer"},
+  42:{t:"Go Developer",u:"https://web.dio.me/track/formacao-go-developer"},
+  43:{t:"Kubernetes Fundamentals",u:"https://web.dio.me/track/formacao-kubernetes"},
+  44:{t:"TypeScript Fullstack Developer",u:"https://web.dio.me/track/formacao-typescript-fullstack-developer"},
+  45:{t:"Programação Reativa com Spring WebFlux",u:"https://web.dio.me/track/formacao-programacao-reativa-com-spring-webflux"},
+  46:{t:"Angular Developer",u:"https://web.dio.me/track/formacao-angular-developer"},
+  47:{t:"HTML Web Developer",u:"https://web.dio.me/track/formacao-html-web-developer"},
+  48:{t:"CSS Web Developer",u:"https://web.dio.me/track/formacao-css-web-developer"},
+  49:{t:"Docker Fundamentals",u:"https://web.dio.me/track/formacao-docker-fundamentals"},
+  50:{t:"Scrum Master Certification",u:"https://web.dio.me/track/formacao-scrum-master"},
+  51:{t:"PHP Experience",u:"https://web.dio.me/track/formacao-php-experience"},
+  52:{t:"Blockchain Specialist",u:"https://web.dio.me/track/formacao-blockchain"},
+  53:{t:"Google Cloud (GCP) Specialist",u:"https://web.dio.me/track/formacao-gcp-specialist"},
+  54:{t:"Linux Fundamentals",u:"https://web.dio.me/track/formacao-linux-fundamentals"},
+  55:{t:"UX Designer",u:"https://web.dio.me/track/formacao-ux-designer"},
+  56:{t:"Flutter Specialist",u:"https://web.dio.me/track/formacao-flutter-specialist"},
+  57:{t:"Swift & iOS Experience",u:"https://web.dio.me/track/formacao-swift-and-ios-experience"},
+  58:{t:"SQL Database Specialist",u:"https://web.dio.me/track/formacao-sql-db-specialist"},
+  59:{t:"Game Developer: Roblox & Metaverse",u:"https://web.dio.me/track/formacao-game-developer-roblox"},
+  60:{t:"iOS Developer",u:"https://web.dio.me/track/formacao-ios-developer"},
+  61:{t:"Machine Learning Specialist",u:"https://web.dio.me/track/formacao-machine-learning-specialist"},
+  62:{t:"React Developer",u:"https://web.dio.me/track/formacao-react-developer"},
+  63:{t:"CRM Dynamics 365 Developer",u:"https://web.dio.me/track/formacao-dynamics-365"},
+  64:{t:"JavaScript Developer",u:"https://web.dio.me/track/formacao-javascript-developer"},
+  65:{t:"Quality Assurance (QA) Experience",u:"https://web.dio.me/track/formacao-quality-assurance-experience"},
+  66:{t:".NET Developer",u:"https://web.dio.me/track/formacao-dotnet-developer"},
+  67:{t:"Java Developer",u:"https://web.dio.me/track/formacao-java-developer"}
+};
+
+var IC={
+  frontend:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M6.5 6.5h.01M9 6.5h.01"/>',
+  backend:'<rect x="3" y="4" width="18" height="6" rx="1.6"/><rect x="3" y="14" width="18" height="6" rx="1.6"/><path d="M6.5 7h.01M6.5 17h.01"/>',
+  fullstack:'<path d="M12 3 3 7.7l9 4.7 9-4.7L12 3Z"/><path d="M3 12.3l9 4.7 9-4.7"/><path d="M3 16.8l9 4.7 9-4.7" opacity=".55"/>',
+  mobile:'<rect x="6.5" y="3" width="11" height="18" rx="2.6"/><path d="M11 18h2"/>',
+  data:'<path d="M3 21h18"/><rect x="5" y="11" width="3" height="7" rx="1"/><rect x="10.5" y="6" width="3" height="12" rx="1"/><rect x="16" y="14" width="3" height="4" rx="1"/>',
+  ai:'<path d="M12 3.2l1.7 4.9 4.9 1.7-4.9 1.7L12 16.4l-1.7-4.9L5.4 9.8l4.9-1.7L12 3.2Z"/><path d="M19 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2Z"/>',
+  wand:'<path d="M14.4 3.4l1.15 2.85L18.4 7.4l-2.85 1.15L14.4 11.4l-1.15-2.85L10.4 7.4l2.85-1.15L14.4 3.4Z"/><path d="M12.6 9.6 4.6 17.6"/><path d="M6 5v2.4M4.8 6.2h2.4"/><path d="M18.2 14.6v2M17.2 15.6h2"/>',
+  devops:'<path d="M7 18a4 4 0 0 1-.5-7.97A5 5 0 0 1 16 8.5a3.5 3.5 0 0 1 1 6.9"/><path d="M12 12v7"/><path d="M9.5 16.5 12 19l2.5-2.5"/>',
+  qa:'<circle cx="12" cy="12" r="9"/><path d="M8 12.2l2.6 2.6L16 9"/>',
+  game:'<rect x="2" y="7.5" width="20" height="9" rx="4.5"/><path d="M6.5 11v3M5 12.5h3"/><path d="M15.5 12h.01M18 13.5h.01"/>',
+  uiux:'<path d="M4.5 19.5 8 18.5 18.5 8l-3-3L5 15.5l-.5 4Z"/><path d="M14 6.5l3 3"/>',
+  emergentes:'<circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2 5.2-5.2 2 2-5.2 5.2-2Z"/>',
+  gestao:'<rect x="3" y="4" width="4.6" height="16" rx="1.2"/><rect x="9.7" y="4" width="4.6" height="10" rx="1.2"/><rect x="16.4" y="4" width="4.6" height="13" rx="1.2"/>',
+  aws:'<path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/><path d="M12 17.8v-3.4M10.2 16l1.8-1.8 1.8 1.8"/>',
+  azure:'<path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/><path d="M9.2 15.4l2 2 3.6-3.8"/>'
+};
+
+var CAREERS=[
+  {id:"frontend",name:"Front-end",hue:"#1E5FC0",icon:IC.frontend,
+   tag:"Construa o que o usuário vê: sites, telas e interações no navegador.",
+   steps:[{r:28,s:'base'},{r:47},{r:48},{r:64},{r:21},
+     {fork:"Escolha um framework",opts:[{l:"React",n:[62]},{l:"Angular",n:[46]}]},
+     {r:44},{r:9,s:'opt'}]},
+
+  {id:"backend",name:"Back-end",hue:"#0F766E",icon:IC.backend,
+   tag:"APIs, regras de negócio, bancos de dados e servidores. Escolha uma linguagem para começar.",
+   steps:[{r:28,s:'base'},
+     {fork:"Escolha uma linguagem",opts:[
+       {l:"Python",n:[18,17]},
+       {l:"Java",n:[14,67,45]},
+       {l:"JavaScript / Node",n:[64,20]},
+       {l:"C# / .NET",n:[66]},
+       {l:"Go",n:[42]},
+       {l:"Kotlin",n:[25]},
+       {l:"PHP",n:[51]},
+       {l:"Ruby",n:[33,23]},
+       {l:"Rust",n:[19]}
+     ]},
+     {r:58},{r:49}]},
+
+  {id:"fullstack",name:"Full Stack",hue:"#8B2FC9",icon:IC.fullstack,
+   tag:"Do banco de dados à interface — domine as duas pontas do desenvolvimento web.",
+   steps:[{r:28,s:'base'},{r:47},{r:48},{r:64},{r:20},{r:44},{r:62},{r:58},{r:49}]},
+
+  {id:"mobile",name:"Mobile",hue:"#D60A52",icon:IC.mobile,
+   tag:"Apps para Android, iOS e multiplataforma. Escolha por onde publicar.",
+   steps:[{r:28,s:'base'},
+     {fork:"Escolha a plataforma",opts:[
+       {l:"Android (Kotlin)",n:[25,41]},
+       {l:"iOS (Swift)",n:[57,60]},
+       {l:"Flutter",n:[56]},
+       {l:"React Native",n:[39]}
+     ]}]},
+
+  {id:"dados-ia",name:"Dados & IA",hue:"#C2410C",icon:IC.data,
+   tag:"Transforme dados em insights, dashboards e modelos de machine learning.",
+   steps:[{r:28,s:'base'},{r:18},{r:58},{r:26},{r:6},{r:38},{r:61},{r:11},{r:7,s:'opt'},
+     {d:"Certificações Azure para IA (opcional)"},
+     {r:16,s:'opt'},{r:13,s:'opt'},{r:12,s:'opt'}]},
+
+  {id:"ai-builder",name:"AI Builder / GenAI",hue:"#B800E7",icon:IC.ai,
+   tag:"Crie produtos e automações com IA — dá para começar mesmo sem saber programar.",
+   steps:[{r:26,s:'base'},{r:29},{r:5},{r:1},{r:4},{r:2},{r:8,s:'opt'}]},
+
+  {id:"ia-non-devs",name:"IA Builder for non Devs",hue:"#15803D",icon:IC.wand,
+   tag:"Crie apps, automações e análises com IA sem escrever código — feito para quem não é programador.",
+   steps:[{r:26,s:'base'},{r:1},{r:4},{r:6},{r:8,s:'opt'}]},
+
+  {id:"devops-cloud",name:"DevOps & Cloud",hue:"#3949AB",icon:IC.devops,
+   tag:"Automatize deploys, containers e infraestrutura. Escolha uma nuvem para se certificar.",
+   steps:[{r:54,s:'base'},{r:21},{r:49},{r:43},{r:40},{r:27},
+     {fork:"Escolha uma nuvem",opts:[
+       {l:"AWS",n:[3,15,32]},
+       {l:"Azure",n:[22,10]},
+       {l:"Google Cloud",n:[53]}
+     ]}]},
+
+  {id:"aws",name:"AWS Cloud",hue:"#D97706",icon:IC.aws,
+   tag:"Foque seus estudos na nuvem da Amazon — do fundamento à certificação Cloud Practitioner.",
+   steps:[{r:3,s:'base'},{r:32},{r:15},
+     {d:"Bases que reforçam seus estudos (opcional)"},
+     {r:54,s:'opt'},{r:49,s:'opt'},{r:43,s:'opt'},{r:27,s:'opt'}]},
+
+  {id:"azure",name:"Microsoft Azure",hue:"#0078D4",icon:IC.azure,
+   tag:"Foque seus estudos na nuvem da Microsoft — do fundamento AZ-900 às especializações em IA e dados.",
+   steps:[{r:22,s:'base'},{r:10},
+     {fork:"Escolha uma especialização",opts:[
+       {l:"Inteligência Artificial",n:[16,12]},
+       {l:"Dados & Machine Learning",n:[13]}
+     ]},
+     {d:"Bases que reforçam seus estudos (opcional)"},
+     {r:54,s:'opt'},{r:49,s:'opt'}]},
+
+  {id:"qa",name:"QA & Testes",hue:"#4D7C0F",icon:IC.qa,
+   tag:"Garanta qualidade de software com testes manuais e automação.",
+   steps:[{r:28,s:'base'},{r:65},{r:24}]},
+
+  {id:"game",name:"Game Dev",hue:"#CC0000",icon:IC.game,
+   tag:"Crie jogos 2D/3D e experiências no metaverso.",
+   steps:[{r:28,s:'base'},{r:35},{r:59},{r:31,s:'opt'}]},
+
+  {id:"uiux",name:"UI/UX Design",hue:"#A21CAF",icon:IC.uiux,
+   tag:"Projete interfaces e experiências centradas no usuário.",
+   steps:[{r:9,s:'base'},{r:55}]},
+
+  {id:"emergentes",name:"Especializações",hue:"#0E7490",icon:IC.emergentes,
+   tag:"Fronteiras da tecnologia — ideais depois de já ter uma primeira base de programação.",
+   steps:[
+     {fork:"Escolha uma especialização",opts:[
+       {l:"Cybersecurity",n:[36]},
+       {l:"Web3 & Blockchain",n:[34,52]},
+       {l:"IoT",n:[37]},
+       {l:"Low-code (OutSystems)",n:[30]},
+       {l:"CRM (Dynamics 365)",n:[63]}
+     ]}]},
+
+  {id:"gestao",name:"Gestão & Ágil",hue:"#475569",icon:IC.gestao,
+   tag:"Lidere times e processos ágeis — complementa qualquer trilha técnica.",
+   steps:[{r:50}]}
+];
+
+var EXT='<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+var FLAG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 5h10l-2 3 2 3H6"/></svg>';
+var GO='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+var PLUS='<svg class="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>';
+var CHECK='<svg class="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>';
+
+function refCount(c){
+  var set={};
+  c.steps.forEach(function(st){
+    if(st.r) set[st.r]=1;
+    if(st.fork) st.opts.forEach(function(o){o.n.forEach(function(r){set[r]=1;});});
+  });
+  return Object.keys(set).length;
+}
+
+function studs(count){
+  var s='<span class="studs" aria-hidden="true">';
+  for(var i=0;i<count;i++) s+='<span class="stud"></span>';
+  return s+'</span>';
+}
+
+function brick(id,variant,num,badge){
+  var tk=TRACKS[id];
+  var cls='brick'+(variant?(' '+variant):'');
+  var sc=(variant.indexOf('sub')>=0)?2:3;
+  var lead;
+  if(variant.indexOf('base')>=0){ lead='<span class="brick-num flag">'+FLAG+'</span>'; }
+  else if(num!=null){ lead='<span class="brick-num">'+num+'</span>'; }
+  else { lead=''; }
+  var bh=badge?('<span class="brick-badge">'+badge+'</span>'):'';
+  var add='<button class="add-brick" type="button" data-id="'+id+'" aria-label="Adicionar ao plano de estudos" title="Adicionar ao plano de estudos">'+PLUS+CHECK+'</button>';
+  return '<a class="'+cls+'" href="'+tk.u+'" target="_blank" rel="noopener">'
+    +studs(sc)+lead
+    +'<span class="brick-t">'+tk.t+'</span>'
+    +'<span class="brick-tail">'+bh+add+EXT+'</span></a>';
+}
+
+/* ---------- render cards ---------- */
+var cardsEl=document.getElementById('cards');
+CAREERS.forEach(function(c){
+  var b=document.createElement('button');
+  b.className='card';b.type='button';b.setAttribute('aria-pressed','false');
+  b.setAttribute('data-target',c.id);b.style.setProperty('--hue',c.hue);
+  b.innerHTML=
+    '<div class="card-top"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+c.icon+'</svg></span>'
+    +'<div><h3>'+c.name+'</h3><div class="cnt">'+refCount(c)+' formações</div></div></div>'
+    +'<p>'+c.tag+'</p>'
+    +'<div class="go">Ver trilha '+GO+'</div>';
+  cardsEl.appendChild(b);
+});
+
+/* ---------- render trails ---------- */
+var trailsEl=document.getElementById('trails');
+CAREERS.forEach(function(c){
+  var sec=document.createElement('section');
+  sec.className='trail';sec.id='trail-'+c.id;sec.style.setProperty('--hue',c.hue);
+  var forks=c.steps.filter(function(s){return s.fork;}).length;
+  var pill = forks ? '<span class="pill">'+refCount(c)+' formações · com ramificação</span>' : '<span class="pill">'+refCount(c)+' formações</span>';
+  var head='<div class="trail-head"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+c.icon+'</svg></span>'
+    +'<div><h2>'+c.name+'</h2><p class="tag">'+c.tag+'</p>'+pill+'</div></div>';
+
+  var n=0, rows='';
+  c.steps.forEach(function(st){
+    if(st.d){ rows+='<div class="plate-label">'+st.d+'</div>'; return; }
+    if(st.fork){
+      var opts='';
+      st.opts.forEach(function(o){
+        var subs='';
+        o.n.forEach(function(r,i){ subs+=brick(r,'sub',i+1,null); });
+        opts+='<div class="opt-stack"><div class="opt-label">'+o.l+'</div>'+subs+'</div>';
+      });
+      rows+='<div class="fork"><div class="fork-h"><span class="lbl">'+st.fork+'</span><span class="choose">escolha 1</span></div>'
+        +'<div class="baseplate"><div class="opts">'+opts+'</div></div></div>';
+      return;
+    }
+    if(st.s==='base'){ rows+=brick(st.r,'base',null,'comece aqui'); }
+    else if(st.s==='opt'){ n++; rows+=brick(st.r,'opt',n,'opcional'); }
+    else { n++; rows+=brick(st.r,'',n,null); }
+  });
+
+  sec.innerHTML=head+'<div class="tower">'+rows+'</div>';
+  trailsEl.appendChild(sec);
+});
+
+/* ---------- filtering ---------- */
+var cards=Array.prototype.slice.call(document.querySelectorAll('.card'));
+var trails=Array.prototype.slice.call(document.querySelectorAll('.trail'));
+var resetBtn=document.getElementById('reset');
+var backLink=document.getElementById('backlink');
+var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+function showAll(){
+  document.body.classList.remove('filtered');
+  trails.forEach(function(t){t.classList.remove('hidden');});
+  cards.forEach(function(c){c.setAttribute('aria-pressed','false');});
+  resetBtn.classList.remove('show');
+}
+function filterTo(id){
+  document.body.classList.add('filtered');
+  trails.forEach(function(t){t.classList.toggle('hidden',t.id!=='trail-'+id);});
+  cards.forEach(function(c){c.setAttribute('aria-pressed',c.getAttribute('data-target')===id?'true':'false');});
+  resetBtn.classList.add('show');
+  var target=document.getElementById('trail-'+id);
+  if(target) target.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+}
+cards.forEach(function(c){
+  c.addEventListener('click',function(){
+    var id=c.getAttribute('data-target');
+    if(c.getAttribute('aria-pressed')==='true'){showAll();}else{filterTo(id);}
+  });
+});
+resetBtn.addEventListener('click',showAll);
+backLink.addEventListener('click',function(){
+  showAll();
+  document.getElementById('cards').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+});
+
+/* ---------- plano de estudos (agenda estilo Outlook) ---------- */
+(function(){
+  var KEY='dio-study-plan';
+  var overlay=document.getElementById('planOverlay');
+  var panel=document.getElementById('planPanel');
+  var bodyEl=document.getElementById('planBody');
+  var subEl=document.getElementById('planSub');
+  var countEl=document.getElementById('planCount');
+  var DOW=['dom','seg','ter','qua','qui','sex','sáb'];
+  var MON=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+
+  function loadPlan(){ try{ return JSON.parse(localStorage.getItem(KEY))||[]; }catch(e){ return []; } }
+  function savePlan(){ try{ localStorage.setItem(KEY,JSON.stringify(plan)); }catch(e){} }
+  var plan=loadPlan();
+
+  function has(id){ return plan.some(function(x){return x.id===id;}); }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function weekdays(n){ var out=[],d=new Date(); d.setHours(0,0,0,0);
+    while(out.length<n){ var w=d.getDay(); if(w!==0&&w!==6) out.push(new Date(d)); d.setDate(d.getDate()+1); } return out; }
+
+  function syncButtons(){
+    Array.prototype.forEach.call(document.querySelectorAll('.add-brick'),function(b){
+      b.classList.toggle('in-plan',has(parseInt(b.getAttribute('data-id'),10)));
+    });
+  }
+  function updateCount(){ countEl.textContent=plan.length; countEl.classList.toggle('zero',plan.length===0); }
+
+  function render(){
+    updateCount();
+    var n=plan.length;
+    subEl.textContent = n ? (n+(n>1?' formações':' formação')+' · '+n+(n>1?' dias de estudo':' dia de estudo')) : 'Nenhuma formação adicionada ainda';
+    if(!n){
+      bodyEl.innerHTML='<div class="plan-empty"><div class="pe-ic">🗓️</div><p><b>Seu plano está vazio</b></p>'
+        +'<p>Toque no <span class="pe-plus">+</span> em qualquer bloco das trilhas para montar sua agenda de estudos.</p></div>';
+      return;
+    }
+    var days=weekdays(n), today=new Date(); today.setHours(0,0,0,0);
+    var html='';
+    plan.forEach(function(item,i){
+      var d=days[i], tk=TRACKS[item.id]||{t:'—',u:'#'};
+      var isToday=d.getTime()===today.getTime();
+      html+='<div class="ag-day">'
+        +'<div class="ag-date'+(isToday?' ag-today':'')+'">'
+          +'<span class="ag-dow">'+(isToday?'hoje':DOW[d.getDay()])+'</span>'
+          +'<span class="ag-dnum">'+d.getDate()+'</span>'
+          +'<span class="ag-mon">'+MON[d.getMonth()]+'</span></div>'
+        +'<div class="ag-event" style="--evhue:'+esc(item.hue||'#B800E7')+'">'
+          +'<button class="ag-remove" type="button" data-id="'+item.id+'" aria-label="Remover do plano" title="Remover">✕</button>'
+          +'<div class="ag-time">19:00 – 20:30 · 1h30</div>'
+          +'<div class="ag-name">'+esc(tk.t)+'</div>'
+          +'<a class="ag-open" href="'+tk.u+'" target="_blank" rel="noopener">Ver na plataforma'
+            +'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a>'
+        +'</div></div>';
+    });
+    bodyEl.innerHTML=html;
+  }
+
+  function openPanel(){ render(); overlay.hidden=false;
+    requestAnimationFrame(function(){ overlay.classList.add('show'); panel.classList.add('show'); });
+    panel.setAttribute('aria-hidden','false'); document.body.classList.add('plan-open'); }
+  function closePanel(){ overlay.classList.remove('show'); panel.classList.remove('show');
+    panel.setAttribute('aria-hidden','true'); document.body.classList.remove('plan-open');
+    setTimeout(function(){ overlay.hidden=true; },300); }
+
+  document.getElementById('planBtn').addEventListener('click',openPanel);
+  document.getElementById('planClose').addEventListener('click',closePanel);
+  overlay.addEventListener('click',closePanel);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&panel.classList.contains('show')) closePanel(); });
+
+  document.getElementById('planReset').addEventListener('click',function(){
+    if(!plan.length){ return; }
+    if(window.confirm('Resetar todo o plano de estudos? Essa ação não pode ser desfeita.')){
+      plan=[]; savePlan(); syncButtons(); render();
+    }
+  });
+
+  /* clique no "+" adiciona/remove sem abrir a plataforma */
+  document.addEventListener('click',function(e){
+    var add=e.target.closest('.add-brick');
+    if(!add) return;
+    e.preventDefault(); e.stopPropagation();
+    var id=parseInt(add.getAttribute('data-id'),10);
+    if(has(id)){ plan=plan.filter(function(x){return x.id!==id;}); }
+    else{ var hue=(getComputedStyle(add).getPropertyValue('--hue')||'').trim(); plan.push({id:id,hue:hue||'#B800E7'}); }
+    savePlan(); syncButtons();
+    if(panel.classList.contains('show')) render(); else updateCount();
+  });
+
+  /* remover a partir da agenda */
+  bodyEl.addEventListener('click',function(e){
+    var rm=e.target.closest('.ag-remove'); if(!rm) return;
+    var id=parseInt(rm.getAttribute('data-id'),10);
+    plan=plan.filter(function(x){return x.id!==id;});
+    savePlan(); syncButtons(); render();
+  });
+
+  syncButtons(); updateCount();
+})();
+</script>
