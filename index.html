@@ -126,9 +126,10 @@
   .legbrick.base::before{background:rgba(255,255,255,.6)}
   .legbrick.core{background:var(--brand);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -3px 0 rgba(0,0,0,.2),0 3px 0 -1px color-mix(in srgb,var(--brand) 55%,#000)}
   .legbrick.core::before{background:rgba(255,255,255,.6)}
-  .legbrick.opt{background:color-mix(in srgb,var(--brand) 15%,var(--surface));border:1px solid color-mix(in srgb,var(--brand) 32%,var(--line));
+  .legbrick.opt,.legbrick.ment{background:color-mix(in srgb,var(--brand) 15%,var(--surface));border:1px solid color-mix(in srgb,var(--brand) 32%,var(--line));
     box-shadow:0 3px 0 -1px color-mix(in srgb,var(--brand) 20%,var(--surface))}
-  .legbrick.opt::before{background:color-mix(in srgb,var(--brand) 45%,var(--surface))}
+  .legbrick.opt::before,.legbrick.ment::before{background:color-mix(in srgb,var(--brand) 45%,var(--surface))}
+  .legbrick.ment{border-style:dashed}
   .legplate{width:32px;height:19px;border-radius:5px;flex:none;background:var(--surface);border:1px solid var(--line-strong);
     background-image:radial-gradient(circle,var(--ink-faint) 1.4px,transparent 1.8px);background-size:8px 8px;background-position:4px 4px}
 
@@ -203,18 +204,18 @@
   .brick-badge{font-family:var(--mono);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     padding:3px 9px;border-radius:8px;background:rgba(255,255,255,.22);color:#fff;white-space:nowrap}
 
-  /* opt = translucent piece */
-  .brick.opt{background:color-mix(in srgb,var(--hue) 15%,var(--surface));color:var(--ink);
+  /* opt/ment = translucent pieces (mentoria usa a mesma pele, muda a tag) */
+  .brick.opt,.brick.ment{background:color-mix(in srgb,var(--hue) 15%,var(--surface));color:var(--ink);
     box-shadow:inset 0 2px 0 rgba(255,255,255,.5),inset 0 -4px 0 color-mix(in srgb,var(--hue) 20%,var(--surface)),
       0 5px 0 -1px color-mix(in srgb,var(--hue) 28%,var(--surface)),0 11px 16px -9px rgba(0,0,0,.3);
     border:1px solid color-mix(in srgb,var(--hue) 28%,var(--line))}
-  .brick.opt:hover{transform:translateY(-3px);
+  .brick.opt:hover,.brick.ment:hover{transform:translateY(-3px);
     box-shadow:inset 0 2px 0 rgba(255,255,255,.5),inset 0 -4px 0 color-mix(in srgb,var(--hue) 20%,var(--surface)),
       0 8px 0 -1px color-mix(in srgb,var(--hue) 28%,var(--surface)),0 16px 22px -9px rgba(0,0,0,.34)}
-  .brick.opt .stud{background:radial-gradient(circle at 50% 32%,#fff,color-mix(in srgb,var(--hue) 26%,var(--surface)) 85%);
+  .brick.opt .stud,.brick.ment .stud{background:radial-gradient(circle at 50% 32%,#fff,color-mix(in srgb,var(--hue) 26%,var(--surface)) 85%);
     box-shadow:inset 0 -2px 3px color-mix(in srgb,var(--hue) 22%,transparent),0 1px 1px rgba(0,0,0,.1)}
-  .brick.opt .brick-num{background:color-mix(in srgb,var(--huec) 18%,transparent);color:var(--huec)}
-  .brick.opt .brick-badge{background:color-mix(in srgb,var(--huec) 16%,transparent);color:var(--huec)}
+  .brick.opt .brick-num,.brick.ment .brick-num{background:color-mix(in srgb,var(--huec) 18%,transparent);color:var(--huec)}
+  .brick.opt .brick-badge,.brick.ment .brick-badge{background:color-mix(in srgb,var(--huec) 16%,transparent);color:var(--huec)}
 
   /* tag "trilha" — marca discreta e contornada, presente em todas as peças */
   .brick .brick-badge.trilha{background:transparent;border:1px solid currentColor;opacity:.75;padding:2px 8px}
@@ -367,9 +368,9 @@
     box-shadow:0 0 14px -2px color-mix(in srgb,var(--gold) 75%,transparent)}
   .add-brick.in-plan .i-plus{display:none}
   .add-brick.in-plan .i-check{display:block}
-  .brick.opt .add-brick{border-color:color-mix(in srgb,var(--huec) 45%,var(--line));
+  .brick.opt .add-brick,.brick.ment .add-brick{border-color:color-mix(in srgb,var(--huec) 45%,var(--line));
     background:color-mix(in srgb,var(--huec) 14%,var(--surface));color:var(--huec)}
-  .brick.opt .add-brick.in-plan{background:var(--gold);border-color:var(--gold);color:#1c1600}
+  .brick.opt .add-brick.in-plan,.brick.ment .add-brick.in-plan{background:var(--gold);border-color:var(--gold);color:#1c1600}
   .brick.sub .add-brick{width:22px;height:22px;border-radius:8px}
   .brick.sub .add-brick svg{width:13px;height:13px}
 
@@ -618,6 +619,7 @@
     <span class="leg"><span class="legbrick core" aria-hidden="true"></span> Passo do núcleo</span>
     <span class="leg"><span class="legplate" aria-hidden="true"></span> Escolha uma opção</span>
     <span class="leg"><span class="legbrick opt" aria-hidden="true"></span> Opcional / complementar</span>
+    <span class="leg"><span class="legbrick ment" aria-hidden="true"></span> Mentoria ao vivo</span>
   </div>
 
   <div class="cards" id="cards"></div>
@@ -644,7 +646,7 @@
   <div class="plan-head">
     <div class="plan-head-t">
       <div class="plan-title">🎯 Meu plano de estudos</div>
-      <div class="plan-sub" id="planSub">Nenhuma formação adicionada ainda</div>
+      <div class="plan-sub" id="planSub">Nenhum conteúdo adicionado ainda</div>
     </div>
     <button class="plan-x" id="planClose" type="button" aria-label="Fechar plano">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
@@ -754,7 +756,13 @@ var TRACKS={
   64:{t:"JavaScript Developer",u:"https://web.dio.me/track/formacao-javascript-developer"},
   65:{t:"Quality Assurance (QA) Experience",u:"https://web.dio.me/track/formacao-quality-assurance-experience"},
   66:{t:".NET Developer",u:"https://web.dio.me/track/formacao-dotnet-developer"},
-  67:{t:"Java Developer",u:"https://web.dio.me/track/formacao-java-developer"}
+  67:{t:"Java Developer",u:"https://web.dio.me/track/formacao-java-developer"},
+  /* mentorias ao vivo (lives) — Claude Code */
+  68:{t:"Imersão em Claude Code do Zero ao Expert",u:"https://web.dio.me/lives/imersao-em-claude-code-do-zero-ao-expert"},
+  69:{t:"Sessão 01: Setup do Claude Code para acelerar 100x a produtividade no desenvolvimento",u:"https://web.dio.me/lives/setup-do-claude-code-para-acelerar-100x-a-produtividade-no-desenvolvimento"},
+  70:{t:"Sessão 02: Construindo os Agentes de Inteligência Artificial Back-end, Front-end, QA e DevOps com Claude Code",u:"https://web.dio.me/lives/construindo-os-agentes-de-inteligencia-artificial-back-end-front-end-qa-e-devops-com-claude-code"},
+  71:{t:"Sessão 03: Criação do Kanban ao vivo para orquestração do seu time de Agentes de AI",u:"https://web.dio.me/lives/criacao-do-kanban-ao-vivo-para-orquestracao-do-seu-time-de-agentes-de-ai"},
+  72:{t:"Construindo um time de agentes de AI para prospecção de freelas",u:"https://web.dio.me/lives/construindo-um-time-de-agentes-de-ai-para-prospeccao-de-vagas-e-projetos-freelancer-em-tecnologia"}
 };
 
 var IC={
@@ -829,7 +837,9 @@ var CAREERS=[
 
   {id:"ia-developer",name:"IA Developer",hue:"#0891B2",icon:IC.iadev,
    tag:"Programe com inteligência artificial: dos fundamentos ao código assistido por IA no dia a dia.",
-   steps:[{r:26,s:'base'},{r:29},{r:5}]},
+   steps:[{r:26,s:'base'},{r:29},{r:5},
+     {d:"Mentorias ao vivo · Claude Code"},
+     {r:68,s:'ment'},{r:69,s:'ment'},{r:70,s:'ment'},{r:71,s:'ment'},{r:72,s:'ment'}]},
 
   {id:"devops-cloud",name:"DevOps & Cloud",hue:"#3949AB",icon:IC.devops,
    tag:"Automatize deploys, containers e infraestrutura. Escolha uma nuvem para se certificar.",
@@ -898,7 +908,18 @@ function careerIds(c){
   });
   return order;
 }
-function refCount(c){ return careerIds(c).length; }
+function careerCounts(c){
+  var set={}, f=0, m=0;
+  c.steps.forEach(function(st){
+    if(st.r&&!set[st.r]){ set[st.r]=1; if(st.s==='ment') m++; else f++; }
+    if(st.fork) st.opts.forEach(function(o){o.n.forEach(function(r){ if(!set[r]){ set[r]=1; f++; } });});
+  });
+  return {f:f,m:m};
+}
+function countLabel(c){
+  var cc=careerCounts(c);
+  return cc.m ? (cc.f+' formações · '+cc.m+' mentorias') : (cc.f+' formações');
+}
 
 function studs(count){
   var s='<span class="studs" aria-hidden="true">';
@@ -914,7 +935,8 @@ function brick(id,variant,num,badge){
   if(variant.indexOf('base')>=0){ lead='<span class="brick-num flag">'+FLAG+'</span>'; }
   else if(num!=null){ lead='<span class="brick-num">'+num+'</span>'; }
   else { lead=''; }
-  var bh=(badge?('<span class="brick-badge">'+badge+'</span>'):'')+'<span class="brick-badge trilha">trilha</span>';
+  var tagWord=variant.indexOf('ment')>=0?'mentoria':'trilha';
+  var bh=(badge?('<span class="brick-badge">'+badge+'</span>'):'')+'<span class="brick-badge trilha">'+tagWord+'</span>';
   var add='<button class="add-brick" type="button" data-id="'+id+'" aria-label="Adicionar ao plano de estudos" title="Adicionar ao plano de estudos">'+PLUS+CHECK+'</button>';
   return '<a class="'+cls+'" href="'+tk.u+'" target="_blank" rel="noopener">'
     +studs(sc)+lead
@@ -930,7 +952,7 @@ CAREERS.forEach(function(c){
   b.setAttribute('data-target',c.id);b.style.setProperty('--hue',c.hue);
   b.innerHTML=
     '<div class="card-top"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+c.icon+'</svg></span>'
-    +'<div><h3>'+c.name+'</h3><div class="cnt">'+refCount(c)+' formações</div></div></div>'
+    +'<div><h3>'+c.name+'</h3><div class="cnt">'+countLabel(c)+'</div></div></div>'
     +'<p>'+c.tag+'</p>'
     +'<div class="go">Ver trilha '+GO+'</div>';
   cardsEl.appendChild(b);
@@ -942,7 +964,7 @@ CAREERS.forEach(function(c){
   var sec=document.createElement('section');
   sec.className='trail';sec.id='trail-'+c.id;sec.style.setProperty('--hue',c.hue);
   var forks=c.steps.filter(function(s){return s.fork;}).length;
-  var pill = forks ? '<span class="pill">'+refCount(c)+' formações · com ramificação</span>' : '<span class="pill">'+refCount(c)+' formações</span>';
+  var pill = '<span class="pill">'+countLabel(c)+(forks?' · com ramificação':'')+'</span>';
   var allBtn='<button class="add-all" type="button" aria-pressed="false" data-ids="'+careerIds(c).join(',')+'" data-hue="'+c.hue+'" title="Adicionar todas as formações desta trilha ao Meu plano">'
     +PLUS+CHECK
     +'<span class="lbl-add">Adicionar roadmap todo</span><span class="lbl-done">Roadmap no plano</span></button>';
@@ -965,6 +987,7 @@ CAREERS.forEach(function(c){
     }
     if(st.s==='base'){ rows+=brick(st.r,'base',null,'comece aqui'); }
     else if(st.s==='opt'){ n++; rows+=brick(st.r,'opt',n,'opcional'); }
+    else if(st.s==='ment'){ n++; rows+=brick(st.r,'ment',n,null); }
     else { n++; rows+=brick(st.r,'',n,null); }
   });
 
@@ -1065,7 +1088,7 @@ backLink.addEventListener('click',function(){
   function render(animate){
     updateCount();
     var n=plan.length;
-    subEl.textContent = n ? (n+(n>1?' formações':' formação')+' no seu plano') : 'Nenhuma formação adicionada ainda';
+    subEl.textContent = n ? (n+(n>1?' conteúdos':' conteúdo')+' no seu plano') : 'Nenhum conteúdo adicionado ainda';
     if(!n){
       bodyEl.innerHTML='<div class="plan-empty"><div class="pe-ic">📚</div><p><b>Seu plano está vazio</b></p>'
         +'<p>Toque no <span class="pe-plus">+</span> em qualquer bloco das trilhas para montar seu plano de estudos.</p></div>';
@@ -1149,7 +1172,7 @@ backLink.addEventListener('click',function(){
     } else {
       var added=0;
       ids.forEach(function(id){ if(!has(id)){ plan.push({id:id,hue:hue}); added++; } });
-      if(added) toast('<b>'+added+(added>1?' formações adicionadas':' formação adicionada')+'</b> ao plano 🎉');
+      if(added) toast('<b>'+added+(added>1?' conteúdos adicionados':' conteúdo adicionado')+'</b> ao plano 🎉');
     }
     savePlan(); syncButtons();
     if(panel.classList.contains('show')) render(); else updateCount();
@@ -1217,11 +1240,11 @@ backLink.addEventListener('click',function(){
     var n=plan.length;
     var badge='https://img.shields.io/badge/%E2%96%B6%20Acessar%20meu%20conte%C3%BAdo-8A2BE2?style=for-the-badge';
     var out='# 🎯 Meu Plano de Estudos — DIO\n\n';
-    out+='![Formações](https://img.shields.io/badge/Forma%C3%A7%C3%B5es-'+n+'-8A2BE2?style=for-the-badge) ';
+    out+='![Conteúdos](https://img.shields.io/badge/Conte%C3%BAdos-'+n+'-8A2BE2?style=for-the-badge) ';
     out+='![Plataforma](https://img.shields.io/badge/Plataforma-DIO-A100FF?style=for-the-badge) ';
     out+='![Status](https://img.shields.io/badge/Status-Em%20andamento-1F9D55?style=for-the-badge)\n\n';
-    out+='> **🚀 Objetivo:** concluir estas '+n+' formações na ordem abaixo, evoluindo do básico ao avançado na plataforma DIO.\n\n';
-    out+='| # | Formação | Concluído | Acesso |\n|:--:|:--|:--:|:--:|\n';
+    out+='> **🚀 Objetivo:** concluir estes '+n+' conteúdos na ordem abaixo, evoluindo do básico ao avançado na plataforma DIO.\n\n';
+    out+='| # | Conteúdo | Concluído | Acesso |\n|:--:|:--|:--:|:--:|\n';
     plan.forEach(function(item,i){
       var tk=TRACKS[item.id]||{t:'—',u:'https://web.dio.me/'};
       out+='| '+(i+1)+' | '+mdCell(tk.t)+' | ☐ | [![Acessar meu conteúdo]('+badge+')]('+tk.u+') |\n';
