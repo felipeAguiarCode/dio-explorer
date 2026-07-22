@@ -1938,7 +1938,11 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
       +'<div class="quiz-crest-row">'+crestRow+'</div>'
       +'<div class="quiz-crest-caption">Descubra qual tipo de builder você é</div>'
       +'<button class="quiz-btn" id="quizStart" type="button">Vamos lá →</button></div>';
-    document.getElementById('quizStart').addEventListener('click',function(){
+    var quizStartBtn=document.getElementById('quizStart');
+    quizStartBtn.addEventListener('click',function(){
+      if(quizStartBtn.disabled) return;
+      quizStartBtn.disabled=true;
+      quizStartBtn.style.display='none';
       say(GREETING[1],function(){
         setTimeout(function(){ renderQuestion(0); },reduce?0:450);
       });
