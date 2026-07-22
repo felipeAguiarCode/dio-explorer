@@ -73,8 +73,6 @@
     background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:2px 6px;line-height:1.4}
   @media (max-width:820px){.searchbar-btn span{display:none}.searchbar-btn{min-width:auto}}
   .tbtn svg{width:16px;height:16px}
-  #reset{display:none}
-  #reset.show{display:inline-flex}
 
   /* ---------- hero ---------- */
   /* hero One UI: superfície escura, cantos generosos, brilho suave (paleta do projeto) */
@@ -807,10 +805,6 @@
       Meu plano
       <span class="plan-count zero" id="planCount">0</span>
     </button>
-    <button class="tbtn" id="reset" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      Todas as trilhas
-    </button>
     <div class="spacer"></div>
     <button class="tbtn searchbar-btn" id="searchBtn" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -1301,7 +1295,6 @@ CAREERS.forEach(function(c){
 /* ---------- filtering ---------- */
 var cards=Array.prototype.slice.call(document.querySelectorAll('.card'));
 var trails=Array.prototype.slice.call(document.querySelectorAll('.trail'));
-var resetBtn=document.getElementById('reset');
 var backLink=document.getElementById('backlink');
 var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
@@ -1309,13 +1302,11 @@ function showAll(){
   document.body.classList.remove('filtered');
   trails.forEach(function(t){t.classList.remove('hidden');});
   cards.forEach(function(c){c.setAttribute('aria-pressed','false');});
-  resetBtn.classList.remove('show');
 }
 function filterTo(id){
   document.body.classList.add('filtered');
   trails.forEach(function(t){t.classList.toggle('hidden',t.id!=='trail-'+id);});
   cards.forEach(function(c){c.setAttribute('aria-pressed',c.getAttribute('data-target')===id?'true':'false');});
-  resetBtn.classList.add('show');
   var target=document.getElementById('trail-'+id);
   if(target){
     if(!reduce){
@@ -1335,7 +1326,6 @@ cards.forEach(function(c){
     if(c.getAttribute('aria-pressed')==='true'){showAll();}else{filterTo(id);}
   });
 });
-resetBtn.addEventListener('click',showAll);
 backLink.addEventListener('click',function(){
   showAll();
   document.getElementById('cards').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
