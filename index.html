@@ -1502,6 +1502,30 @@
   .ag-day.lego-bar .ag-handle svg{width:16px;height:16px;fill:currentColor}
   .plan-empty{margin-top:30px;padding:44px 24px;border:1px dashed rgba(255,255,255,.16);border-radius:20px}
 
+  /* ============ cards de trilha: efeito ao passar o mouse ============ */
+  /* sobe e ganha contorno e brilho na cor da trilha; um foco de luz segue o ponteiro
+     (--mx/--my vêm do JS), o ícone salta e um reflexo cruza o card */
+  .card{position:relative;overflow:hidden;isolation:isolate;border:1px solid transparent;
+    transition:transform .35s cubic-bezier(.2,.9,.3,1.2),box-shadow .35s var(--ease),border-color .3s var(--ease),background .3s var(--ease)}
+  .card::before{content:"";position:absolute;inset:0;z-index:-1;opacity:0;transition:opacity .3s var(--ease);pointer-events:none;
+    background:radial-gradient(260px circle at var(--mx,50%) var(--my,0%),color-mix(in srgb,var(--hue) 46%,transparent),transparent 70%)}
+  .card::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
+    background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.14) 50%,transparent 62%);background-size:260% 100%;background-position:130% 0}
+  .card:hover,.card:focus-visible{transform:translateY(-8px) scale(1.02);
+    border-color:color-mix(in srgb,var(--huec) 70%,transparent);
+    box-shadow:0 24px 44px -20px #000,0 0 38px -12px var(--hue)}
+  .card:hover::before,.card:focus-visible::before{opacity:1}
+  .card:hover::after{opacity:1;animation:cardSheen .8s ease-out both}
+  @keyframes cardSheen{from{background-position:130% 0}to{background-position:-70% 0}}
+  .card .ic{transition:transform .4s cubic-bezier(.3,1.7,.5,1),box-shadow .3s var(--ease)}
+  .card:hover .ic,.card:focus-visible .ic{transform:translateY(-4px) rotate(-8deg) scale(1.14);box-shadow:0 10px 22px -8px var(--hue)}
+  .card h3{transition:color .3s var(--ease)}
+  .card:hover h3{color:#fff}
+  .card:hover .cnt{color:var(--huec)}
+  .card:hover .go svg{transform:translateX(7px)}
+  .card:active{transform:translateY(-3px) scale(.99)}
+  @media (prefers-reduced-motion:reduce){.card,.card .ic{transition:none}.card:hover,.card:focus-visible{transform:none}.card:hover .ic{transform:none}.card:hover::after{animation:none;opacity:0}}
+
 </style>
 </head>
 <body>
@@ -1984,6 +2008,13 @@ CAREERS.forEach(function(c){
     +'<p>'+c.tag+'</p>'
     +'<div class="go">Ver trilha '+GO+'</div>';
   cardsEl.appendChild(b);
+});
+/* foco de luz do card segue o ponteiro */
+cardsEl.addEventListener('pointermove',function(e){
+  var c=e.target.closest('.card'); if(!c) return;
+  var r=c.getBoundingClientRect();
+  c.style.setProperty('--mx',(e.clientX-r.left)+'px');
+  c.style.setProperty('--my',(e.clientY-r.top)+'px');
 });
 
 /* ---------- render trails ---------- */
