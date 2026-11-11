@@ -179,6 +179,27 @@
   .p-author p{margin:2px 0 0;font-size:.9rem;color:var(--ink-soft)}
   @media (max-width:560px){.p-by .p-li{font-size:0;padding:8px;gap:0}.p-by .p-li svg{width:17px;height:17px}}
 
+  /* etiquetas cromadas: metal polido com reflexo passando */
+  .sec b,.ticker-tag,.side-list em{position:relative}
+  .tile-cat,.card-cat,.sec b,.ticker-tag,.side-list em{overflow:hidden;color:#16181d;
+    background:linear-gradient(180deg,#fdfdfd 0%,#c9ccd3 28%,#f4f5f7 46%,#8b909b 54%,#d7dae0 74%,#f7f8fa 100%);
+    border:1px solid rgba(255,255,255,.75);
+    box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.28),0 2px 6px rgba(0,0,0,.45);
+    text-shadow:0 1px 0 rgba(255,255,255,.7)}
+  .sec.dark b{color:#16181d;background:linear-gradient(180deg,#fdfdfd 0%,#c9ccd3 28%,#f4f5f7 46%,#8b909b 54%,#d7dae0 74%,#f7f8fa 100%)}
+  .tile-cat::after,.card-cat::after,.sec b::after,.ticker-tag::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.85) 50%,transparent 65%);background-size:300% 100%;
+    animation:chromeShine 4.5s ease-in-out infinite}
+  @keyframes chromeShine{0%,60%{background-position:140% 0}100%{background-position:-80% 0}}
+  .tile-cat,.card-cat{border-radius:4px;letter-spacing:.08em}
+  /* linha branca em volta de cada artigo (cards, destaques e a página do artigo) */
+  .b-item{border:1px solid rgba(255,255,255,.9)}
+  .b-item:hover{border-color:#fff;box-shadow:0 18px 34px -18px #000,0 0 0 1px #fff}
+  .tile{outline:1px solid rgba(255,255,255,.9);outline-offset:-1px}
+  .post{border:1px solid rgba(255,255,255,.9);border-radius:18px;margin:34px auto 0;padding:34px 34px 30px;max-width:780px}
+  @media (max-width:820px){.post{margin:16px 12px 0;padding:22px 18px}}
+  @media (prefers-reduced-motion:reduce){.tile-cat::after,.card-cat::after,.sec b::after,.ticker-tag::after{animation:none;opacity:0}}
+
 </style>
 </head>
 <body>
@@ -620,6 +641,207 @@ git stash pop                      <span class="c"># traz de volta</span></code>
       <li><b>Formato:</b> como a resposta deve vir, por exemplo uma lista de cinco itens.</li>
     </ol>
     <p>Quem entende que o modelo é um previsor de texto com uma janela de contexto escreve pedidos melhores e desconfia na hora certa. É o que separa usar a ferramenta de depender dela.</p>
+    <p class="p-next">Voltar para <a href="#">todos os artigos</a></p>
+  </div>
+</article>
+
+<article class="post" id="chave-vazada" hidden data-tag="Segurança" data-min="4"
+  data-title="Vazou uma chave de API? O que fazer nos primeiros 30 minutos"
+  data-sub="A ordem certa importa: primeiro corte o acesso, depois descubra o estrago e só então limpe o repositório.">
+  <div class="p-cover">
+    <svg viewBox="0 0 800 360" role="img" aria-label="Capa animada: uma chave piscando em vermelho e um cronômetro correndo">
+      <rect width="800" height="360" fill="#170b08"/>
+      <g fill="none" stroke="#FF6B4A" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="210" cy="180" r="56"/><path d="M266 180 H430 M380 180 V224 M430 180 V214"/>
+        <animate attributeName="stroke" values="#FF6B4A;#ffd0c2;#FF6B4A" dur="1.2s" repeatCount="indefinite"/>
+      </g>
+      <circle cx="210" cy="180" r="18" fill="#170b08" stroke="#FF6B4A" stroke-width="8"/>
+      <circle cx="610" cy="180" r="96" fill="none" stroke="#3a2019" stroke-width="12"/>
+      <circle cx="610" cy="180" r="96" fill="none" stroke="#FFD60A" stroke-width="12" stroke-linecap="round" stroke-dasharray="603" stroke-dashoffset="603" transform="rotate(-90 610 180)">
+        <animate attributeName="stroke-dashoffset" values="603;0" dur="6s" repeatCount="indefinite"/>
+      </circle>
+      <text x="610" y="196" text-anchor="middle" fill="#fff" font-family="ui-monospace,Consolas,monospace" font-size="44" font-weight="700">30:00</text>
+    </svg>
+  </div>
+  <div class="p-body">
+    <p>Uma chave que foi parar em um repositório público costuma ser encontrada por robôs em poucos minutos. Não entre em pânico e siga esta ordem.</p>
+    <h2>1. Revogue a chave (minutos 0 a 5)</h2>
+    <p>Entre no painel do serviço dono da chave e revogue ou apague. Gere uma nova e guarde em variável de ambiente ou em um cofre de segredos, nunca no código.</p>
+    <blockquote>Apagar a linha e fazer outro commit não resolve. A chave continua no histórico do Git e em quem já copiou o repositório.</blockquote>
+    <h2>2. Veja o que foi usado (minutos 5 a 15)</h2>
+    <ul>
+      <li>Abra os registros de uso e de cobrança do serviço e procure chamadas que você não reconhece.</li>
+      <li>Confira se foram criados recursos novos: máquinas, usuários, outras chaves, regras de acesso.</li>
+      <li>Anote horários e o que foi acessado. Você vai precisar disso se houver dados de outras pessoas envolvidos.</li>
+    </ul>
+    <h2>3. Feche o que ficou aberto (minutos 15 a 25)</h2>
+    <ul>
+      <li>Apague o que foi criado sem a sua autorização.</li>
+      <li>Troque as outras credenciais que estavam no mesmo arquivo ou no mesmo ambiente.</li>
+      <li>Defina um limite de gastos e alertas de cobrança no serviço.</li>
+    </ul>
+    <h2>4. Limpe e previna (minutos 25 a 30)</h2>
+    <pre><code><span class="c"># tira o arquivo do controle de versão sem apagar do seu computador</span>
+git rm --cached .env
+echo ".env" &gt;&gt; .gitignore
+git commit -m "Remove arquivo de segredos do repositório"</code></pre>
+    <p>Para tirar do histórico existem ferramentas próprias, como o <code>git filter-repo</code>. Como a chave já foi revogada, isso é limpeza, não urgência.</p>
+    <h2>Para não repetir</h2>
+    <ul>
+      <li>Mantenha um <code>.env.example</code> só com os nomes das variáveis, sem os valores.</li>
+      <li>Ative a verificação de segredos do GitHub no repositório.</li>
+      <li>Use chaves com o mínimo de permissão e uma chave diferente para cada ambiente.</li>
+    </ul>
+    <p class="p-next">Próximo: <a href="#owasp-top-10">OWASP Top 10 em linguagem simples</a></p>
+  </div>
+</article>
+
+<article class="post" id="owasp-top-10" hidden data-tag="Segurança" data-min="6"
+  data-title="OWASP Top 10 em linguagem simples"
+  data-sub="As dez falhas mais comuns em aplicações web, com um exemplo e a correção de cada uma em uma frase.">
+  <div class="p-cover">
+    <svg viewBox="0 0 800 360" role="img" aria-label="Capa animada: dez barras numeradas acendendo uma a uma">
+      <rect width="800" height="360" fill="#0b0f1a"/>
+      <text x="60" y="92" fill="#fff" font-family="ui-monospace,Consolas,monospace" font-size="34" font-weight="700">OWASP TOP 10</text>
+      <g>
+        <rect x="60" y="130" width="60" height="170" rx="8" fill="#FF375F"><animate attributeName="opacity" values=".25;1;.25" dur="5s" begin="0s" repeatCount="indefinite"/></rect>
+        <rect x="128" y="150" width="60" height="150" rx="8" fill="#FF5A4F"><animate attributeName="opacity" values=".25;1;.25" dur="5s" begin=".5s" repeatCount="indefinite"/></rect>
+        <rect x="196" y="166" width="60" height="134" rx="8" fill="#FF7A3D"><animate attributeName="opacity" values=".25;1;.25" dur="5s" begin="1s" repeatCount="indefinite"/></rect>
+        <rect x="264" y="180" width="60" height="120" rx="8" fill="#FF9F0A"><animate attributeName="opacity" values=".25;1;.25" dur="5s" begin="1.5s" repeatCount="indefinite"/></rect>
+        <rect x="332" y="194" width="60" height="106" rx="8" fill="#FFC21A"><animate attributeName="opacity" values=".25;1;.25" dur="5s" begin="2s" repeatCount="indefinite"/></rect>
+        <rect x="400" y="206" width="60" height="94" rx="8" fill="#FFD60A"><animate attributeName="opacity" values=".25;1;.25" dur="5s" begin="2.5s" repeatCount="indefinite"/></rect>
+        <rect x="468" y="218" width="60" height="82" rx="8" fill="#C6E04A"><animate attributeName="opacity" values=".25;1;.25" dur="5s" begin="3s" repeatCount="indefinite"/></rect>
+        <rect x="536" y="230" width="60" height="70" rx="8" fill="#7ee787"><animate attributeName="opacity" values=".25;1;.25" dur="5s" begin="3.5s" repeatCount="indefinite"/></rect>
+        <rect x="604" y="242" width="60" height="58" rx="8" fill="#4FD1C5"><animate attributeName="opacity" values=".25;1;.25" dur="5s" begin="4s" repeatCount="indefinite"/></rect>
+        <rect x="672" y="254" width="60" height="46" rx="8" fill="#58a6ff"><animate attributeName="opacity" values=".25;1;.25" dur="5s" begin="4.5s" repeatCount="indefinite"/></rect>
+      </g>
+      <g font-family="ui-monospace,Consolas,monospace" font-size="15" fill="#9aa4b8" text-anchor="middle">
+        <text x="90" y="326">01</text><text x="158" y="326">02</text><text x="226" y="326">03</text><text x="294" y="326">04</text><text x="362" y="326">05</text>
+        <text x="430" y="326">06</text><text x="498" y="326">07</text><text x="566" y="326">08</text><text x="634" y="326">09</text><text x="702" y="326">10</text>
+      </g>
+    </svg>
+  </div>
+  <div class="p-body">
+    <p>A OWASP é uma fundação que publica, de tempos em tempos, a lista dos dez riscos mais comuns em aplicações web. Esta é a edição de 2021, a mais usada como referência, traduzida para o dia a dia.</p>
+    <table>
+      <tr><th>#</th><th>Risco</th><th>Na prática</th><th>Como evitar</th></tr>
+      <tr><td>1</td><td>Quebra de controle de acesso</td><td>Trocar o número na URL e ver o pedido de outra pessoa</td><td>Conferir no servidor, em toda rota, se o usuário é dono do dado</td></tr>
+      <tr><td>2</td><td>Falhas de criptografia</td><td>Senhas guardadas em texto puro; site sem HTTPS</td><td>HTTPS sempre; senhas com hash próprio para senhas, como bcrypt ou Argon2</td></tr>
+      <tr><td>3</td><td>Injeção</td><td>Um campo de busca que executa SQL ou script digitado pelo usuário</td><td>Consultas parametrizadas e validação de toda entrada</td></tr>
+      <tr><td>4</td><td>Design inseguro</td><td>"Esqueci a senha" que só pede a data de nascimento</td><td>Pensar em abuso desde o desenho da funcionalidade</td></tr>
+      <tr><td>5</td><td>Configuração insegura</td><td>Painel de administração com senha padrão; modo debug em produção</td><td>Revisar as configurações padrão e desligar o que não usa</td></tr>
+      <tr><td>6</td><td>Componentes vulneráveis</td><td>Biblioteca antiga com falha conhecida</td><td>Atualizar dependências e usar alertas automáticos</td></tr>
+      <tr><td>7</td><td>Falhas de autenticação</td><td>Login sem limite de tentativas; sessão que nunca expira</td><td>Limitar tentativas, oferecer segundo fator e expirar sessões</td></tr>
+      <tr><td>8</td><td>Falhas de integridade</td><td>Atualização ou pacote instalado sem verificar a origem</td><td>Travar versões e verificar assinaturas</td></tr>
+      <tr><td>9</td><td>Falta de registro e monitoramento</td><td>Uma invasão que ninguém percebe por meses</td><td>Registrar logins, erros e ações sensíveis, e criar alertas</td></tr>
+      <tr><td>10</td><td>Requisição forjada pelo servidor</td><td>Um campo de URL que faz o servidor acessar a rede interna</td><td>Lista de destinos permitidos para requisições feitas pelo servidor</td></tr>
+    </table>
+    <h2>Por onde começar</h2>
+    <p>Se você só puder cuidar de três coisas hoje: confira o controle de acesso em todas as rotas, use consultas parametrizadas e mantenha as dependências atualizadas. Elas cobrem boa parte dos ataques reais.</p>
+    <p class="p-next">Próximo: <a href="#phishing">Como reconhecer phishing e engenharia social</a></p>
+  </div>
+</article>
+
+<article class="post" id="phishing" hidden data-tag="Segurança" data-min="4"
+  data-title="Como reconhecer phishing e engenharia social"
+  data-sub="O ataque mais comum não quebra sistemas, convence pessoas. Sete sinais para desconfiar e o que fazer se você clicou.">
+  <div class="p-cover">
+    <svg viewBox="0 0 800 360" role="img" aria-label="Capa animada: um anzol descendo em direção a um envelope">
+      <rect width="800" height="360" fill="#081420"/>
+      <rect x="250" y="190" width="300" height="130" rx="12" fill="#0f2740" stroke="#58a6ff" stroke-width="5"/>
+      <path d="M250 200 L400 280 L550 200" fill="none" stroke="#58a6ff" stroke-width="5" stroke-linejoin="round"/>
+      <g>
+        <path d="M400 0 V110" stroke="#c9d6e6" stroke-width="3"/>
+        <path d="M400 110 V150 C400 178 440 178 440 150 L432 158 M440 150 L448 158" fill="none" stroke="#FF6B4A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <animateTransform attributeName="transform" type="translate" values="0 -60;0 40;0 -60" dur="4s" repeatCount="indefinite"/>
+      </g>
+      <text x="400" y="344" text-anchor="middle" fill="#FF6B4A" font-family="ui-monospace,Consolas,monospace" font-size="18" opacity="0">URGENTE: confirme sua senha<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.4;.6;1" dur="4s" repeatCount="indefinite"/></text>
+    </svg>
+  </div>
+  <div class="p-body">
+    <p>Phishing é uma mensagem falsa que se passa por alguém de confiança para conseguir sua senha, um código ou um pagamento. Engenharia social é o nome geral para convencer uma pessoa a fazer o que o atacante quer.</p>
+    <h2>Sete sinais para desconfiar</h2>
+    <ol>
+      <li><b>Urgência:</b> "sua conta será bloqueada em 24 horas".</li>
+      <li><b>Remetente quase certo:</b> um domínio parecido, com uma letra trocada ou um final diferente.</li>
+      <li><b>Link que não bate:</b> o texto diz uma coisa e o endereço real é outro. Passe o mouse antes de clicar.</li>
+      <li><b>Pedido fora do normal:</b> senha, código de verificação, cartão ou transferência.</li>
+      <li><b>Anexo inesperado:</b> boleto, nota fiscal ou currículo que você não pediu.</li>
+      <li><b>Autoridade:</b> alguém se dizendo da diretoria, do banco ou do suporte, pedindo sigilo.</li>
+      <li><b>Bom demais:</b> prêmio, vaga ou reembolso que você não esperava.</li>
+    </ol>
+    <h2>Golpes comuns contra quem programa</h2>
+    <ul>
+      <li>Falsa vaga que pede para você clonar e rodar um repositório como "teste técnico".</li>
+      <li>Falso aviso de segurança do GitHub ou do npm pedindo novo login.</li>
+      <li>Pacote com nome quase igual ao de uma biblioteca famosa.</li>
+      <li>Mensagem de alguém do time pedindo um token "só para testar".</li>
+    </ul>
+    <h2>A regra que resolve quase tudo</h2>
+    <blockquote>Não use o link nem o telefone que vieram na mensagem. Entre no site pelo endereço que você já conhece ou fale com a pessoa por outro canal.</blockquote>
+    <h2>Se você clicou ou digitou a senha</h2>
+    <ol>
+      <li>Troque a senha daquele serviço agora, e de outros onde usava a mesma.</li>
+      <li>Encerre as sessões abertas e revogue tokens e chaves.</li>
+      <li>Ative o segundo fator de autenticação.</li>
+      <li>Avise o time de segurança ou quem cuida das contas. Avisar rápido reduz o estrago e não é motivo de vergonha.</li>
+    </ol>
+    <p class="p-next">Próximo: <a href="#senhas-2fa">Senhas e segundo fator</a></p>
+  </div>
+</article>
+
+<article class="post" id="senhas-2fa" hidden data-tag="Segurança" data-min="3"
+  data-title="Senhas e segundo fator: o mínimo que todo dev precisa fazer"
+  data-sub="Quatro hábitos que levam uma tarde para configurar e evitam a maior parte das invasões de conta.">
+  <div class="p-cover">
+    <svg viewBox="0 0 800 360" role="img" aria-label="Capa animada: um campo de senha sendo preenchido e um cadeado fechando">
+      <rect width="800" height="360" fill="#0a1410"/>
+      <rect x="90" y="140" width="420" height="80" rx="16" fill="#0f241b" stroke="#2BFF88" stroke-width="4"/>
+      <g fill="#2BFF88">
+        <circle cx="140" cy="180" r="11" opacity="0"><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.08;.92;1" dur="5s" repeatCount="indefinite"/></circle>
+        <circle cx="190" cy="180" r="11" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.14;.2;.92;1" dur="5s" repeatCount="indefinite"/></circle>
+        <circle cx="240" cy="180" r="11" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.26;.32;.92;1" dur="5s" repeatCount="indefinite"/></circle>
+        <circle cx="290" cy="180" r="11" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.38;.44;.92;1" dur="5s" repeatCount="indefinite"/></circle>
+        <circle cx="340" cy="180" r="11" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.5;.56;.92;1" dur="5s" repeatCount="indefinite"/></circle>
+        <circle cx="390" cy="180" r="11" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.62;.68;.92;1" dur="5s" repeatCount="indefinite"/></circle>
+        <circle cx="440" cy="180" r="11" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.74;.8;.92;1" dur="5s" repeatCount="indefinite"/></circle>
+      </g>
+      <g fill="none" stroke="#2BFF88" stroke-width="10" stroke-linecap="round">
+        <rect x="590" y="170" width="120" height="100" rx="14" fill="#0f241b"/>
+        <path d="M615 170 V140 a35 35 0 0 1 70 0 V170"><animateTransform attributeName="transform" type="translate" values="0 -26;0 -26;0 0;0 0;0 -26" keyTimes="0;.8;.86;.94;1" dur="5s" repeatCount="indefinite"/></path>
+      </g>
+      <circle cx="650" cy="220" r="10" fill="#2BFF88"/>
+    </svg>
+  </div>
+  <div class="p-body">
+    <p>A maioria das contas invadidas não foi "hackeada": a senha era reutilizada, fraca ou foi entregue em um golpe. Estes quatro hábitos fecham essas portas.</p>
+    <h2>1. Uma senha diferente para cada serviço</h2>
+    <p>Quando um site vaza, os atacantes testam o mesmo e-mail e a mesma senha em todos os outros. Senha única faz o vazamento parar ali.</p>
+    <h2>2. Gerenciador de senhas</h2>
+    <p>Ninguém decora cem senhas únicas. Um gerenciador cria e guarda senhas longas e aleatórias, e você decora só a senha principal. Faça dela uma frase longa, que é fácil de lembrar e difícil de adivinhar.</p>
+    <h2>3. Segundo fator em tudo o que importa</h2>
+    <p>Com o segundo fator, a senha sozinha não basta. Comece por e-mail, GitHub, nuvem e banco.</p>
+    <table>
+      <tr><th>Tipo</th><th>Segurança</th><th>Observação</th></tr>
+      <tr><td>Chave de segurança ou passkey</td><td>Mais alta</td><td>Resiste a sites falsos</td></tr>
+      <tr><td>Aplicativo autenticador</td><td>Alta</td><td>Gera um código que muda a cada 30 segundos</td></tr>
+      <tr><td>SMS</td><td>Mais baixa</td><td>Melhor que nada, mas o número pode ser clonado</td></tr>
+    </table>
+    <blockquote>Guarde os códigos de recuperação em local seguro. Sem eles, perder o celular pode significar perder a conta.</blockquote>
+    <h2>4. Chaves SSH e tokens com prazo</h2>
+    <ul>
+      <li>Use chave SSH com senha para o Git, em vez de digitar usuário e senha.</li>
+      <li>Crie tokens com o mínimo de permissão e com data de expiração.</li>
+      <li>Revogue tokens e sessões que você não usa mais.</li>
+    </ul>
+    <h2>Checklist de uma tarde</h2>
+    <ol>
+      <li>Instale um gerenciador de senhas.</li>
+      <li>Troque a senha do e-mail principal e ative o segundo fator nele.</li>
+      <li>Repita para GitHub, nuvem e banco.</li>
+      <li>Guarde os códigos de recuperação.</li>
+      <li>Vá trocando as senhas repetidas aos poucos, conforme usar cada serviço.</li>
+    </ol>
     <p class="p-next">Voltar para <a href="#">todos os artigos</a></p>
   </div>
 </article>
