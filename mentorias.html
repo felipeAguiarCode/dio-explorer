@@ -70,15 +70,6 @@
     -webkit-background-clip:text;background-clip:text;color:transparent}
   .m-hero p.lead{margin:18px auto 0;max-width:46ch;font-size:1.2rem;line-height:1.45;color:var(--ink-soft)}
   .m-hero p.lead b{color:var(--ink);font-weight:600}
-  .next-live{display:inline-flex;align-items:center;gap:10px;margin-top:26px;max-width:100%;
-    padding:8px 16px 8px 8px;border-radius:var(--radius-pill);text-decoration:none;
-    background:var(--surface);border:1px solid var(--line-strong);font-size:.88rem;transition:background .2s var(--ease)}
-  .next-live[hidden]{display:none}
-  .next-live:hover{background:var(--surface-2)}
-  .next-live .nl-tag{flex:none;font-size:.72rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase;
-    color:#1d1d1f;background:var(--ment);border-radius:var(--radius-pill);padding:4px 10px}
-  .next-live .nl-t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
-  .next-live .nl-d{flex:none;color:var(--ink-soft)}
 
   /* ---------- seletor de tópicos (fixo sob a topbar) ---------- */
   .topics{position:sticky;top:var(--tb-h);z-index:20;background:rgba(0,0,0,.78);
@@ -256,7 +247,6 @@
     <p class="eyebrow">Mentorias &amp; lives · DIO</p>
     <h1>Escolha um tema. <em>Veja a jornada.</em></h1>
     <p class="lead" id="heroLead">Selecione um tópico e acompanhe, em ordem, todas as mentorias que já rolaram e as que estão por vir.</p>
-    <a class="next-live" id="nextLive" href="#" target="_blank" rel="noopener" hidden></a>
   </div>
 </section>
 
@@ -391,14 +381,6 @@
   var tbCount=document.getElementById('tbCount');
   tbCount.textContent=DATA.length+' mentorias · '+(TOPICS.length-1)+' tópicos';
 
-  /* próxima live (qualquer tópico) */
-  (function(){
-    var up=DATA.filter(function(m){ return m.date>=today; }).sort(function(a,b){ return a.date-b.date; })[0];
-    var el=document.getElementById('nextLive');
-    if(!up) return;
-    el.href=up.u; el.hidden=false;
-    el.innerHTML='<span class="nl-tag">Próxima live</span><span class="nl-t">'+esc(up.t)+'</span>';
-  })();
 
   /* ----- estado ----- */
   var state={topic:'ai agentes',order:'desc'};

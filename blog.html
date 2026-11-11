@@ -45,33 +45,75 @@
   .tab[aria-current="page"]{color:#fff;background:#636366;box-shadow:0 3px 8px rgba(0,0,0,.12)}
   @media (max-width:640px){.topbar-in{flex-wrap:wrap}.tabs{order:10;width:100%;justify-content:center}}
 
-  /* ---------- lista de artigos (estilo Medium) ---------- */
-  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
-  .b-head{padding:72px 0 30px;border-bottom:1px solid var(--line)}
-  .b-head .eyebrow{margin:0 0 8px;font-size:1rem;font-weight:600;color:var(--ment)}
-  .b-head h1{margin:0;font-family:var(--serif);font-weight:700;font-size:clamp(2.6rem,7vw,4.4rem);line-height:1.02;letter-spacing:-.03em}
-  .b-head p{margin:14px 0 0;max-width:46ch;font-size:1.15rem;color:var(--ink-soft)}
-  .b-filters{display:flex;flex-wrap:wrap;gap:8px;padding:20px 0 4px}
-  .b-filter{font:inherit;font-size:.84rem;font-weight:500;letter-spacing:-.01em;cursor:pointer;color:var(--ink);
-    display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:var(--radius-pill);
-    background:var(--surface);border:1px solid var(--line);transition:background .2s var(--ease),border-color .2s var(--ease)}
-  .b-filter:hover{background:var(--surface-2)}
-  .b-filter span{font-size:.72rem;color:var(--ink-faint)}
-  .b-filter[aria-pressed="true"]{background:var(--ment);border-color:var(--ment);color:#1d1d1f;font-weight:600}
-  .b-filter[aria-pressed="true"] span{color:rgba(0,0,0,.55)}
+  /* ---------- blog em estilo revista/portal: fundo claro, vermelho de destaque, mosaico de destaques ---------- */
+  .page{--red:var(--ment); --on-red:#1d1d1f; --surface-2:#161618;
+    background:var(--paper);color:var(--ink);min-height:100vh;padding-bottom:40px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  /* barra de navegação por categoria (são os filtros) */
+  .nav{background:var(--surface-2);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1120px;margin:0 auto;padding:0 22px;display:flex;align-items:stretch;gap:0;overflow-x:auto;scrollbar-width:none}
+  .nav-in::-webkit-scrollbar{display:none}
+  .b-filter{flex:none;font:inherit;font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;color:var(--ink);
+    background:transparent;border:0;padding:14px 18px;display:inline-flex;align-items:center;gap:7px;transition:background .2s,color .2s}
+  .b-filter:hover{background:rgba(255,255,255,.07)}
+  .b-filter span{font-size:.66rem;font-weight:700;color:var(--ink);background:rgba(255,255,255,.14);border-radius:99px;padding:1px 7px}
+  .b-filter[aria-pressed="true"]{background:linear-gradient(95deg,var(--ment),#FF6FB5);color:var(--on-red)}
+  .b-filter[aria-pressed="true"] span{background:rgba(0,0,0,.18);color:var(--on-red)}
+  /* faixa "em alta" com os títulos passando */
+  .ticker{display:flex;align-items:center;gap:14px;margin:18px 0;background:var(--surface);border:1px solid var(--line);min-height:42px;overflow:hidden}
+  .ticker-tag{flex:none;align-self:stretch;display:grid;place-items:center;padding:0 14px;background:var(--red);color:var(--on-red);font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .ticker a{font-size:.9rem;font-weight:600;color:var(--ink);text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;animation:tickIn .5s ease both}
+  .ticker a:hover{color:var(--red)}
+  @keyframes tickIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  /* mosaico de destaques: um grande à esquerda e três menores à direita */
+  .mosaic{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:230px 230px;gap:6px;margin-bottom:34px}
+  .tile{position:relative;overflow:hidden;display:block;text-decoration:none;color:#fff;background:#111}
+  .tile:nth-child(1){grid-row:1 / 3}
+  .tile:nth-child(4){grid-column:2 / 4}
+  .tile svg{position:absolute;inset:0;width:100%;height:100%;display:block;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+  .tile:hover svg{transform:scale(1.07)}
+  .tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 30%,rgba(0,0,0,.86) 100%)}
+  .tile-cat,.card-cat{position:absolute;z-index:2;left:12px;top:12px;font-size:.66rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    background:var(--red);color:var(--on-red);padding:3px 9px;border-radius:3px}
+  .tile-txt{position:absolute;z-index:2;left:16px;right:16px;bottom:14px}
+  .tile-txt b{display:block;font-size:1.02rem;font-weight:800;line-height:1.2;letter-spacing:-.02em}
+  .tile:nth-child(1) .tile-txt b{font-size:1.75rem;line-height:1.12}
+  .tile-txt span{display:block;margin-top:6px;font-size:.72rem;opacity:.85}
+  /* cabeçalho de seção com etiqueta vermelha */
+  .sec{display:flex;align-items:center;justify-content:space-between;background:var(--surface-2);margin:0 0 18px;border-left:0}
+  .sec b{background:var(--red);color:var(--on-red);font-size:.74rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:9px 14px}
+  .sec.dark b{background:#636366;color:#fff}
+  .sec span{font-size:.76rem;color:var(--ink-soft);padding-right:12px}
+  .cols{display:grid;grid-template-columns:1fr 300px;gap:34px;align-items:start}
+  /* cards da lista */
+  .b-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  .b-item{background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+  .b-item:hover{transform:translateY(-4px);box-shadow:0 18px 34px -18px #000;border-color:color-mix(in srgb,var(--ment) 50%,transparent)}
+  .b-item a{text-decoration:none;color:inherit}
+  .b-thumb{position:relative;display:block;aspect-ratio:800/360;overflow:hidden;background:#111}
+  .b-thumb svg{display:block;width:100%;height:100%;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+  .b-item:hover .b-thumb svg{transform:scale(1.06)}
+  .b-txt{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .b-item h2{margin:0;font-size:1.15rem;font-weight:800;line-height:1.22;letter-spacing:-.02em}
+  .b-item a.b-link:hover h2{color:var(--red)}
+  .b-item p{margin:0;font-size:.9rem;line-height:1.45;color:var(--ink-soft);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .b-meta{margin-top:auto;padding-top:6px;font-size:.74rem;color:var(--ink-faint)}
   .b-empty{color:var(--ink-soft);padding:30px 0}
-  .b-list{list-style:none;margin:0;padding:0;max-width:820px}
-  .b-item{display:grid;grid-template-columns:1fr 240px;gap:28px;align-items:center;padding:30px 0;border-bottom:1px solid var(--line)}
-  .b-item a{text-decoration:none}
-  .b-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.8rem;color:var(--ink-faint);margin-bottom:8px}
-  .b-tag{font-weight:600;color:var(--ink);background:var(--fill);border-radius:var(--radius-pill);padding:2px 10px}
-  .b-item h2{margin:0 0 6px;font-family:var(--serif);font-weight:700;font-size:1.6rem;line-height:1.18;letter-spacing:-.02em}
-  .b-item p{margin:0;font-size:1rem;line-height:1.45;color:var(--ink-soft);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .b-item a.b-link:hover h2{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
-  .b-thumb{display:block;border-radius:12px;overflow:hidden;border:1px solid var(--line);transition:transform .3s var(--ease)}
-  .b-thumb:hover{transform:scale(1.03)}
-  .b-thumb svg,.p-cover svg{display:block;width:100%;height:auto}
-  @media (max-width:640px){.b-item{grid-template-columns:1fr}.b-thumb{order:-1}}
+  /* lateral */
+  .side-box{background:var(--surface);border:1px solid var(--line);margin-bottom:22px}
+  .side-list{list-style:none;margin:0;padding:6px 14px 10px}
+  .side-list li{border-bottom:1px solid var(--line)}
+  .side-list li:last-child{border-bottom:0}
+  .side-list a,.side-list button{font:inherit;width:100%;display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 0;font-size:.9rem;font-weight:600;
+    color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;text-align:left}
+  .side-list a:hover,.side-list button:hover{color:var(--red)}
+  .side-list em{font-style:normal;font-size:.7rem;font-weight:700;color:var(--on-red);background:var(--red);border-radius:99px;padding:1px 8px}
+  .side-list small{font-size:.72rem;color:var(--ink-faint);font-weight:500}
+  @media (max-width:900px){.cols{grid-template-columns:1fr}.mosaic{grid-template-columns:1fr 1fr;grid-template-rows:260px 180px 180px}
+    .tile:nth-child(1){grid-row:auto;grid-column:1 / 3}.tile:nth-child(4){grid-column:1 / 3}}
+  @media (max-width:560px){.b-list{grid-template-columns:1fr}.logo{font-size:1.8rem}.tile:nth-child(1) .tile-txt b{font-size:1.3rem}}
+  .page .p-by .dot{background:var(--brand)}
+
 
   /* ---------- artigo ---------- */
   .post{max-width:720px;margin:0 auto;padding:44px 22px 0}
@@ -116,6 +158,27 @@
   footer p{margin:0;font-size:.78rem;color:var(--ink-faint)}
 
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.b-thumb{transition:none}}
+  /* autor: foto do GitHub, nome e link para o LinkedIn */
+  .p-by{gap:12px}
+  .p-ava{width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none;background:var(--surface)}
+  .p-by-t{display:flex;flex-direction:column;line-height:1.25;flex:1;min-width:0}
+  .p-by-t small{font-size:.78rem;color:var(--ink-faint)}
+  .p-li{flex:none;display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:.8rem;font-weight:600;text-decoration:none;
+    color:#fff;border:1px solid var(--line-strong);border-radius:var(--radius-pill);padding:7px 14px;transition:background .2s,border-color .2s}
+  .p-li svg{width:15px;height:15px;color:#0A66C2}
+  .p-li:hover{background:#0A66C2;border-color:#0A66C2}
+  .p-li:hover svg{color:#fff}
+  .p-li.solid{background:#0A66C2;border-color:#0A66C2}
+  .p-li.solid svg{color:#fff}
+  .p-li.solid:hover{filter:brightness(1.12)}
+  .p-author{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:44px 0 0;padding:20px;border-radius:16px;background:var(--surface);border:1px solid var(--line);font-family:var(--sans)}
+  .p-author img{width:64px;height:64px;border-radius:50%;object-fit:cover;flex:none}
+  .p-author div{flex:1;min-width:180px}
+  .p-author small{display:block;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+  .p-author b{font-size:1.15rem}
+  .p-author p{margin:2px 0 0;font-size:.9rem;color:var(--ink-soft)}
+  @media (max-width:560px){.p-by .p-li{font-size:0;padding:8px;gap:0}.p-by .p-li svg{width:17px;height:17px}}
+
 </style>
 </head>
 <body>
@@ -137,19 +200,128 @@
   </div>
 </header>
 
-<!-- ===== lista ===== -->
-<main class="wrap" id="home">
-  <div class="b-head">
-    <p class="eyebrow">Blog · DIO</p>
-    <h1>Direto ao ponto.</h1>
-    <p>Guias curtos para quem está começando em tecnologia. Sem enrolação: o que é, como instalar e como usar.</p>
-  </div>
-  <div class="b-filters" id="filters" role="group" aria-label="Filtrar artigos"></div>
-  <ul class="b-list" id="list"></ul>
-  <p class="b-empty" id="empty" hidden>Nenhum artigo nesse filtro.</p>
-</main>
+<div class="page">
+<!-- ===== lista (estilo portal/revista) ===== -->
+<div id="home">
+  <nav class="nav" aria-label="Categorias"><div class="nav-in" id="filters" role="group"></div></nav>
+  <main class="wrap">
+    <div class="ticker"><span class="ticker-tag">Em alta</span><a id="tick" href="#"></a></div>
+    <div class="mosaic" id="mosaic"></div>
+    <div class="cols">
+      <div>
+        <div class="sec"><b id="secTitle">Últimos artigos</b><span id="secCount"></span></div>
+        <ul class="b-list" id="list"></ul>
+        <p class="b-empty" id="empty" hidden>Nenhum artigo nessa categoria.</p>
+      </div>
+      <aside>
+        <div class="side-box"><div class="sec dark"><b>Categorias</b></div><ul class="side-list" id="sideCats"></ul></div>
+        <div class="side-box"><div class="sec dark"><b>Consulta rápida</b></div><ul class="side-list" id="sideCheat"></ul></div>
+      </aside>
+    </div>
+  </main>
+</div>
 
 <!-- ===== artigos ===== -->
+
+<article class="post" id="prompts-seguranca" hidden data-tag="Segurança" data-min="4"
+  data-title="3 prompts para verificar se sua aplicação não está comprometida"
+  data-sub="Copie, cole no seu assistente de código e descubra segredos expostos, código suspeito e portas abertas antes que alguém descubra por você.">
+  <div class="p-cover">
+    <svg viewBox="0 0 800 360" role="img" aria-label="Capa animada: um escudo sendo varrido por uma linha de verificação">
+      <rect width="800" height="360" fill="#160a0c"/>
+      <g fill="none" stroke="#3a1a1f" stroke-width="1">
+        <path d="M0 60H800M0 120H800M0 180H800M0 240H800M0 300H800M100 0V360M200 0V360M300 0V360M400 0V360M500 0V360M600 0V360M700 0V360"/>
+      </g>
+      <path d="M400 50 L520 92 V178 C520 248 468 292 400 316 C332 292 280 248 280 178 V92 Z" fill="#22090d" stroke="#E5343D" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M350 182 L388 220 L456 146" fill="none" stroke="#7ee787" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="160" stroke-dashoffset="160">
+        <animate attributeName="stroke-dashoffset" values="160;160;0;0;160" keyTimes="0;.55;.7;.94;1" dur="5s" repeatCount="indefinite"/>
+      </path>
+      <rect x="270" y="50" width="260" height="6" fill="#ff6b72" opacity=".9">
+        <animate attributeName="y" values="50;312;50" keyTimes="0;.5;1" dur="5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".9;.9;0;0;.9" keyTimes="0;.5;.55;.95;1" dur="5s" repeatCount="indefinite"/>
+      </rect>
+      <g font-family="ui-monospace,Consolas,monospace" font-size="18" fill="#ff9aa0">
+        <text x="60" y="110">$ verificar segredos</text><text x="60" y="180">$ verificar código</text><text x="60" y="250">$ verificar acessos</text>
+      </g>
+      <g font-family="ui-monospace,Consolas,monospace" font-size="18" font-weight="700" fill="#7ee787">
+        <text x="600" y="110" opacity="0">OK<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.18;.22;.94;1" dur="5s" repeatCount="indefinite"/></text>
+        <text x="600" y="180" opacity="0">OK<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.34;.38;.94;1" dur="5s" repeatCount="indefinite"/></text>
+        <text x="600" y="250" opacity="0">OK<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.5;.54;.94;1" dur="5s" repeatCount="indefinite"/></text>
+      </g>
+    </svg>
+  </div>
+  <div class="p-body">
+    <p>Você publicou uma aplicação feita com ajuda de IA e não tem certeza se ela está segura? Estes três prompts funcionam em qualquer assistente que leia o seu projeto, como Claude Code, Codex ou Copilot. Rode um de cada vez, na pasta raiz do repositório.</p>
+    <blockquote>Os prompts pedem só leitura e relatório. Deixe o assistente corrigir depois que você ler o que ele encontrou.</blockquote>
+
+    <h2>1. Segredos expostos</h2>
+    <p>A falha mais comum: uma chave de API ou senha que foi parar no código ou no histórico do Git.</p>
+    <pre><code>Faça uma auditoria de segredos neste repositório, sem alterar nenhum arquivo.
+
+Procure por chaves de API, tokens, senhas, strings de conexão de banco
+e chaves privadas em:
+1. todos os arquivos do projeto, incluindo configurações e exemplos;
+2. o histórico do Git (git log -p), mesmo em arquivos já apagados;
+3. arquivos .env que estejam versionados ou fora do .gitignore;
+4. código de front-end que seja enviado ao navegador.
+
+Para cada achado, informe: arquivo e linha, tipo de segredo, se ainda
+parece válido e o que fazer (revogar, trocar, mover para variável de
+ambiente). Nunca escreva o segredo inteiro na resposta: mostre só os
+4 primeiros caracteres.</code></pre>
+    <p><b>Se encontrar algo:</b> revogue e gere a chave de novo no serviço de origem. Apagar do código não basta, porque ela continua no histórico.</p>
+
+    <h2>2. Código e dependências suspeitos</h2>
+    <p>Aqui a pergunta é outra: existe algo no projeto que você não escreveu e não sabe o que faz?</p>
+    <pre><code>Revise este projeto em busca de sinais de comprometimento, sem alterar
+nenhum arquivo.
+
+Verifique:
+1. dependências: pacotes com nome parecido com o de pacotes famosos,
+   pacotes pouco conhecidos, versões sem trava e scripts de instalação
+   (postinstall e similares);
+2. código ofuscado ou codificado: eval, Function, base64 longo, strings
+   montadas em pedaços, arquivos minificados fora da pasta de build;
+3. chamadas de rede para endereços que não fazem parte do produto;
+4. comandos de sistema, leitura de variáveis de ambiente ou de arquivos
+   sensíveis sem motivo claro;
+5. mudanças recentes no Git que não combinam com o restante do projeto.
+
+Liste cada item com arquivo, linha, por que é suspeito e o nível de
+risco (alto, médio ou baixo). Diga também o que você verificou e não
+encontrou problema.</code></pre>
+    <p><b>Se encontrar algo:</b> não apague de imediato. Descubra quando entrou (<code>git log</code> no arquivo) e o que ele pode ter acessado.</p>
+
+    <h2>3. Acessos e portas abertas</h2>
+    <p>Por fim, o que um visitante mal-intencionado conseguiria fazer usando a aplicação do jeito que ela está.</p>
+    <pre><code>Analise esta aplicação do ponto de vista de um atacante, sem alterar
+nenhum arquivo e sem executar ataques.
+
+Mapeie:
+1. todas as rotas e endpoints, e quais funcionam sem login;
+2. rotas que confiam em dados enviados pelo cliente para decidir quem
+   é o usuário ou o que ele pode ver (id na URL, papel no corpo);
+3. entradas que chegam ao banco, ao sistema de arquivos ou ao HTML sem
+   validação (injeção de SQL, de comandos e XSS);
+4. regras de acesso do banco e do armazenamento de arquivos que estejam
+   públicas;
+5. configurações inseguras: CORS aberto, modo debug ligado, mensagens
+   de erro que mostram detalhes internos, uploads sem limite.
+
+Entregue uma tabela com: ponto fraco, onde está, como seria explorado
+em uma frase e a correção recomendada, ordenada do mais grave ao menos
+grave.</code></pre>
+    <p><b>Se encontrar algo:</b> comece pelo que dá acesso a dados de outras pessoas. É o que mais causa prejuízo.</p>
+
+    <h2>O que esses prompts não fazem</h2>
+    <ul>
+      <li>Não veem o que está fora do repositório: servidor, painel da nuvem e logs de acesso precisam ser conferidos à parte.</li>
+      <li>Podem errar para os dois lados: apontar um problema que não existe ou deixar um passar. Trate o relatório como uma lista do que investigar.</li>
+      <li>Não substituem ferramentas próprias de segurança nem a revisão de alguém da área em aplicações com dados sensíveis.</li>
+    </ul>
+    <p class="p-next">Próximo: <a href="#llm">O que é um LLM e como ele funciona</a></p>
+  </div>
+</article>
 
 <article class="post" id="git" hidden data-tag="Ferramentas" data-min="8"
   data-title="Git do zero: da instalação aos comandos do dia a dia"
@@ -639,28 +811,242 @@ git stash pop                      <span class="c"># traz de volta</span></code>
   </div>
 </article>
 
+<article class="post" id="cheatsheet-claude-code" hidden data-tag="Cheatsheet" data-min="3"
+  data-title="Cheatsheet de Claude Code"
+  data-sub="Instalação, comandos de terminal, comandos de barra e atalhos do assistente de código da Anthropic.">
+  <div class="p-cover">
+    <svg viewBox="0 0 800 360" role="img" aria-label="Capa animada: comandos de barra do Claude Code aparecendo em um terminal">
+      <rect width="800" height="360" fill="#17100c"/>
+      <text x="60" y="96" fill="#EDA486" font-family="ui-monospace,Consolas,monospace" font-size="30" font-weight="700">CHEATSHEET // CLAUDE CODE</text>
+      <g font-family="ui-monospace,Consolas,monospace" font-size="26" fill="#f5f5f7">
+        <text x="60" y="170">$ claude</text>
+        <text x="60" y="216" fill="#EDA486" opacity="0">&gt; /init<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.2;.28;.92;1" dur="6s" repeatCount="indefinite"/></text>
+        <text x="60" y="262" fill="#EDA486" opacity="0">&gt; /model<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.45;.53;.92;1" dur="6s" repeatCount="indefinite"/></text>
+        <text x="60" y="308" opacity="0">&gt; corrija o teste que falha<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.7;.78;.92;1" dur="6s" repeatCount="indefinite"/></text>
+      </g>
+      <g fill="#EDA486"><circle cx="700" cy="180" r="10"><animate attributeName="r" values="10;22;10" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;.3;1" dur="2s" repeatCount="indefinite"/></circle></g>
+    </svg>
+  </div>
+  <div class="p-body">
+    <p>Os comandos mudam entre versões. Dentro do Claude Code, <code>/help</code> mostra a lista da versão instalada.</p>
+    <h2>Instalar e abrir</h2>
+    <table>
+      <tr><td><code>npm install -g @anthropic-ai/claude-code</code></td><td>Instala (precisa do Node.js)</td></tr>
+      <tr><td><code>claude</code></td><td>Abre uma sessão na pasta atual</td></tr>
+      <tr><td><code>claude "explique este projeto"</code></td><td>Abre já com um pedido</td></tr>
+      <tr><td><code>claude -p "pedido"</code></td><td>Responde e sai, sem sessão interativa</td></tr>
+      <tr><td><code>claude -c</code></td><td>Continua a conversa mais recente</td></tr>
+      <tr><td><code>claude -r</code></td><td>Escolhe uma conversa antiga para retomar</td></tr>
+      <tr><td><code>claude update</code></td><td>Atualiza para a versão mais nova</td></tr>
+    </table>
+    <h2>Comandos de barra</h2>
+    <table>
+      <tr><td><code>/help</code></td><td>Lista os comandos disponíveis</td></tr>
+      <tr><td><code>/init</code></td><td>Cria o <code>CLAUDE.md</code> com as instruções do projeto</td></tr>
+      <tr><td><code>/clear</code></td><td>Limpa a conversa e começa do zero</td></tr>
+      <tr><td><code>/compact</code></td><td>Resume a conversa para liberar contexto</td></tr>
+      <tr><td><code>/model</code></td><td>Troca o modelo</td></tr>
+      <tr><td><code>/memory</code></td><td>Edita os arquivos de memória</td></tr>
+      <tr><td><code>/permissions</code></td><td>Define o que pode rodar sem pedir confirmação</td></tr>
+      <tr><td><code>/mcp</code></td><td>Gerencia as conexões com ferramentas externas</td></tr>
+      <tr><td><code>/agents</code></td><td>Cria e gerencia subagentes</td></tr>
+      <tr><td><code>/review</code></td><td>Revisa as mudanças de código</td></tr>
+      <tr><td><code>/resume</code></td><td>Retoma uma conversa anterior</td></tr>
+    </table>
+    <h2>Durante a conversa</h2>
+    <table>
+      <tr><td><code>@caminho/arquivo</code></td><td>Aponta um arquivo ou pasta no pedido</td></tr>
+      <tr><td><code>!comando</code></td><td>Roda um comando de terminal na própria sessão</td></tr>
+      <tr><td><code>Esc</code></td><td>Interrompe o que ele está fazendo</td></tr>
+      <tr><td><code>Esc</code> duas vezes</td><td>Volta a um ponto anterior da conversa</td></tr>
+      <tr><td><code>Shift+Tab</code></td><td>Alterna o modo: normal, aceitar edições e planejamento</td></tr>
+      <tr><td><code>Ctrl+C</code></td><td>Cancela; duas vezes, sai</td></tr>
+    </table>
+    <h2>Arquivos que ele lê</h2>
+    <table>
+      <tr><td><code>CLAUDE.md</code></td><td>Instruções do projeto: comandos de build, padrões e o que evitar</td></tr>
+      <tr><td><code>.claude/settings.json</code></td><td>Permissões e configurações do projeto</td></tr>
+      <tr><td><code>.claude/commands/</code></td><td>Seus próprios comandos de barra</td></tr>
+    </table>
+    <blockquote>Peça o plano antes do código em mudanças grandes: use o modo de planejamento, leia e só então aprove.</blockquote>
+    <p class="p-next">Próximo: <a href="#cheatsheet-codex">Cheatsheet de Codex</a></p>
+  </div>
+</article>
+
+<article class="post" id="cheatsheet-codex" hidden data-tag="Cheatsheet" data-min="3"
+  data-title="Cheatsheet de Codex"
+  data-sub="Instalação, modos de aprovação e os comandos do Codex CLI, o assistente de código da OpenAI no terminal.">
+  <div class="p-cover">
+    <svg viewBox="0 0 800 360" role="img" aria-label="Capa animada: sinais de maior e menor formando um colchete de código que pulsa">
+      <rect width="800" height="360" fill="#0a1416"/>
+      <text x="60" y="96" fill="#19c2a0" font-family="ui-monospace,Consolas,monospace" font-size="30" font-weight="700">CHEATSHEET // CODEX</text>
+      <g fill="none" stroke="#19c2a0" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M520 150 L460 215 L520 280"><animate attributeName="stroke-opacity" values="1;.3;1" dur="2s" repeatCount="indefinite"/></path>
+        <path d="M640 150 L700 215 L640 280"><animate attributeName="stroke-opacity" values=".3;1;.3" dur="2s" repeatCount="indefinite"/></path>
+        <path d="M600 140 L560 290" stroke="#fff"/>
+      </g>
+      <g font-family="ui-monospace,Consolas,monospace" font-size="26" fill="#e7fffa">
+        <text x="60" y="180">$ codex</text>
+        <text x="60" y="230" opacity="0">&gt; /approvals<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.25;.33;.92;1" dur="6s" repeatCount="indefinite"/></text>
+        <text x="60" y="280" opacity="0">&gt; /diff<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.55;.63;.92;1" dur="6s" repeatCount="indefinite"/></text>
+      </g>
+    </svg>
+  </div>
+  <div class="p-body">
+    <p>O Codex CLI muda rápido. Confira <code>codex --help</code> e <code>/help</code> para ver o que existe na sua versão.</p>
+    <h2>Instalar e abrir</h2>
+    <table>
+      <tr><td><code>npm install -g @openai/codex</code></td><td>Instala (precisa do Node.js)</td></tr>
+      <tr><td><code>codex login</code></td><td>Entra com a sua conta</td></tr>
+      <tr><td><code>codex</code></td><td>Abre uma sessão na pasta atual</td></tr>
+      <tr><td><code>codex "explique este projeto"</code></td><td>Abre já com um pedido</td></tr>
+      <tr><td><code>codex exec "pedido"</code></td><td>Executa e sai, sem sessão interativa</td></tr>
+      <tr><td><code>codex resume</code></td><td>Retoma uma conversa anterior</td></tr>
+      <tr><td><code>codex -m &lt;modelo&gt;</code></td><td>Abre com um modelo específico</td></tr>
+    </table>
+    <h2>Comandos de barra</h2>
+    <table>
+      <tr><td><code>/init</code></td><td>Cria o <code>AGENTS.md</code> com as instruções do projeto</td></tr>
+      <tr><td><code>/model</code></td><td>Troca o modelo e o nível de raciocínio</td></tr>
+      <tr><td><code>/approvals</code></td><td>Define o que ele pode fazer sem perguntar</td></tr>
+      <tr><td><code>/diff</code></td><td>Mostra as mudanças feitas nos arquivos</td></tr>
+      <tr><td><code>/review</code></td><td>Revisa as mudanças atuais</td></tr>
+      <tr><td><code>/compact</code></td><td>Resume a conversa para liberar contexto</td></tr>
+      <tr><td><code>/new</code></td><td>Começa uma conversa nova</td></tr>
+      <tr><td><code>/status</code></td><td>Mostra modelo, permissões e uso da sessão</td></tr>
+      <tr><td><code>/mention</code></td><td>Aponta um arquivo no pedido</td></tr>
+    </table>
+    <h2>Quanto ele pode fazer sozinho</h2>
+    <table>
+      <tr><th>Modo</th><th>O que permite</th></tr>
+      <tr><td>Somente leitura</td><td>Lê o projeto e responde; pede autorização para editar ou rodar comandos</td></tr>
+      <tr><td>Automático na pasta</td><td>Edita e roda comandos dentro do projeto; pede autorização para sair dele ou usar a rede</td></tr>
+      <tr><td>Acesso total</td><td>Faz tudo sem perguntar. Use só em ambiente isolado</td></tr>
+    </table>
+    <h2>Arquivos que ele lê</h2>
+    <table>
+      <tr><td><code>AGENTS.md</code></td><td>Instruções do projeto: como rodar, testar e o que evitar</td></tr>
+      <tr><td><code>~/.codex/config.toml</code></td><td>Configuração geral: modelo padrão, aprovações e ferramentas</td></tr>
+    </table>
+    <blockquote>Comece no modo mais restrito. Libere mais autonomia só depois de ver como ele trabalha no seu projeto.</blockquote>
+    <p class="p-next">Próximo: <a href="#cheatsheet-docker">Cheatsheet de Docker</a></p>
+  </div>
+</article>
+
+<article class="post" id="cheatsheet-docker" hidden data-tag="Cheatsheet" data-min="3"
+  data-title="Cheatsheet de Docker"
+  data-sub="Imagens, containers, volumes e Compose: os comandos para rodar qualquer aplicação em container.">
+  <div class="p-cover">
+    <svg viewBox="0 0 800 360" role="img" aria-label="Capa animada: containers sendo empilhados um a um">
+      <rect width="800" height="360" fill="#06131f"/>
+      <text x="60" y="96" fill="#2496ED" font-family="ui-monospace,Consolas,monospace" font-size="30" font-weight="700">CHEATSHEET // DOCKER</text>
+      <g stroke="#06131f" stroke-width="4">
+        <rect x="430" y="250" width="90" height="56" rx="6" fill="#2496ED"/>
+        <rect x="524" y="250" width="90" height="56" rx="6" fill="#2496ED"/>
+        <rect x="618" y="250" width="90" height="56" rx="6" fill="#2496ED"/>
+        <rect x="477" y="190" width="90" height="56" rx="6" fill="#58b4f5" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.15;.25;.92;1" dur="6s" repeatCount="indefinite"/><animate attributeName="y" values="120;120;190;190;190" keyTimes="0;.15;.25;.92;1" dur="6s" repeatCount="indefinite"/></rect>
+        <rect x="571" y="190" width="90" height="56" rx="6" fill="#58b4f5" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.4;.5;.92;1" dur="6s" repeatCount="indefinite"/><animate attributeName="y" values="120;120;190;190;190" keyTimes="0;.4;.5;.92;1" dur="6s" repeatCount="indefinite"/></rect>
+        <rect x="524" y="130" width="90" height="56" rx="6" fill="#9ad3fb" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.65;.75;.92;1" dur="6s" repeatCount="indefinite"/><animate attributeName="y" values="60;60;130;130;130" keyTimes="0;.65;.75;.92;1" dur="6s" repeatCount="indefinite"/></rect>
+      </g>
+      <path d="M400 316 H740" stroke="#2496ED" stroke-width="6" stroke-linecap="round"/>
+      <g font-family="ui-monospace,Consolas,monospace" font-size="24" fill="#dff1ff">
+        <text x="60" y="190">$ docker build</text><text x="60" y="236">$ docker run</text><text x="60" y="282">$ docker ps</text>
+      </g>
+    </svg>
+  </div>
+  <div class="p-body">
+    <h2>Imagens</h2>
+    <table>
+      <tr><td><code>docker pull nginx</code></td><td>Baixa uma imagem</td></tr>
+      <tr><td><code>docker images</code></td><td>Lista as imagens baixadas</td></tr>
+      <tr><td><code>docker build -t meu-app .</code></td><td>Cria uma imagem a partir do <code>Dockerfile</code> da pasta</td></tr>
+      <tr><td><code>docker rmi &lt;imagem&gt;</code></td><td>Apaga uma imagem</td></tr>
+    </table>
+    <h2>Containers</h2>
+    <table>
+      <tr><td><code>docker run -d -p 8080:80 --name web nginx</code></td><td>Cria e inicia em segundo plano, ligando a porta 8080 do seu computador à 80 do container</td></tr>
+      <tr><td><code>docker ps</code></td><td>Lista os que estão rodando</td></tr>
+      <tr><td><code>docker ps -a</code></td><td>Lista todos, inclusive parados</td></tr>
+      <tr><td><code>docker stop web</code></td><td>Para o container</td></tr>
+      <tr><td><code>docker start web</code></td><td>Inicia de novo</td></tr>
+      <tr><td><code>docker rm web</code></td><td>Apaga o container</td></tr>
+    </table>
+    <h2>Olhar por dentro</h2>
+    <table>
+      <tr><td><code>docker logs -f web</code></td><td>Acompanha os logs ao vivo</td></tr>
+      <tr><td><code>docker exec -it web sh</code></td><td>Abre um terminal dentro do container</td></tr>
+      <tr><td><code>docker inspect web</code></td><td>Mostra todos os detalhes</td></tr>
+      <tr><td><code>docker stats</code></td><td>Uso de CPU e memória</td></tr>
+    </table>
+    <h2>Dados e variáveis</h2>
+    <table>
+      <tr><td><code>-v meus-dados:/var/lib/dados</code></td><td>Guarda os dados em um volume, que sobrevive ao container</td></tr>
+      <tr><td><code>-v "$(pwd)":/app</code></td><td>Espelha a pasta atual dentro do container</td></tr>
+      <tr><td><code>-e CHAVE=valor</code></td><td>Define uma variável de ambiente</td></tr>
+      <tr><td><code>--env-file .env</code></td><td>Carrega as variáveis de um arquivo</td></tr>
+      <tr><td><code>docker volume ls</code></td><td>Lista os volumes</td></tr>
+    </table>
+    <h2>Dockerfile mínimo</h2>
+    <pre><code>FROM node:22-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+EXPOSE 3000
+CMD ["npm", "start"]</code></pre>
+    <h2>Compose</h2>
+    <table>
+      <tr><td><code>docker compose up -d</code></td><td>Sobe tudo o que está no <code>compose.yaml</code></td></tr>
+      <tr><td><code>docker compose up -d --build</code></td><td>Sobe reconstruindo as imagens</td></tr>
+      <tr><td><code>docker compose ps</code></td><td>Lista os serviços</td></tr>
+      <tr><td><code>docker compose logs -f</code></td><td>Logs de todos os serviços</td></tr>
+      <tr><td><code>docker compose down</code></td><td>Para e remove os containers</td></tr>
+      <tr><td><code>docker compose down -v</code></td><td>Remove também os volumes</td></tr>
+    </table>
+    <h2>Limpar</h2>
+    <table>
+      <tr><td><code>docker system df</code></td><td>Mostra quanto espaço o Docker ocupa</td></tr>
+      <tr><td><code>docker system prune</code></td><td>Apaga containers parados, redes e imagens sem uso</td></tr>
+    </table>
+    <blockquote><code>docker compose down -v</code> e <code>docker system prune</code> apagam dados. Confira antes de rodar.</blockquote>
+    <p class="p-next">Voltar para <a href="#">todos os artigos</a></p>
+  </div>
+</article>
+
 <footer><p>Blog do Roadmap DIO. Conteúdo introdutório; os comandos podem variar conforme a versão do seu sistema.</p></footer>
+</div>
 
 <script>
 (function(){
   var posts=[].slice.call(document.querySelectorAll('article.post'));
   var home=document.getElementById('home'), list=document.getElementById('list');
   var PIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 0 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>';
+  /* autor de todos os artigos */
+  var AUTHOR={name:'Felipe Aguiar',photo:'https://github.com/felipeAguiarCode.png?size=120',linkedin:'https://www.linkedin.com/in/felipeaguiar-exe/'};
+  var LI_IC='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.500a2.500 2.500 0 1 1 0 5 2.500 2.500 0 0 1 0-5ZM3 9.750h4v11H3v-11Zm6.500 0h3.800v1.500h.060c.530-1 1.830-2.060 3.770-2.060 4.030 0 4.770 2.650 4.770 6.100v5.460h-4v-4.840c0-1.150-.020-2.640-1.610-2.640-1.610 0-1.860 1.260-1.860 2.560v4.920h-4v-11Z"/></svg>';
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  /* a capa é reaproveitada em vários lugares: ids internos não existem, então basta copiar o SVG */
+  function cover(p){ return p.querySelector('.p-cover').innerHTML.replace('<svg ','<svg preserveAspectRatio="xMidYMid slice" '); }
 
-  /* monta a lista e o cabeçalho de cada artigo a partir dos atributos data-* */
+  /* monta os cards, o cabeçalho de cada artigo e os botões de copiar a partir dos atributos data-* */
   posts.forEach(function(p){
-    var d=p.dataset, cover=p.querySelector('.p-cover');
+    var d=p.dataset, cov=p.querySelector('.p-cover');
     var li=document.createElement('li'); li.className='b-item'; li.setAttribute('data-tag',d.tag);
-    li.innerHTML='<a class="b-link" href="#'+p.id+'"><div class="b-meta"><span class="b-tag">'+esc(d.tag)+'</span><span>'+d.min+' min de leitura</span></div>'
-      +'<h2>'+esc(d.title)+'</h2><p>'+esc(d.sub)+'</p></a>'
-      +'<a class="b-thumb" href="#'+p.id+'" tabindex="-1" aria-hidden="true">'+cover.innerHTML+'</a>';
+    li.innerHTML='<a class="b-thumb" href="#'+p.id+'" tabindex="-1" aria-hidden="true">'+cover(p)+'<span class="card-cat">'+esc(d.tag)+'</span></a>'
+      +'<a class="b-link b-txt" href="#'+p.id+'"><h2>'+esc(d.title)+'</h2><p>'+esc(d.sub)+'</p>'
+      +'<span class="b-meta">'+AUTHOR.name+' · '+d.min+' min de leitura</span></a>';
     list.appendChild(li);
     var head=document.createElement('div');
     head.innerHTML='<a class="p-back" href="#">← Todos os artigos</a><h1>'+esc(d.title)+'</h1><p class="p-sub">'+esc(d.sub)+'</p>'
-      +'<div class="p-by"><span class="dot">'+PIN+'</span><span><b>Roadmap DIO</b> · '+esc(d.tag)+' · '+d.min+' min de leitura</span></div>';
-    p.insertBefore(head,cover);
-    /* botão de copiar em cada bloco de código */
+      +'<div class="p-by"><img class="p-ava" src="'+AUTHOR.photo+'" alt="" width="40" height="40" loading="lazy">'
+      +'<span class="p-by-t"><b>'+AUTHOR.name+'</b><small>'+esc(d.tag)+' · '+d.min+' min de leitura</small></span>'
+      +'<a class="p-li" href="'+AUTHOR.linkedin+'" target="_blank" rel="noopener">'+LI_IC+'Conectar no LinkedIn</a></div>';
+    p.insertBefore(head,cov);
+    /* cartão do autor no fim do artigo */
+    var foot=document.createElement('div'); foot.className='p-author';
+    foot.innerHTML='<img src="'+AUTHOR.photo+'" alt="" width="64" height="64" loading="lazy"><div><small>Escrito por</small><b>'+AUTHOR.name+'</b>'
+      +'<p>Gostou do conteúdo? Vamos nos conectar.</p></div><a class="p-li solid" href="'+AUTHOR.linkedin+'" target="_blank" rel="noopener">'+LI_IC+'Conectar no LinkedIn</a>';
+    p.appendChild(foot);
     [].forEach.call(p.querySelectorAll('pre'),function(pre){
       var b=document.createElement('button'); b.type='button'; b.className='copy'; b.textContent='Copiar';
       b.addEventListener('click',function(){
@@ -672,26 +1058,49 @@ git stash pop                      <span class="c"># traz de volta</span></code>
     });
   });
 
-  /* filtros por categoria, com contagem; a escolha fica no endereço (?f=) */
+  /* mosaico de destaques: os quatro primeiros artigos */
+  document.getElementById('mosaic').innerHTML=posts.slice(0,4).map(function(p){
+    var d=p.dataset;
+    return '<a class="tile" href="#'+p.id+'">'+cover(p)+'<span class="tile-cat">'+esc(d.tag)+'</span>'
+      +'<span class="tile-txt"><b>'+esc(d.title)+'</b><span>'+AUTHOR.name+' · '+d.min+' min de leitura</span></span></a>';
+  }).join('');
+
+  /* faixa "em alta": troca de título a cada poucos segundos */
+  var tick=document.getElementById('tick'), ti=0;
+  function showTick(){ var p=posts[ti%posts.length]; tick.href='#'+p.id; tick.textContent=p.dataset.title; tick.style.animation='none'; void tick.offsetWidth; tick.style.animation=''; ti++; }
+  showTick(); setInterval(showTick,4000);
+
+  /* categorias: barra de navegação + lateral; a escolha fica no endereço (?f=) */
   var filters=document.getElementById('filters'), empty=document.getElementById('empty'), ALL='Todos';
   var tags=[ALL], count={}; count[ALL]=posts.length;
   posts.forEach(function(p){ var t=p.dataset.tag; if(tags.indexOf(t)<0) tags.push(t); count[t]=(count[t]||0)+1; });
   var current=ALL;
   try{ var f=new URLSearchParams(location.search).get('f'); if(f&&count[f]) current=f; }catch(e){}
-  function paintFilters(){
+  function paint(){
     filters.innerHTML=tags.map(function(t){
       return '<button type="button" class="b-filter" data-t="'+esc(t)+'" aria-pressed="'+(t===current)+'">'+esc(t)+' <span>'+count[t]+'</span></button>';
+    }).join('');
+    document.getElementById('sideCats').innerHTML=tags.slice(1).map(function(t){
+      return '<li><button type="button" data-t="'+esc(t)+'">'+esc(t)+'<em>'+count[t]+'</em></button></li>';
     }).join('');
     var shown=0;
     [].forEach.call(list.children,function(li){ var on=current===ALL||li.getAttribute('data-tag')===current; li.hidden=!on; if(on) shown++; });
     empty.hidden=shown>0;
+    document.getElementById('mosaic').hidden=current!==ALL;
+    document.getElementById('secTitle').textContent=current===ALL?'Últimos artigos':current;
+    document.getElementById('secCount').textContent=shown+(shown===1?' artigo':' artigos');
   }
-  filters.addEventListener('click',function(e){
-    var b=e.target.closest('.b-filter'); if(!b) return;
-    current=b.getAttribute('data-t'); paintFilters();
+  function pick(e){
+    var b=e.target.closest('[data-t]'); if(!b) return;
+    current=b.getAttribute('data-t'); paint();
     try{ history.replaceState(null,'',current===ALL?location.pathname+location.hash:'?f='+encodeURIComponent(current)+location.hash); }catch(err){}
-  });
-  paintFilters();
+  }
+  filters.addEventListener('click',pick);
+  document.getElementById('sideCats').addEventListener('click',pick);
+  document.getElementById('sideCheat').innerHTML=posts.filter(function(p){ return p.dataset.tag==='Cheatsheet'; }).map(function(p){
+    return '<li><a href="#'+p.id+'">'+esc(p.dataset.title)+'<small>'+p.dataset.min+' min</small></a></li>';
+  }).join('');
+  paint();
 
   /* quem prefere menos movimento vê as capas paradas */
   if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches){

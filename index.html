@@ -1459,6 +1459,49 @@
   .pt-info{background:rgba(22,22,24,.92);border-radius:10px;padding:3px 8px 5px}
   @media (prefers-reduced-motion:reduce){.pt-l.t1,.pt-node.t1 .pt-gem,.pt-node.enter{animation:none}}
 
+  /* ============ "Meu plano" redesenhado: painel mais largo, linhas compactas e limpas ============ */
+  .plan-panel{width:min(500px,96vw);background:linear-gradient(180deg,rgba(40,22,58,.92),rgba(18,18,20,.94) 34%);border-left:1px solid rgba(255,255,255,.1)}
+  .plan-head{padding:28px 24px 10px}
+  .plan-title{font-size:1.9rem;font-weight:800;letter-spacing:-.035em}
+  .plan-sub{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ment);margin-top:8px}
+  .plan-toolbar{padding:8px 24px 14px;border-bottom:0;gap:8px}
+  .plan-tool{min-width:0;min-height:42px;border-radius:12px;font-size:.86rem;font-weight:600}
+  .plan-tool.primary{flex:2;color:#1d1d1f;background:linear-gradient(95deg,var(--ment),#FF6FB5 60%,var(--accent) 120%)}
+  .plan-tool.primary:hover{background:linear-gradient(95deg,var(--ment),#FF6FB5 60%,var(--accent) 120%);filter:brightness(1.08)}
+  .plan-tool.danger{flex:1;background:transparent;border:1px solid rgba(255,69,58,.4);color:#FF6B63}
+  .plan-views{margin:0 24px 6px}
+  .plan-body{padding:10px 20px 30px}
+  /* cada conteúdo: cartão escuro, peça numerada na cor da fase à esquerda, ações discretas à direita */
+  .ag-day.lego-bar{display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"pill main actions";align-items:center;gap:14px;
+    margin:8px 0;padding:12px 12px 12px 14px;border-radius:16px;color:var(--ink);
+    background:rgba(255,255,255,.045);background-image:none;border:1px solid rgba(255,255,255,.09);box-shadow:none;
+    transition:transform .2s var(--ease),border-color .2s var(--ease),background .2s var(--ease)}
+  .ag-day.lego-bar:hover{transform:translateX(-3px);background:rgba(255,255,255,.07);border-color:color-mix(in srgb,var(--evhue) 60%,transparent);box-shadow:none}
+  .ag-day.lego-bar::before,.ag-day.lego-bar::after{display:none}
+  .ag-day.lego-bar .ag-name{color:var(--ink);margin:0;font-size:.95rem;font-weight:600;line-height:1.25}
+  .ag-day.lego-bar .ag-fase.tag-pill{min-height:0;padding:0;margin:0 0 3px;background:none;border:0;box-shadow:none;
+    font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:color-mix(in srgb,var(--evhue) 65%,#fff)}
+  /* número dentro de uma pecinha LEGO com dois pinos */
+  .ag-order.index-pill{width:44px;height:40px;margin-top:6px;border-radius:8px;font-size:1rem;font-weight:800;color:#fff;
+    background:var(--evhue);background-image:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0) 60%);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.4),inset 0 -4px 0 rgba(0,0,0,.22),0 4px 0 -1px color-mix(in srgb,var(--evhue) 55%,#000)}
+  .ag-order.index-pill::before,.ag-order.index-pill::after{top:-6px;width:13px;height:6px;border-radius:3px 3px 0 0;
+    background:color-mix(in srgb,var(--evhue) 80%,#fff);box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+  .ag-order.index-pill::before{left:6px}
+  .ag-order.index-pill::after{right:6px}
+  /* ações: só ícones, em botões pequenos */
+  .ag-day.lego-bar .lego-actions{gap:4px;flex-wrap:nowrap}
+  .ag-day.lego-bar .mini-btn{position:static;width:34px;height:34px;min-height:0;padding:0;display:grid;place-items:center;border-radius:10px;
+    border:0;background:transparent;color:var(--ink-soft);box-shadow:none;transition:background .2s,color .2s}
+  .ag-day.lego-bar .ag-open.mini-btn{font-size:0;color:var(--ink);background:rgba(255,255,255,.08)}
+  .ag-day.lego-bar .ag-open.mini-btn svg{width:15px;height:15px}
+  .ag-day.lego-bar .ag-open.mini-btn:hover{background:var(--evhue);color:#fff}
+  .ag-day.lego-bar .ag-remove.mini-btn:hover{background:rgba(255,69,58,.18);color:#FF453A}
+  .ag-day.lego-bar .ag-handle.mini-btn{cursor:grab}
+  .ag-day.lego-bar .ag-handle.mini-btn:hover{background:rgba(255,255,255,.08);color:var(--ink)}
+  .ag-day.lego-bar .ag-handle svg{width:16px;height:16px;fill:currentColor}
+  .plan-empty{margin-top:30px;padding:44px 24px;border:1px dashed rgba(255,255,255,.16);border-radius:20px}
+
 </style>
 </head>
 <body>
