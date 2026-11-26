@@ -1,12 +1,12 @@
 /* =====================================================================
-   PROJETOS (labs) DIO — web.dio.me/lab/...
+   PROJECTS — projetos (labs) DIO, web.dio.me/lab/...
    Cada item:  id: {t, u, ancora}
      id      número único em todo o catálogo
      t, u    título e link
      ancora  (opcional) id da formação que o projeto pratica: nos mapas da aba
              Roadmaps o projeto aparece pendurado nela (quando ela está no mapa)
    ===================================================================== */
-var PROJETOS={
+const PROJECTS={
   73:{t:"Criando uma Dashboard da Porsche com Agentes de IA",u:"https://web.dio.me/lab/criando-agentes-de-criacao-de-dashboards-com-excel-e-claude-code/learning/d77a7428-f40b-451b-a890-1b942712194e",ancora:6},
   74:{t:"Copiloto de Vendas com IA para Atendimento ao Cliente",u:"https://web.dio.me/lab/copiloto-de-vendas-com-ia-para-atendimento-em-loja/learning/30b2b6c1-ee9c-433a-af21-d97ac9fee691",ancora:94},
   75:{t:"Criando um Agente para Automatizar um Fluxo de Trabalho em Python",u:"https://web.dio.me/lab/criando-um-agente-para-automatizar-um-fluxo-de-trabalho/learning/6634e12c-42c2-4d96-92bb-55058f769fbe",ancora:96},

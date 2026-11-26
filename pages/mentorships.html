@@ -289,15 +289,16 @@
 <script src="../data/mentorships.js"></script>
 <script>
 (function(){
-  var DATA=(window.MENTORIAS||[]).map(function(m){
-    var p=m.d.split('-');
-    return {date:new Date(+p[0],+p[1]-1,+p[2]),d:m.d,t:m.t,u:'https://web.dio.me/lives/'+m.s,
-      img:'https://hermes.dio.me/lives/'+m.i,g:m.g};
+  /* sem d = data a confirmar (date null); sem i = sem capa (fica o ícone de microfone) */
+  var DATA=MENTORSHIPS.map(function(m){
+    var p=m.d?m.d.split('-'):null;
+    return {date:p?new Date(+p[0],+p[1]-1,+p[2]):null,d:m.d||'',t:m.t,u:'https://web.dio.me/lives/'+m.s,
+      img:m.i?'https://hermes.dio.me/lives/'+m.i:'',g:m.g};
   });
   var ALL='todos';
 
-  /* rótulos legíveis dos tópicos: nomes em TEMAS_MENTORIA (data/mentorships.js) */
-  var TEMAS=window.TEMAS_MENTORIA||{};
+  /* rótulos legíveis dos tópicos: nomes em MENTORSHIP_TOPICS (data/mentorships.js) */
+  var TEMAS=MENTORSHIP_TOPICS;
   function label(k){ if(k===ALL) return 'Todas'; return (TEMAS[k]&&TEMAS[k].nome)||k.charAt(0).toUpperCase()+k.slice(1); }
 
   /* ícone de cada tópico no filtro: logo oficial (via cdn.simpleicons.org) quando existe,
@@ -361,7 +362,10 @@
 
   /* datas não aparecem na tela: servem só para ordenar e separar "próximas" de "já aconteceram" */
   var now=new Date(); var today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-  function status(dt){ var t=dt.getTime(),n=today.getTime(); return t>n?'future':(t===n?'today':'past'); }
+  function status(dt){ if(!dt) return 'tbd'; var t=dt.getTime(),n=today.getTime(); return t>n?'future':(t===n?'today':'past'); }
+  /* ordem por data; "a confirmar" conta como a mais distante no futuro */
+  function when(m){ return m.date?m.date.getTime():Infinity; }
+  function isSoon(m){ return !m.date||m.date>=today; }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
 
   /* contagem por tópico */
@@ -430,8 +434,8 @@
   function cardHtml(m,side){
     var st=status(m.date);
     var soon=st!=='past';
-    var badge=soon?'Em breve':'Gravação';
-    var cta=soon?'Garantir minha vaga':'Assistir';
+    var badge=st==='tbd'?'Data a confirmar':(soon?'Em breve':'Gravação');
+    var cta=st==='tbd'?'Ver na DIO':(soon?'Garantir minha vaga':'Assistir');
     var tags=m.g.map(function(k){
       return k===state.topic
         ? '<span class="tl-tag cur">'+esc(label(k))+'</span>'
@@ -440,7 +444,7 @@
     return '<li class="tl-item '+side+' '+(soon?'future':'past')+'">'
       +'<article class="tl-card">'
         +'<a class="tl-cover" href="'+m.u+'" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">'
-          +'<img src="'+m.img+'" alt="" loading="lazy" decoding="async"><span class="ph">'+MIC+'</span>'
+          +(m.img?'<img src="'+m.img+'" alt="" loading="lazy" decoding="async">':'')+'<span class="ph">'+MIC+'</span>'
           +'<span class="tl-badge">'+badge+'</span></a>'
         +'<div class="tl-body">'
           +'<h3 class="tl-title"><a href="'+m.u+'" target="_blank" rel="noopener">'+esc(m.t)+'</a></h3>'
@@ -455,13 +459,13 @@
   function renderTimeline(){
     var k=state.topic;
     var list=DATA.filter(function(m){ return k===ALL||m.g.indexOf(k)>=0; });
-    list.sort(function(a,b){ return state.order==='desc'?b.date-a.date:a.date-b.date; });
+    list.sort(function(a,b){ var x=when(a), y=when(b), c=x===y?0:(x<y?-1:1); return state.order==='desc'?-c:c; });
 
     document.documentElement.style.setProperty('--tc',color(k));
     document.getElementById('tKicker').textContent=k===ALL?'Todos os tópicos':'Tópico';
     document.getElementById('tName').textContent=k===ALL?'Todas as mentorias':label(k);
 
-    var soon=list.filter(function(m){ return m.date>=today; }).length;
+    var soon=list.filter(isSoon).length;
     var stats='<span class="stat"><b>'+list.length+'</b> '+(list.length===1?'mentoria':'mentorias')+'</span>';
     if(soon) stats+='<span class="stat soon"><b>'+soon+'</b> em breve</span>';
     document.getElementById('tStats').innerHTML=stats;
@@ -470,7 +474,6 @@
 
     /* sem datas na tela: só um divisor entre as próximas e as que já aconteceram */
     var html='', side=0, splitDone=false;
-    var isSoon=function(x){ return x.date>=today; };
     var hasSoon=list.some(isSoon), hasPast=list.some(function(x){ return !isSoon(x); });
     if(state.order==='desc'&&hasSoon) html+='<li class="tl-month"><span><b>Próximas</b></span></li>';
     if(state.order==='asc'&&hasPast) html+='<li class="tl-month"><span><b>Já aconteceram</b></span></li>';

@@ -1,17 +1,18 @@
 /* =====================================================================
-   MENTORIAS e lives DIO (417 sessões; sem lives de oferta e de abertura)
+   MENTORSHIPS — mentorias e lives DIO (418 sessões; sem lives de oferta e de abertura)
    Cada sessão:  {d, t, s, i, g, id}
-     d   data (AAAA-MM-DD)          t  título
+     d   data (AAAA-MM-DD); sem d, a sessão aparece como "Data a confirmar"
+     t   título
      s   slug  -> https://web.dio.me/lives/<s>
-     i   capa  -> https://hermes.dio.me/lives/<i>
-     g   temas (chaves de TEMAS_MENTORIA)
+     i   (opcional) capa -> https://hermes.dio.me/lives/<i>; sem capa, entra o ícone de microfone
+     g   temas (chaves de MENTORSHIP_TOPICS)
      id  (opcional) número no catálogo, só para as sessões usadas como passo
-         de uma trilha em paths/guides.js
+         de uma trilha (paths/guides.js) ou de um lesson pack (paths/lesson-packs.js)
    ===================================================================== */
 
-/* temas: nome exibido e, para os mapas da aba Roadmaps, as formações onde a caixa
+/* MENTORSHIP_TOPICS — temas: nome exibido e, para os mapas da aba Roadmaps, as formações onde a caixa
    "Mentorias de <tema>" se pendura (a primeira que estiver no mapa) */
-var TEMAS_MENTORIA={
+const MENTORSHIP_TOPICS={
   "ai":{nome:"IA"},
   "carreira":{nome:"Carreira"},
   "dados":{nome:"Dados",ancora:[18,26]},
@@ -63,12 +64,13 @@ var TEMAS_MENTORIA={
   "mcp":{nome:"MCP"},
 };
 
-window.MENTORIAS=[
+const MENTORSHIPS=[
 {d:"2026-11-12",t:"Imersão em Agentes de IA e Automação com Claude Code",s:"imersao-em-agentes-de-ia-e-automacao-com-claude-code",i:"768f89ff-ec1d-4a7a-9e3d-0d61aa31ca18.png",g:["ai","ai agentes","claude code","automação"]},
 {d:"2026-11-10",t:"Imersão em Inteligência Artificial: o passo a passo para dominar GPT e Codex",s:"imersao-em-inteligencia-artificial-o-passo-a-passo-para-dominar-gpt-e-codex",i:"194bf671-551f-43c0-a835-404c5bce2214.png",g:["ai","chatgpt","codex"]},
 {d:"2026-11-07",t:"Amazon, PagBank e Inter: como conquistar uma das 278 vagas de estágio em tech e IA abertas no Brasil",s:"amazon-pagbank-e-inter-como-conquistar-uma-das-278-vagas-de-estagio-em-tech-e-ia-abertas-no-brasil",i:"89a48399-0f1c-4bf8-baa6-e4360900891c.png",g:["ai","carreira"]},
 {d:"2026-11-16",t:"Think Like an Attacker: Engenharia Social na Prática",s:"think-like-an-attacker-engenharia-social-na-pratica-1",i:"6ef64f23-2d05-4c2d-9532-4ae432cf74da.png",g:["cibersegurança"]},
-{d:"2026-11-05",t:"Sessão 01: Crie seu assistente pessoal com IA e comando de voz",s:"sessao-01-crie-seu-assistente-pessoal-com-ia-e-comando-de-voz",i:"b27422a6-55a1-49c3-89c0-3f94531c8f09.png",g:["ai","ai agentes","claude code"]},
+{id:97,d:"2026-11-05",t:"Sessão 01: Crie seu assistente pessoal com IA e comando de voz",s:"sessao-01-crie-seu-assistente-pessoal-com-ia-e-comando-de-voz",i:"b27422a6-55a1-49c3-89c0-3f94531c8f09.png",g:["ai","ai agentes","claude code"]},
+{id:98,d:"2026-11-19",t:"Sessão Exclusiva 2: Criando agentes de IA com Jarvis e Claude Code",s:"sessao-exclusiva-2-criando-agentes-de-ia-com-jarvis-e-claude-code",i:"2345d1ae-1517-4c1a-b3ff-b4716d4f2f2c.png",g:["ai","ai agentes","claude code"]},
 {d:"2026-10-29",t:"Imersão em Vibe Coding: 7 regras para usar IA com segurança",s:"imersao-em-vibe-coding-7-regras-para-usar-ia-com-seguranca",i:"8bf09501-d1ea-49f7-8240-cad9fee4c067.png",g:["ai","vibe coding","cibersegurança"]},
 {d:"2026-12-14",t:"Papo com RH: Como se Destacar no Mercado de Trabalho",s:"papo-com-rh-como-se-destacar-no-mercado-de-trabalho-1",i:"3c29131d-42d2-40a0-a3c5-9620956c87e5.png",g:["carreira"]},
 {d:"2026-11-04",t:"Papo com RH: Como se Destacar no Mercado de Trabalho",s:"papo-com-rh-como-se-destacar-no-mercado-de-trabalho",i:"0e128ca2-170c-4863-924d-e3a7bc7039cb.png",g:["carreira"]},
@@ -92,9 +94,9 @@ window.MENTORIAS=[
 {d:"2026-11-05",t:"Graph Data Modeling Fundamentals (hands-on) — GraphAcademy",s:"graph-data-modeling-fundamentals-hands-on-graphacademy",i:"cdb389bc-3536-42e1-9898-044a31fd76b7.png",g:["dados","neo4j"]},
 {d:"2026-11-03",t:"Cypher Fundamentals + Intermediate Cypher Queries — GraphAcademy",s:"cypher-fundamentals-intermediate-cypher-queries-graphacademy",i:"a6f3e1bf-6321-40ee-933b-b43605f30904.png",g:["neo4j"]},
 {d:"2026-10-29",t:"Neo4j Fundamentals (hands-on) — GraphAcademy",s:"neo4j-fundamentals-hands-on-graphacademy",i:"d6b7ac47-e6e1-40ba-b3d0-483cc53de2f8.png",g:["neo4j"]},
-{d:"2026-10-15",t:"Recriando o Tinder do zero ao MVP com seu time multiagente de IA",s:"recriando-o-tinder-do-zero-ao-mvp-com-seu-time-multiagente-de-ia",i:"c71bfb53-64c6-41ef-83fa-9eb2228e5a58.png",g:["ai","ai agentes","claude code"]},
-{d:"2026-10-08",t:"Imersão em orquestração de Agentes de IA com Claude Code: do problema ao produto com seu time de IA",s:"imersao-em-orquestracao-de-agentes-de-ia-com-claude-code-do-problema-ao-produto-com-seu-time-de-ia",i:"e07a9847-63d7-4a9a-aa29-09dfea6bb33d.png",g:["ai","ai agentes","claude code"]},
-{d:"2026-10-07",t:"Criando do zero seu time multiagente de desenvolvimento com Claude Code",s:"criando-do-zero-seu-time-multiagente-de-desenvolvimento-com-claude-code",i:"86018d0c-df76-4028-b36a-4680cb1b0ba8.png",g:["ai","ai agentes","claude code"]},
+{id:101,d:"2026-10-15",t:"Recriando o Tinder do zero ao MVP com seu time multiagente de IA",s:"recriando-o-tinder-do-zero-ao-mvp-com-seu-time-multiagente-de-ia",i:"c71bfb53-64c6-41ef-83fa-9eb2228e5a58.png",g:["ai","ai agentes","claude code"]},
+{id:100,d:"2026-10-08",t:"Imersão em orquestração de Agentes de IA com Claude Code: do problema ao produto com seu time de IA",s:"imersao-em-orquestracao-de-agentes-de-ia-com-claude-code-do-problema-ao-produto-com-seu-time-de-ia",i:"e07a9847-63d7-4a9a-aa29-09dfea6bb33d.png",g:["ai","ai agentes","claude code"]},
+{id:99,d:"2026-10-07",t:"Criando do zero seu time multiagente de desenvolvimento com Claude Code",s:"criando-do-zero-seu-time-multiagente-de-desenvolvimento-com-claude-code",i:"86018d0c-df76-4028-b36a-4680cb1b0ba8.png",g:["ai","ai agentes","claude code"]},
 {d:"2026-10-05",t:"BTG, PagBank e XP: saiba como conquistar uma das 462 vagas de júnior com o AI Job Hunter",s:"btg-pagbank-e-xp-saiba-como-conquistar-uma-das-462-vagas-de-junior-com-o-ai-job-hunter",i:"9412b9e3-2bfb-4295-936a-2e1eab302000.png",g:["ai","carreira"]},
 {d:"2026-10-01",t:"Uber, Meta e Apple: conquiste uma das 182 vagas em Big Techs no Brasil",s:"uber-meta-e-apple-conquiste-uma-das-182-vagas-em-big-techs-no-brasil",i:"d83a119b-73a0-4904-9cda-ec9b3ab7d79f.png",g:["carreira"]},
 {d:"2026-10-22",t:"Do Agendamento ao Resultado, o Caminho da Certificação",s:"do-agendamento-ao-resultado-o-caminho-da-certificacao",i:"b2393079-be11-41f9-b178-a87734070d98.png",g:["certificação"]},
@@ -153,7 +155,7 @@ window.MENTORIAS=[
 {d:"2026-08-19",t:"Os Modos do IBM Bob na Prática",s:"os-modos-do-ibm-bob-na-pratica",i:"d7a573a2-92d6-4aa3-b72f-6a024fb2c6cd.png",g:["ai"]},
 {d:"2026-08-12",t:"Soft Skills que Nenhuma IA Substitui",s:"soft-skills-que-nenhuma-ia-substitui",i:"f556a03f-4321-44fe-b39a-f82f374f3141.png",g:["ai","soft skills"]},
 {d:"2026-07-25",t:"Criando um game com Claude e ChatGPT",s:"criando-um-game-com-claude-e-chatgpt",i:"bc6769da-05eb-48f7-9cc0-9121f2cd71be.png",g:["ai","claude code","chatgpt","games"]},
-{d:"2026-07-23",t:"Como criar, publicar e gerar renda criando produtos com IA e Lovable",s:"como-criar-publicar-e-gerar-renda-criando-produtos-com-ia-e-lovable",i:"96e716fd-a044-4ef8-89bc-aaa64e961fd1.png",g:["ai","negócios/cx"]},
+{id:102,d:"2026-07-23",t:"Como criar, publicar e gerar renda criando produtos com IA e Lovable",s:"como-criar-publicar-e-gerar-renda-criando-produtos-com-ia-e-lovable",i:"96e716fd-a044-4ef8-89bc-aaa64e961fd1.png",g:["ai","negócios/cx"]},
 {d:"2026-11-19",t:"Do Dataset ao Insight: Análise de Dados com Python e Agentes de IA",s:"do-dataset-ao-insight-analise-de-dados-com-python-e-agentes-de-ia",i:"43a038ab-f377-4106-b576-68f621d46e23.png",g:["ai","ai agentes","dados","python"]},
 {d:"2026-08-20",t:"Introdução a Redes",s:"live-4-introducao-a-redes",i:"3e9b341c-52b2-47f1-9333-fdaed1c7e57c.png",g:["service desk"]},
 {d:"2026-08-19",t:"Comandos Essenciais de CMD na Prática",s:"live-3-comandos-essenciais-de-cmd-na-pratica",i:"1682d835-b89c-47c2-80a2-61790473e201.png",g:["linux","service desk"]},

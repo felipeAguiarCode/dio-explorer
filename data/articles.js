@@ -1,5 +1,5 @@
 /* =====================================================================
-   ARTIGOS do blog da aplicação (pages/blog.html). O texto mora no blog; aqui fica o
+   ARTICLES — artigos do blog da aplicação (pages/blog.html). O texto mora no blog; aqui fica o
    índice usado pelo catálogo (Meu plano, busca das Guias e mapas da aba Roadmaps).
    Cada item:  id: {t, u, tag, min, sub, ancora}
      id      número único em todo o catálogo (artigos usam 301 em diante)
@@ -9,7 +9,7 @@
              se pendura na primeira delas que estiver no caminho principal. Sem
              âncora, o artigo fica só no blog.
    ===================================================================== */
-var ARTIGOS={
+const ARTICLES={
   301:{t:"3 prompts para verificar se sua aplicação não está comprometida",u:"pages/blog.html#prompts-seguranca",tag:"Segurança",min:4,
      sub:"Copie, cole no seu assistente de código e descubra segredos expostos, código suspeito e portas abertas antes que alguém descubra por você.",ancora:[36,95]},
   302:{t:"Git do zero: da instalação aos comandos do dia a dia",u:"pages/blog.html#git",tag:"Ferramentas",min:8,

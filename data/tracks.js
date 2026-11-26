@@ -1,5 +1,5 @@
 /* =====================================================================
-   FORMAÇÕES DIO (web.dio.me/track/...)
+   TRACKS — formações DIO (web.dio.me/track/...)
    Cada item:  id: {t, u, ori}
      id   número único em TODO o catálogo (formações, certificações, projetos,
           cursos e mentorias com id dividem a mesma numeração). Não reutilize ids:
@@ -8,7 +8,7 @@
      ori  (opcional) origami do conteúdo: [nome, desenho]. O desenho usa a mini-linguagem
           explicada em js/catalog.js (planos de papel a/b/c/d, olhos k, vincos l…).
    ===================================================================== */
-var FORMACOES={
+const TRACKS={
   1:{t:"AI Builder com Lovable",u:"https://web.dio.me/track/ai-builder-com-lovable",
      ori:["Coração","a 3,9 5.5,5 9,4.2 12,7.5 8,10.5|b 3,9 8,10.5 12,21|c 8,10.5 12,7.5 12,21|b 12,7.5 15,4.2 18.5,5 21,9 16,10.5|a 12,7.5 16,10.5 12,21|d 16,10.5 21,9 12,21"]},
   2:{t:"CrewAI Fundamentals",u:"https://web.dio.me/track/crew-ai-fundalmentals",

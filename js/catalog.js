@@ -1,12 +1,15 @@
 /* =====================================================================
    catalog.js — junta os arquivos de data/ num catálogo único.
-   Carregue depois de data/*.js e antes de paths/*.js e do script da página:
+   Carregue depois de data/*.js e antes de paths/*.js e do script da página.
+   Cada arquivo de data/ declara uma const global (TRACKS, CERTIFICATIONS, PROJECTS,
+   COURSES, ARTICLES, MENTORSHIPS e MENTORSHIP_TOPICS): os scripts seguintes a leem
+   pelo nome, já que const não vira propriedade de window.
      <script src="data/tracks.js"></script>   ... (todos os de data/, inclusive articles.js)
      <script src="js/catalog.js"></script>
    Expõe:
-     TRACKS[id] = {t, u, k, ancora}   k = 'formacao' | 'certificacao' | 'projeto' | 'curso' | 'mentoria' | 'artigo'
-                                      (artigos trazem também tag, min e sub)
-     ORI[id]    = [nome, desenho]     origami do conteúdo (quando tem)
+     CATALOG[id] = {t, u, k, ancora}  k = 'formacao' | 'certificacao' | 'projeto' | 'curso' | 'mentoria' | 'artigo'
+                                      (artigos trazem também tag, min e sub; cursos, img e min; mentorias, d e img)
+     ORI[id]     = [nome, desenho]    origami do conteúdo (quando tem)
      tipoDe(id), oriRender(desenho), oriSvg(id)
 
    Mini-linguagem dos origamis (viewBox 24×24), formas separadas por "|":
@@ -23,30 +26,32 @@ var SITE_ROOT=(function(){
   return cs&&cs.src?cs.src.replace(/js\/catalog\.js(\?.*)?$/,''):'';
 })();
 function siteUrl(u){ return !u||/^([a-z]+:|\/\/)/i.test(u)?u:SITE_ROOT+u; }
-var TRACKS={}, ORI={};
+var CATALOG={}, ORI={};
 (function(){
   function add(src,tipo){
     Object.keys(src||{}).forEach(function(k){
       var id=+k, it=src[k];
-      if(TRACKS[id]) console.warn('[catalogo] id '+id+' repetido em '+tipo+' (já era '+TRACKS[id].k+')');
-      TRACKS[id]={t:it.t,u:siteUrl(it.u),k:tipo,ancora:it.ancora,tag:it.tag,min:it.min,sub:it.sub};
+      if(CATALOG[id]) console.warn('[catalogo] id '+id+' repetido em '+tipo+' (já era '+CATALOG[id].k+')');
+      /* curso sem duração informada conta como 1 hora */
+      CATALOG[id]={t:it.t,u:siteUrl(it.u),k:tipo,ancora:it.ancora,tag:it.tag,min:tipo==='curso'?(it.min||60):it.min,sub:it.sub,img:it.img};
       if(it.ori) ORI[id]=it.ori;
     });
   }
-  add(window.FORMACOES,'formacao');
-  add(window.CERTIFICACOES,'certificacao');
-  add(window.PROJETOS,'projeto');
-  add(window.CURSOS,'curso');
-  add(window.ARTIGOS,'artigo');
+  /* typeof: a página pode não carregar algum arquivo de data/ */
+  add(typeof TRACKS!=='undefined'&&TRACKS,'formacao');
+  add(typeof CERTIFICATIONS!=='undefined'&&CERTIFICATIONS,'certificacao');
+  add(typeof PROJECTS!=='undefined'&&PROJECTS,'projeto');
+  add(typeof COURSES!=='undefined'&&COURSES,'curso');
+  add(typeof ARTICLES!=='undefined'&&ARTICLES,'artigo');
   /* mentorias entram no catálogo só quando têm id (as usadas como passo de trilha) */
-  (window.MENTORIAS||[]).forEach(function(m){
+  (typeof MENTORSHIPS!=='undefined'?MENTORSHIPS:[]).forEach(function(m){
     if(m.id==null) return;
-    if(TRACKS[m.id]) console.warn('[catalogo] id '+m.id+' repetido em mentoria');
-    TRACKS[m.id]={t:m.t,u:'https://web.dio.me/lives/'+m.s,k:'mentoria'};
+    if(CATALOG[m.id]) console.warn('[catalogo] id '+m.id+' repetido em mentoria');
+    CATALOG[m.id]={t:m.t,u:'https://web.dio.me/lives/'+m.s,k:'mentoria',d:m.d,img:m.i?'https://hermes.dio.me/lives/'+m.i:''};
   });
 })();
 
-function tipoDe(id){ return TRACKS[id]?TRACKS[id].k:'formacao'; }
+function tipoDe(id){ return CATALOG[id]?CATALOG[id].k:'formacao'; }
 
 var ORI_OP={a:1,b:.74,c:.5,d:.3}, ORI_CACHE={};
 /* desenha qualquer origami escrito na mini-linguagem */

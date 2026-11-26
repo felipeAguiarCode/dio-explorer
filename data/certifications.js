@@ -1,9 +1,9 @@
 /* =====================================================================
-   CERTIFICAÇÕES — formações da DIO voltadas a uma prova de certificação
+   CERTIFICATIONS — formações da DIO voltadas a uma prova de certificação
    (Microsoft, AWS, GitHub, Scrum). Mesmo formato de data/tracks.js:
      id: {t, u, ori}   (id único em todo o catálogo)
    ===================================================================== */
-var CERTIFICACOES={
+const CERTIFICATIONS={
   10:{t:"AZ-204 Certification",u:"https://web.dio.me/track/formacao-az-204-certification",
      ori:["Raio","a 14.5,2 5,13 11.5,13 13.5,10|b 13.5,10 19.5,10 9,22 11.5,13"]},
   12:{t:"AI-102 Certification",u:"https://web.dio.me/track/formacao-ai-102-certification",

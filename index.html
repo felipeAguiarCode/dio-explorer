@@ -1756,7 +1756,7 @@
 <script src="js/catalog.js"></script>
 <script src="paths/guides.js"></script>
 <script>
-/* TRACKS, ORI e oriSvg vêm de js/catalog.js; IC e CAREERS de paths/guides.js */
+/* CATALOG, ORI e oriSvg vêm de js/catalog.js; IC e CAREERS de paths/guides.js */
 
 var EXT='<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
 var FLAG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 5h10l-2 3 2 3H6"/></svg>';
@@ -1795,7 +1795,7 @@ function studs(count){
 }
 
 function brick(id,variant,num,badge){
-  var tk=TRACKS[id];
+  var tk=CATALOG[id];
   var cls='brick'+(variant?(' '+variant):'');
   var sc=(variant.indexOf('sub')>=0)?2:3;
   var lead;
@@ -2001,7 +2001,7 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
     if(planView==='tree'){ bodyEl.innerHTML=treeView(doAnim); return; }
     var html='';
     plan.forEach(function(item,i){
-      var tk=TRACKS[item.id]||{t:'—',u:'#'};
+      var tk=CATALOG[item.id]||{t:'—',u:'#'};
       var hue=palOrder[i%palOrder.length];
       html+='<div class="ag-day lego-bar'+(doAnim?' enter':'')+'" draggable="true" data-idx="'+i+'" style="--evhue:'+hue+(doAnim?';animation-delay:'+(i*70)+'ms':'')+'">'
         +'<div class="ag-order index-pill" aria-hidden="true">'+(i+1)+'</div>'
@@ -2044,7 +2044,7 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
     function xOf(i){ return i%2?72:28; }
     function yOf(i){ return TOP+i*ROW+26; }
     for(var i=0;i<n;i++){
-      var item=plan[i], tk=TRACKS[item.id]||{t:'—',u:'#'}, hue=palOrder[i%palOrder.length];
+      var item=plan[i], tk=CATALOG[item.id]||{t:'—',u:'#'}, hue=palOrder[i%palOrder.length];
       var st=i===0?'t0':(i===1?'t1':'t2');
       var x1=i?xOf(i-1):50, y1=i?yOf(i-1):22, x2=xOf(i), y2=yOf(i), my=(y1+y2)/2;
       lines+='<path class="pt-l '+st+'" d="M'+x1+' '+y1+' C'+x1+' '+my+' '+x2+' '+my+' '+x2+' '+y2+'" style="--evhue:'+hue+(doAnim?';animation-delay:'+(i*90)+'ms':'')+'"/>';
@@ -2096,7 +2096,7 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
     if(has(id)){ plan=plan.filter(function(x){return x.id!==id;}); }
     else{
       var hue=(getComputedStyle(add).getPropertyValue('--hue')||'').trim(); plan.push({id:id,hue:hue||'#B800E7'});
-      var tk=TRACKS[id]; toast('<b>'+esc(tk?tk.t:'Formação')+'</b> adicionada ao plano');
+      var tk=CATALOG[id]; toast('<b>'+esc(tk?tk.t:'Formação')+'</b> adicionada ao plano');
     }
     savePlan(); syncButtons();
     if(panel.classList.contains('show')) render(); else updateCount();
@@ -2190,7 +2190,7 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
     out+='> **🚀 Objetivo:** concluir estes '+n+' conteúdos na ordem abaixo, evoluindo do básico ao avançado na plataforma DIO.\n\n';
     out+='| # | Conteúdo | Concluído | Acesso |\n|:--:|:--|:--:|:--:|\n';
     plan.forEach(function(item,i){
-      var tk=TRACKS[item.id]||{t:'—',u:'https://web.dio.me/'};
+      var tk=CATALOG[item.id]||{t:'—',u:'https://web.dio.me/'};
       out+='| '+(i+1)+' | '+mdCell(tk.t)+' | ☐ | [![Acessar meu conteúdo]('+badge+')]('+tk.u+') |\n';
     });
     out+='\n---\n<sub>Gerado com 💜 pelo DIO Explorer · felipeaguiarcode.github.io/dio-explorer</sub>\n';
@@ -2215,7 +2215,7 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
   var SPAL=['#B800E7','#1E5FC0','#0F766E','#8B2FC9','#D60A52','#C2410C','#0891B2','#3949AB','#D97706','#0078D4','#4D7C0F','#A21CAF','#15803D','#0E7490'];
   var MENT=(function(){ var s={}; CAREERS.forEach(function(c){ c.steps.forEach(function(st){ if(st.s==='ment'&&st.r) s[st.r]=1; }); }); return s; })();
   var PROJ=(function(){ var s={}; CAREERS.forEach(function(c){ c.steps.forEach(function(st){ if(st.s==='proj'&&st.r) s[st.r]=1; }); }); return s; })();
-  var IDS=Object.keys(TRACKS).map(function(k){ return parseInt(k,10); });
+  var IDS=Object.keys(CATALOG).map(function(k){ return parseInt(k,10); });
   function norm(x){ return String(x).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
   function hl(name,q){
     var i=norm(name).indexOf(q);
@@ -2236,7 +2236,7 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
       sResults.innerHTML='<div class="search-empty"><span class="se-ic">🔎</span>O que você quer aprender hoje?</div>';
       return;
     }
-    var hits=IDS.filter(function(id){ return norm(TRACKS[id].t).indexOf(q)>=0; });
+    var hits=IDS.filter(function(id){ return norm(CATALOG[id].t).indexOf(q)>=0; });
     sMeta.textContent=hits.length+(hits.length===1?' resultado':' resultados');
     if(!hits.length){
       sResults.innerHTML='<div class="search-empty"><span class="se-ic">🫥</span>Nada encontrado para “'+esc(raw)+'”.</div>';
@@ -2244,7 +2244,7 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
     }
     var html='';
     hits.forEach(function(id,i){
-      var tk=TRACKS[id], isM=!!MENT[id], isP=!!PROJ[id];
+      var tk=CATALOG[id], isM=!!MENT[id], isP=!!PROJ[id];
       var hue=isM?'#EDA486':(isP?'#2FD98A':SPAL[i%SPAL.length]);
       var tipo=isM?'Mentoria':(isP?'Projeto':({certificacao:'Certificação',artigo:'Artigo',curso:'Curso'}[tipoDe(id)]||'Formação'));
       html+='<div class="sr-block'+(isM?' ment':(isP?' proj':''))+'" style="--hue:'+hue+'">'
@@ -3796,7 +3796,7 @@ function AnimatedHeroCharacter(root,opts){
 })();
 
 /* divisória gamer: mostra o total de trilhas e de conteúdos do catálogo */
-(function(){ var a=document.getElementById('gdivTrails'), b=document.getElementById('gdivItems'); if(a) a.textContent=CAREERS.length; if(b) b.textContent=Object.keys(TRACKS).length; })();
+(function(){ var a=document.getElementById('gdivTrails'), b=document.getElementById('gdivItems'); if(a) a.textContent=CAREERS.length; if(b) b.textContent=Object.keys(CATALOG).length; })();
 </script>
 
 <!-- ---------- hero: robô 3D "Robot Playground" (Hadrien59, CC BY 4.0) com three.js ---------- -->
