@@ -1,5 +1,68 @@
-/* Mentorias e lives DIO, geradas a partir do CSV (417 itens; sem lives de oferta e de abertura).
-   s = slug em https://web.dio.me/lives/<s> | i = capa em https://hermes.dio.me/lives/<i> | g = topicos */
+/* =====================================================================
+   MENTORIAS e lives DIO (417 sessões; sem lives de oferta e de abertura)
+   Cada sessão:  {d, t, s, i, g, id}
+     d   data (AAAA-MM-DD)          t  título
+     s   slug  -> https://web.dio.me/lives/<s>
+     i   capa  -> https://hermes.dio.me/lives/<i>
+     g   temas (chaves de TEMAS_MENTORIA)
+     id  (opcional) número no catálogo, só para as sessões usadas como passo
+         de uma trilha em paths/guias.js
+   ===================================================================== */
+
+/* temas: nome exibido e, para os mapas da aba Roadmaps, as formações onde a caixa
+   "Mentorias de <tema>" se pendura (a primeira que estiver no mapa) */
+var TEMAS_MENTORIA={
+  "ai":{nome:"IA"},
+  "carreira":{nome:"Carreira"},
+  "dados":{nome:"Dados",ancora:[18,26]},
+  "ai agentes":{nome:"Agentes de IA",ancora:[2,96]},
+  "azure":{nome:"Azure",ancora:[22]},
+  "claude code":{nome:"Claude Code"},
+  "arquitetura de software":{nome:"Arquitetura de Software"},
+  "negócios/cx":{nome:"Negócios & CX"},
+  "ia generativa":{nome:"IA Generativa",ancora:[93,26]},
+  "java":{nome:"Java",ancora:[14,67]},
+  "aws":{nome:"AWS",ancora:[3]},
+  "github copilot":{nome:"GitHub Copilot",ancora:[5]},
+  "cloud":{nome:"Cloud",ancora:[53,3,22]},
+  "certificação":{nome:"Certificação"},
+  "chatgpt":{nome:"ChatGPT"},
+  "back-end":{nome:"Back-end",ancora:[21,58]},
+  "python":{nome:"Python",ancora:[18,17]},
+  "cibersegurança":{nome:"Cibersegurança",ancora:[36]},
+  "devops":{nome:"DevOps",ancora:[27,40]},
+  "soft skills":{nome:"Soft Skills",ancora:[94,50]},
+  "javascript":{nome:"JavaScript",ancora:[64,20]},
+  "engenharia de prompt":{nome:"Engenharia de Prompt",ancora:[29,93]},
+  "front-end":{nome:"Front-end",ancora:[47,48,46]},
+  "automação":{nome:"Automação",ancora:[4]},
+  "machine learning":{nome:"Machine Learning",ancora:[61,13]},
+  "neo4j":{nome:"Neo4j"},
+  "qa/testes":{nome:"QA & Testes",ancora:[65,24]},
+  "sql":{nome:"SQL",ancora:[58]},
+  "vibe coding":{nome:"Vibe Coding",ancora:[95,1]},
+  "microsoft fabric":{nome:"Microsoft Fabric"},
+  "react":{nome:"React",ancora:[62,39]},
+  ".net":{nome:".NET",ancora:[66]},
+  "agile":{nome:"Agile",ancora:[50]},
+  "excel":{nome:"Excel",ancora:[6]},
+  "linux":{nome:"Linux",ancora:[54]},
+  "openai":{nome:"OpenAI"},
+  "power bi":{nome:"Power BI",ancora:[38]},
+  "rag":{nome:"RAG"},
+  "codex":{nome:"Codex"},
+  "diversidade e inclusão":{nome:"Diversidade & Inclusão"},
+  "lógica de programação":{nome:"Lógica de Programação"},
+  "mobile":{nome:"Mobile",ancora:[25,41,57,60,56,39]},
+  "blockchain":{nome:"Blockchain",ancora:[34,52]},
+  "copilot studio":{nome:"Copilot Studio",ancora:[94,4]},
+  "games":{nome:"Games",ancora:[35]},
+  "plantão de dúvidas":{nome:"Plantão de dúvidas"},
+  "service desk":{nome:"Service Desk"},
+  "creator":{nome:"Creator"},
+  "mcp":{nome:"MCP"},
+};
+
 window.MENTORIAS=[
 {d:"2026-11-12",t:"Imersão em Agentes de IA e Automação com Claude Code",s:"imersao-em-agentes-de-ia-e-automacao-com-claude-code",i:"768f89ff-ec1d-4a7a-9e3d-0d61aa31ca18.png",g:["ai","ai agentes","claude code","automação"]},
 {d:"2026-11-10",t:"Imersão em Inteligência Artificial: o passo a passo para dominar GPT e Codex",s:"imersao-em-inteligencia-artificial-o-passo-a-passo-para-dominar-gpt-e-codex",i:"194bf671-551f-43c0-a835-404c5bce2214.png",g:["ai","chatgpt","codex"]},
@@ -97,7 +160,7 @@ window.MENTORIAS=[
 {d:"2026-08-18",t:"Service Desk: do Suporte Reativo ao Atendimento Estratégico",s:"live-2-service-desk-do-suporte-reativo-ao-atendimento-estrategico",i:"26d1f455-a65e-42aa-973f-ac4f86a30fdc.png",g:["service desk","negócios/cx"]},
 {d:"2026-07-18",t:"Resolva um simulado de uma vaga de uma Big Tech com agentes de IA com OpenCode e Gemini",s:"resolva-um-simulado-de-uma-vaga-de-uma-big-tech-com-agentes-de-ia-com-opencode-e-gemini",i:"47c243a8-869e-4e6f-8e5e-8fab4154815d.png",g:["ai","ai agentes","carreira"]},
 {d:"2026-07-16",t:"O segredo para hackear e ser aprovado em qualquer entrevista com ChatGPT e Obsidian",s:"o-segredo-para-hackear-e-ser-aprovado-em-qualquer-entrevista-com-chatgpt-e-obsidian",i:"0c31616b-e1e9-49e7-bf96-92c4074fc085.png",g:["ai","chatgpt","carreira"]},
-{d:"2026-07-14",t:"Imersão em Claude Code: do Zero ao Expert",s:"imersao-em-claude-code-do-zero-ao-expert",i:"4c3bbfde-3696-46c6-98bd-8765c17008a4.png",g:["ai","claude code"]},
+{id:68,d:"2026-07-14",t:"Imersão em Claude Code: do Zero ao Expert",s:"imersao-em-claude-code-do-zero-ao-expert",i:"4c3bbfde-3696-46c6-98bd-8765c17008a4.png",g:["ai","claude code"]},
 {d:"2026-11-09",t:"Papo com RH: Como Destacar suas Soft Skills na era das inteligências Artificiais",s:"papo-com-rh-como-destacar-suas-soft-skills-na-era-das-inteligencias-artificiais-1",i:"e88d73a0-ebf3-414d-ae4d-0ba53161a6e6.png",g:["carreira","soft skills"]},
 {d:"2026-08-13",t:"Papo com RH: Quais São as Soft Skills mais desejadas mesmo em era de IA",s:"papo-com-rh-quais-sao-as-soft-skills-mais-desejadas-mesmo-em-era-de-ia",i:"3c13c3dd-d1dc-41bb-88b6-2d50d70c012d.png",g:["ai","carreira","soft skills"]},
 {d:"2026-08-06",t:"Como Criar Pipeline de IA Agents",s:"como-criar-pipeline-de-ia-agents",i:"421082cf-05d6-4d76-a1c3-2e10f820bc6c.png",g:["ai","ai agentes"]},
@@ -107,7 +170,7 @@ window.MENTORIAS=[
 {d:"2026-08-19",t:"Criando seu Próprio Servidor MCP e como utilizar",s:"criando-seu-proprio-servidor-mcp-e-como-utilizar",i:"9ace750c-0956-4739-89f1-e4c266e5263b.png",g:["ai","mcp"]},
 {d:"2026-08-05",t:"Como a Riachuelo Explora Desafios e Oportunidades da IA no Varejo",s:"como-a-riachuelo-explora-desafios-e-oportunidades-da-ia-no-varejo",i:"2a3aee6d-4125-4c80-a1f0-ae2af955122a.png",g:["ai","negócios/cx"]},
 {d:"2026-07-28",t:"Construindo um RAG com um Banco Vetorial com o n8n",s:"construindo-um-rag-com-um-banco-vetorial-com-o-n8n",i:"472df72a-046a-4fc2-a5c8-279728edd573.png",g:["ai","rag","automação","dados"]},
-{d:"2026-06-18",t:"Construindo um time de agentes de AI para prospecção de vagas e projetos freelancer em tecnologia",s:"construindo-um-time-de-agentes-de-ai-para-prospeccao-de-vagas-e-projetos-freelancer-em-tecnologia",i:"f98dec5b-9673-4d91-a54f-d0622b5720dc.png",g:["ai","ai agentes","claude code","carreira"]},
+{id:72,d:"2026-06-18",t:"Construindo um time de agentes de AI para prospecção de vagas e projetos freelancer em tecnologia",s:"construindo-um-time-de-agentes-de-ai-para-prospeccao-de-vagas-e-projetos-freelancer-em-tecnologia",i:"f98dec5b-9673-4d91-a54f-d0622b5720dc.png",g:["ai","ai agentes","claude code","carreira"]},
 {d:"2026-07-03",t:"Utilizando Amazon Quick Desktop: Criando um APP De pontos de Troca de Figurinhas da Copa",s:"utilizando-amazon-quick-desktop-criando-um-app-de-pontos-de-troca-de-figurinhas-da-copa",i:"507bb824-ad9b-4361-8d47-a9162d0176f1.png",g:["ai","aws"]},
 {d:"2026-07-08",t:"Criando um Agente Analítico de Copa com Strands Agents SDK e Amazon Bedrock",s:"agente-para-fazer-previsao-de-chaveamento-de-resultado-da-copa",i:"a8b4533c-2024-4861-8f7a-40442e06e4f2.png",g:["ai","ai agentes","aws"]},
 {d:"2026-07-20",t:"Talent Trends 2026: o que sustenta crescimento e empregabilidade em tech?",s:"talent-trends-2026-o-que-sustenta-crescimento-e-empregabilidade-em-tech",i:"368f92e6-d3dc-4b44-bf01-a429245677a4.png",g:["carreira"]},
@@ -123,9 +186,9 @@ window.MENTORIAS=[
 {d:"2026-05-28",t:"Python para Dados em Ação: Aplicações que Fortalecem seu Portfólio",s:"python-para-dados-em-acao-aplicacoes-que-fortalecem-seu-portfolio",i:"71b4379a-7a69-4610-89db-8b89d692547d.png",g:["dados","python"]},
 {d:"2026-09-09",t:"Agentes de IA para ETL e Criação de Dashboards Gerenciais",s:"agentes-de-ia-para-etl-e-criacao-de-dashboards-gerenciais",i:"9b1f088d-7ef6-4e5f-a046-e0e00bc84c9c.png",g:["ai","ai agentes","dados"]},
 {d:"2026-08-27",t:"Inteligência Artificial para Storytelling com Dados e Dashboards com Claude",s:"inteligencia-artificial-para-storytelling-com-dados-e-dashboards-com-claude",i:"93f23ef8-f3e1-421d-9602-f0e86f9cd63d.png",g:["ai","claude code","dados"]},
-{d:"2026-05-14",t:"Sessão 03: Criação do Kanban ao vivo para orquestração do seu time de Agentes de AI",s:"criacao-do-kanban-ao-vivo-para-orquestracao-do-seu-time-de-agentes-de-ai",i:"931ca581-71b8-4d81-b0f2-fe97c2cfe7a4.png",g:["ai","ai agentes","claude code"]},
-{d:"2026-05-12",t:"Sessão 02: Construindo os Agentes de Inteligência Artificial Back-end, Front-end, QA e DevOps com Claude Code",s:"construindo-os-agentes-de-inteligencia-artificial-back-end-front-end-qa-e-devops-com-claude-code",i:"f530bad2-2d71-491d-bd5d-8f5aa843acc7.png",g:["ai","ai agentes","claude code","front-end","back-end","devops","qa/testes"]},
-{d:"2026-05-07",t:"Sessão 01: Setup do Claude Code para acelerar 100x a produtividade no desenvolvimento",s:"setup-do-claude-code-para-acelerar-100x-a-produtividade-no-desenvolvimento",i:"44929620-43ba-44d4-94a0-514906a002fb.png",g:["ai","claude code"]},
+{id:71,d:"2026-05-14",t:"Sessão 03: Criação do Kanban ao vivo para orquestração do seu time de Agentes de AI",s:"criacao-do-kanban-ao-vivo-para-orquestracao-do-seu-time-de-agentes-de-ai",i:"931ca581-71b8-4d81-b0f2-fe97c2cfe7a4.png",g:["ai","ai agentes","claude code"]},
+{id:70,d:"2026-05-12",t:"Sessão 02: Construindo os Agentes de Inteligência Artificial Back-end, Front-end, QA e DevOps com Claude Code",s:"construindo-os-agentes-de-inteligencia-artificial-back-end-front-end-qa-e-devops-com-claude-code",i:"f530bad2-2d71-491d-bd5d-8f5aa843acc7.png",g:["ai","ai agentes","claude code","front-end","back-end","devops","qa/testes"]},
+{id:69,d:"2026-05-07",t:"Sessão 01: Setup do Claude Code para acelerar 100x a produtividade no desenvolvimento",s:"setup-do-claude-code-para-acelerar-100x-a-produtividade-no-desenvolvimento",i:"44929620-43ba-44d4-94a0-514906a002fb.png",g:["ai","claude code"]},
 {d:"2026-06-23",t:"Profissional de Vendas na Era da IA: Entrevista, Soft Skills e Posicionamento",s:"profissional-de-vendas-na-era-da-ia-entrevista-soft-skills-e-posicionamento",i:"97d8b057-3f04-4401-ace2-2144935d6a2e.png",g:["ai","carreira","soft skills","negócios/cx"]},
 {d:"2026-06-16",t:"Quem Não Vende, Ajuda a Vender! O Futuro das Vendas com IA",s:"quem-nao-vende-ajuda-a-vender-o-futuro-das-vendas-com-ia",i:"0e4d7f32-d30c-46f5-abe8-eb1b6b5fc137.png",g:["ai","negócios/cx"]},
 {d:"2026-06-02",t:"FYS: Por Dentro da Marca, Desafios e Ideias para o Projeto Final",s:"fys-por-dentro-da-marca-desafios-e-ideias-para-o-projeto-final",i:"2d9ba74b-4a42-40f5-9329-d9defb1277d0.png",g:["soft skills"]},

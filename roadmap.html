@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-dio-32.png">
+<title>DIO | Mapa do AI Builder</title>
+
+<style>
+  :root{
+    color-scheme: dark;
+    /* mesma base escura das Guias e das Mentorias */
+    --paper:#000; --surface:#1c1c1e; --surface-2:#2c2c2e;
+    --ink:#f5f5f7; --ink-soft:#a1a1a6; --ink-faint:#6e6e73;
+    --line:rgba(255,255,255,.08); --line-strong:rgba(255,255,255,.14);
+    --brand:#B700FF; --accent:#BF5AF2; --gold:#FFD60A; --ment:#EDA486;
+    --fill:rgba(118,118,128,.24); --fill-2:rgba(118,118,128,.32);
+    --material-blur:saturate(180%) blur(24px);
+    --ease:cubic-bezier(.25,.1,.25,1);
+    --radius-pill:980px;
+    --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue","Segoe UI Variable Display","Segoe UI",Inter,Roboto,system-ui,Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,Menlo,Monaco,"Cascadia Code",Consolas,monospace;
+
+    /* mapa no estilo roadmap.sh: papel branco, tópicos amarelos, complementos bege, linhas azuis */
+    --rm-paper:#ffffff; --rm-ink:#111111; --rm-soft:#4b5563; --rm-faint:#6b7280;
+    --rm-yellow:#FFE53B; --rm-beige:#FFE9B8; --rm-opt:#FFF6DE;
+    --rm-line:#2B78E4; --rm-check:#1F9D55; --rm-border:#111111;
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;
+    line-height:1.47;letter-spacing:-.022em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}
+  a{color:inherit}
+  :focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 70%,transparent);outline-offset:2px}
+  [hidden]{display:none !important}
+
+  /* ---------- top bar (igual às outras abas) ---------- */
+  .topbar{position:sticky;top:0;z-index:30;width:100%;background:rgba(22,22,23,.72);border-bottom:1px solid var(--line);
+    backdrop-filter:var(--material-blur);-webkit-backdrop-filter:var(--material-blur)}
+  .topbar-in{max-width:1080px;margin:0 auto;min-height:52px;padding:8px 22px;display:flex;align-items:center;gap:14px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600;text-decoration:none}
+  .brand .pin{width:28px;height:28px;flex:none;display:grid;place-items:center;border-radius:8px;background:var(--brand);color:#fff}
+  .brand .pin svg{width:16px;height:16px}
+  .brand-logo{width:28px;height:28px;display:block}
+  .spacer{flex:1}
+  .tbtn{font:inherit;font-size:.8rem;font-weight:500;letter-spacing:-.01em;color:var(--ink);background:transparent;border:0;
+    border-radius:var(--radius-pill);padding:7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;text-decoration:none;
+    transition:background .2s var(--ease)}
+  .tbtn:hover{background:rgba(255,255,255,.08)}
+  .tbtn svg{width:16px;height:16px}
+  .plan-count{min-width:20px;height:20px;padding:0 6px;border-radius:999px;display:inline-grid;place-items:center;
+    background:var(--brand);color:#fff;font-size:.7rem;font-weight:600}
+  .plan-count.zero{background:var(--fill);color:var(--ink-soft)}
+  .tabs{display:flex;gap:2px;padding:2px;background:var(--fill);border-radius:9px}
+  .tab{font-size:.8rem;font-weight:500;letter-spacing:-.01em;text-align:center;text-decoration:none;color:var(--ink);
+    padding:5px 16px;border-radius:7px;transition:background .2s var(--ease)}
+  .tab:hover{background:rgba(255,255,255,.06)}
+  .tab[aria-current="page"]{color:#fff;background:#636366;box-shadow:0 3px 8px rgba(0,0,0,.12),0 3px 1px rgba(0,0,0,.04)}
+  @media (max-width:640px){
+    .topbar-in{flex-wrap:wrap}
+    .tabs{order:10;width:100%;justify-content:center}
+    #planBtn{font-size:0;gap:0;padding:8px 10px}
+    #planBtn .plan-count{font-size:.68rem;margin-left:6px}
+  }
+
+  /* ---------- lista de roadmaps (escura, como a home do roadmap.sh) ---------- */
+  /* hero igual ao da aba Mentorias: mesmo vídeo de fundo, véu escuro, sobrancelha e headline em gradiente */
+  .m-hero{position:relative;overflow:hidden;padding:84px 0 44px;text-align:center;
+    background:radial-gradient(60% 70% at 50% 0%,color-mix(in srgb,var(--ment) 22%,transparent),transparent 70%)}
+  .m-hero>.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 22px}
+  .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;opacity:.7;
+    -webkit-mask-image:linear-gradient(to bottom,#000 60%,transparent);mask-image:linear-gradient(to bottom,#000 60%,transparent)}
+  .hero-veil{position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(70% 80% at 50% 45%,rgba(0,0,0,.6),rgba(0,0,0,.25) 80%),
+      linear-gradient(to bottom,transparent 55%,var(--paper) 100%)}
+  .m-hero .eyebrow{margin:0 0 10px;font-size:1.05rem;font-weight:600;color:var(--ment)}
+  .m-hero h1{margin:0 auto;font-size:clamp(2.6rem,7vw,4.6rem);line-height:1.04;font-weight:700;letter-spacing:-.028em;max-width:14ch}
+  .m-hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--ment),#FF6FB5 55%,var(--accent));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    /* respiro para a última letra não ser cortada pelo recorte do gradiente */
+    padding:0 .12em .06em 0;margin-right:-.12em}
+  .seg{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:4px;margin-top:26px;padding:4px;background:var(--fill);border-radius:12px}
+  .seg a{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:9px;font-size:.88rem;font-weight:600;
+    color:var(--ink-soft);text-decoration:none;transition:background .2s var(--ease),color .2s var(--ease)}
+  .seg a:hover{color:var(--ink);background:rgba(255,255,255,.06)}
+  .seg a[aria-current="page"]{background:#f5f5f7;color:#111}
+  .soon{font-size:.6rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:5px;
+    background:color-mix(in srgb,var(--gold) 22%,transparent);color:var(--gold)}
+  .seg a[aria-current="page"] .soon{background:#111;color:var(--gold)}
+
+  .rl-sec{max-width:1080px;margin:44px auto 0;padding:0 22px;scroll-margin-top:72px}
+  .rl-sec h2{display:flex;align-items:center;gap:10px;margin:0 0 6px;font-size:1.25rem;font-weight:700}
+  .rl-sec h2 .n{font-size:.72rem;font-weight:700;color:var(--ink-soft);background:var(--fill);border-radius:999px;padding:2px 9px}
+  .rl-sec>p{margin:0 0 16px;color:var(--ink-faint);font-size:.9rem}
+  .rl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:10px}
+  .rl-card{--hue:#888;position:relative;display:flex;align-items:center;gap:13px;padding:13px 16px 13px 13px;min-height:74px;
+    background:#141416;border:1px solid var(--line-strong);border-radius:10px;text-decoration:none;color:var(--ink);
+    transition:background .18s var(--ease),border-color .18s var(--ease),transform .18s var(--ease)}
+  .rl-card:hover{background:#1c1c1e;border-color:color-mix(in srgb,var(--hue) 55%,var(--line-strong));transform:translateY(-2px)}
+  .rl-txt{display:flex;flex-direction:column;gap:3px;min-width:0}
+  /* ícone do card: origami (role-based) ou logo minimalista da tecnologia (skill-based), em papel branco sobre a cor da trilha */
+  .rl-ic{flex:none;width:44px;height:44px;border-radius:11px;display:grid;place-items:center;color:var(--tinta,#fff);background:var(--hue);
+    --ori-k:var(--k,color-mix(in srgb,var(--hue) 58%,#000));box-shadow:inset 0 0 0 .5px rgba(255,255,255,.18)}
+  .rl-ic svg{width:31px;height:31px;overflow:visible;transition:transform .3s var(--ease)}
+  .rl-ic.ori svg{filter:drop-shadow(0 1.5px 0 rgba(0,0,0,.22))}
+  .rl-ic .ol{fill:none;stroke:currentColor;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round}
+  .rl-ic .ok{fill:var(--ori-k)}
+  .rl-ic .om{stroke:var(--ori-k)}
+  .rl-card:hover .rl-ic svg{transform:rotate(-7deg) scale(1.08)}
+  .rl-card b{font-size:1rem;font-weight:600;letter-spacing:-.015em}
+  .rl-card small{font-size:.75rem;color:var(--ink-faint);line-height:1.35}
+  .rl-card .from{font-size:.68rem;font-weight:600;color:color-mix(in srgb,var(--hue) 60%,#fff);opacity:.8}
+
+  .pk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+  .pk{position:relative;padding:16px 16px 14px 20px;background:#141416;border:1px solid var(--line-strong);border-radius:12px}
+  .pk::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--hue)}
+  .pk h3{margin:0;font-size:1.05rem}
+  .pk-lv{display:inline-block;margin-top:6px;font-size:.66rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--hue);background:color-mix(in srgb,var(--hue) 16%,transparent);border-radius:5px;padding:2px 7px}
+  .pk p{margin:8px 0 0;color:var(--ink-soft);font-size:.88rem}
+  .pk-its{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+  .pk-it{display:flex;flex-direction:column;gap:1px;text-decoration:none;font-size:.85rem;font-weight:600;padding:8px 10px;border-radius:8px;background:var(--surface)}
+  .pk-it:hover{background:var(--surface-2)}
+  .pk-it i{font-style:normal;font-size:.64rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint)}
+  .soon-box{max-width:560px;margin:46px auto 0;padding:34px 28px;text-align:center;background:#141416;border:1px solid var(--line-strong);border-radius:16px}
+  .soon-box .ic{font-size:2.2rem}
+  .soon-box h2{margin:10px 0 6px;font-size:1.4rem}
+  .soon-box p{margin:0;color:var(--ink-soft)}
+  .soon-box a{display:inline-block;margin-top:18px;font-weight:600;color:var(--accent);text-decoration:none}
+
+  .foot{max-width:1080px;margin:70px auto 0;padding:22px 22px 44px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:.78rem}
+
+  /* ---------- visão de mapa (clara, como as páginas de roadmap do roadmap.sh) ---------- */
+  .mv{background:var(--rm-paper);color:var(--rm-ink);min-height:calc(100vh - 52px);color-scheme:light}
+  .mv a{color:inherit}
+  .mv-head{max-width:1100px;margin:0 auto;padding:26px 22px 6px}
+  .mv-back{display:inline-flex;align-items:center;gap:6px;font-size:.86rem;font-weight:600;color:var(--rm-soft) !important;text-decoration:none}
+  .mv-back:hover{color:var(--rm-ink) !important}
+  .mv-kind{display:inline-block;margin:18px 0 0;font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--tinta,#fff);background:var(--hue,#333);border-radius:5px;padding:3px 8px}
+  .mv-head h1{margin:8px 0 0;font-size:clamp(2rem,4.6vw,2.9rem);font-weight:800;letter-spacing:-.04em;line-height:1.05}
+  .mv-head .desc{margin:10px 0 0;max-width:62ch;color:var(--rm-soft);font-size:1.02rem}
+  .mv-meta{margin:6px 0 0;font-size:.85rem;color:var(--rm-faint)}
+  .mv-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .mv-btn{display:inline-flex;align-items:center;gap:7px;font-size:.84rem;font-weight:700;text-decoration:none;
+    color:var(--rm-ink) !important;background:#fff;border:2px solid var(--rm-border);border-radius:8px;padding:7px 13px;
+    transition:transform .12s ease,box-shadow .12s ease}
+  .mv-btn:hover{transform:translateY(-1px);box-shadow:0 3px 0 var(--rm-border)}
+  .mv-btn.ghost{border-color:#d1d5db}
+  .mv-btn.ghost:hover{box-shadow:0 3px 0 #d1d5db}
+  .mv-btn svg{width:14px;height:14px}
+
+  .legend{display:flex;flex-wrap:wrap;gap:10px 18px;margin:20px 0 0;padding:12px 14px;border:1px solid #e5e7eb;border-radius:10px;
+    background:#f9fafb;font-size:.8rem;color:var(--rm-soft)}
+  .legend span{display:inline-flex;align-items:center;gap:8px}
+  .lg-box{width:26px;height:16px;border:2px solid var(--rm-border);border-radius:4px;flex:none}
+  .lg-box.main{background:var(--rm-yellow)}
+  .lg-box.sat{background:var(--rm-beige)}
+  .lg-box.opt{background:var(--rm-opt);border-style:dashed}
+  .lg-check{width:18px;height:18px;border-radius:50%;background:var(--rm-check);color:#fff;display:grid;place-items:center;font-size:.66rem;font-weight:900;flex:none}
+  .lg-line{width:30px;height:0;border-top:3px solid var(--rm-line);flex:none}
+  .lg-line.dot{border-top:3px dotted var(--rm-line)}
+
+  .map{position:relative;max-width:1100px;margin:0 auto;padding:34px 22px 90px}
+  .map-lines{position:absolute;left:0;top:0;pointer-events:none;overflow:visible;z-index:0}
+  .ln-main{fill:none;stroke:var(--rm-line);stroke-width:3.2;stroke-linecap:round}
+  .ln-sub{fill:none;stroke:var(--rm-line);stroke-width:3.2;stroke-linecap:round;stroke-dasharray:.1 7.5}
+
+  .row{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) 290px minmax(0,1fr);gap:0 70px;align-items:center;margin:0 0 38px}
+  .col{display:flex;flex-direction:column;gap:10px}
+  .col.l{align-items:flex-end}
+  .col.r{align-items:flex-start}
+  .col .nd-sat{width:auto;min-width:170px;max-width:250px}
+
+  .nd{position:relative;display:block;width:100%;font:inherit;font-size:.88rem;font-weight:600;line-height:1.25;letter-spacing:-.01em;
+    text-align:center;color:var(--rm-ink);background:var(--rm-beige);border:2px solid var(--rm-border);border-radius:6px;
+    padding:9px 32px;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease}
+  .nd:hover{transform:translateY(-1px);box-shadow:0 3px 0 var(--rm-border)}
+  .nd:focus-visible{outline:3px solid var(--rm-line);outline-offset:3px}
+  .nd.is-active{box-shadow:0 0 0 4px color-mix(in srgb,var(--rm-line) 45%,transparent)}
+  .nd-main{background:var(--rm-yellow);font-size:.98rem;padding:12px 36px}
+  .nd-opt{background:var(--rm-opt);border-style:dashed;color:#374151}
+  .nd .chip{display:block;margin-bottom:3px;font-size:.62rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#8a6400}
+  .nd-main .chip{color:#6b5800}
+  .nd .t{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  /* ícone preto discreto do tipo de conteúdo (formação, certificação, projeto, curso, mentoria) */
+  .tp-ic{display:grid;place-items:center;color:#111;opacity:.72}
+  .tp-ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .nd .tp-ic{position:absolute;left:10px;top:50%;width:16px;height:16px;transform:translateY(-50%)}
+  .nd-main .tp-ic{left:12px;width:18px;height:18px}
+  .lg-tp{width:16px;height:16px;flex:none}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  /* alternativa de uma "escolha 1": selo verde, como o check de alternativa do roadmap.sh */
+  .nd-alt::after{content:"✓";position:absolute;top:-10px;right:-10px;width:21px;height:21px;border-radius:50%;
+    display:grid;place-items:center;background:var(--rm-check);color:#fff;font-size:.68rem;font-weight:900;border:2px solid #fff}
+
+  .row.fork{display:block}
+  .fork-box{position:relative;max-width:980px;margin:0 auto;padding:16px 16px 18px;border:2px dashed #9ca3af;border-radius:14px;background:#f8fafc}
+  .fork-label{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin:0 0 16px;font-size:.88rem;font-weight:700;color:#374151;text-align:center}
+  .fork-label .badge{font-size:.64rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--rm-check);border-radius:5px;padding:3px 8px}
+  .alts{display:flex;flex-wrap:wrap;justify-content:center;gap:18px 16px}
+  .alt{width:186px;display:flex;flex-direction:column;gap:14px}
+  .alt-label{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#4b5563;text-align:center}
+  .alt .nd-main{font-size:.88rem;padding:10px 12px}
+  .alt-link{font-size:.76rem;font-weight:700;color:var(--rm-line) !important;text-decoration:none;text-align:center;margin-top:-4px}
+  .alt-link:hover{text-decoration:underline}
+
+  /* celular: o mapa vira coluna — espinha à esquerda, complementos empilhados com pontilhado */
+  @media (max-width:760px){
+    .map{padding:26px 16px 70px}
+    .row{grid-template-columns:1fr;gap:10px;margin-bottom:30px}
+    .col.c{order:-1}
+    .col.l,.col.r{align-items:stretch;padding-left:38px}
+    .col .nd-sat{max-width:none;min-width:0}
+    .nd{text-align:left;padding-left:34px;padding-right:14px}
+    .nd-main{padding-left:38px}
+    .fork-box{padding:14px 12px 16px}
+    .alts{flex-direction:column;gap:14px}
+    .alt{width:auto;padding-left:26px}
+    .alt-label,.alt-link{text-align:left}
+    .nd-alt::after{right:-8px}
+  }
+
+  /* ---------- painel lateral ---------- */
+  .pn-ov{position:fixed;inset:0;z-index:60;background:rgba(15,23,42,.32);opacity:0;transition:opacity .25s var(--ease)}
+  .pn-ov.show{opacity:1}
+  .pn{position:fixed;top:0;right:0;bottom:0;z-index:61;width:min(440px,100vw);overflow-y:auto;background:#fff;color:var(--rm-ink);
+    color-scheme:light;box-shadow:-24px 0 48px rgba(0,0,0,.22);padding:20px 22px 30px;
+    /* fechado: sai da tela inteiro (inclusive a sombra) e some da navegação por teclado */
+    transform:translateX(calc(100% + 72px));visibility:hidden;
+    transition:transform .3s cubic-bezier(.22,1,.36,1),visibility 0s linear .3s}
+  .pn.show{transform:none;visibility:visible;transition:transform .3s cubic-bezier(.22,1,.36,1),visibility 0s}
+  .pn-x{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:10px;border:0;background:#f3f4f6;color:#111;
+    font-size:1rem;cursor:pointer}
+  .pn-x:hover{background:#e5e7eb}
+  .pn-ic{width:64px;height:64px;border-radius:14px;display:grid;place-items:center;color:var(--tinta,#fff);background:var(--hue,#333);
+    --ori-k:var(--k,color-mix(in srgb,var(--hue,#333) 58%,#000));margin-top:6px}
+  .pn-ic svg{width:44px;height:44px;filter:drop-shadow(0 1.5px 0 rgba(0,0,0,.22))}
+  .pn-ic .ol{fill:none;stroke:currentColor;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round}
+  .pn-ic .ok{fill:var(--ori-k)}
+  .pn-ic .om{stroke:var(--ori-k)}
+  .pn-ic.glyph svg{width:30px;height:30px;filter:none}
+  .pn-chips{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 0}
+  .pn-chip{font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:5px;padding:3px 8px;background:#f3f4f6;color:#374151}
+  .pn-chip.type{background:var(--hue,#333);color:var(--tinta,#fff)}
+  .pn h2{margin:10px 0 0;font-size:1.45rem;font-weight:800;letter-spacing:-.03em;line-height:1.15}
+  .pn-role{margin:8px 0 0;color:var(--rm-soft);font-size:.92rem}
+  .pn-sub{margin:12px 0 0;padding:12px 14px;border-radius:8px;background:#f9fafb;border:1px solid #e5e7eb;font-size:.92rem;line-height:1.5;color:#374151}
+  .pn-sec{margin:20px 0 0;padding-top:16px;border-top:1px solid #e5e7eb}
+  .pn-sec h3{margin:0 0 8px;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--rm-faint)}
+  .pn-step{display:flex;align-items:center;gap:8px;width:100%;font:inherit;font-size:.92rem;font-weight:600;text-align:left;color:var(--rm-ink);
+    background:#fff;border:2px solid #e5e7eb;border-radius:8px;padding:9px 12px;cursor:pointer;text-decoration:none}
+  .pn-step:hover{border-color:var(--rm-border)}
+  .pn-step svg{width:15px;height:15px;flex:none;margin-left:auto;color:var(--rm-faint)}
+  .pn-acts{display:flex;flex-direction:column;gap:8px;margin-top:22px}
+  .pn-go{display:flex;align-items:center;justify-content:center;gap:8px;font-size:.95rem;font-weight:700;text-decoration:none;
+    color:#fff !important;background:#111;border-radius:10px;padding:12px 16px;border:0;cursor:pointer;font-family:inherit}
+  .pn-go:hover{background:#2b2b2b}
+  .pn-go svg{width:15px;height:15px}
+  .pn-plan{display:flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-size:.92rem;font-weight:700;color:#111;
+    background:#fff;border:2px solid #111;border-radius:10px;padding:10px 16px;cursor:pointer}
+  .pn-plan.in{background:var(--gold);border-color:var(--gold);color:#1c1600}
+  .pn-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+  .pn-list a{display:flex;flex-direction:column;gap:2px;text-decoration:none;padding:9px 12px;border:1px solid #e5e7eb;border-radius:8px}
+  .pn-list a:hover{border-color:var(--rm-border)}
+  .pn-list b{font-size:.88rem;font-weight:600;line-height:1.3}
+  .pn-list small{font-size:.74rem;color:var(--rm-faint)}
+  .pn-list .fut{color:var(--rm-check);font-weight:700}
+
+  .toast{position:fixed;left:50%;bottom:22px;z-index:90;transform:translate(-50%,20px);opacity:0;pointer-events:none;
+    background:#111;color:#fff;font-size:.86rem;padding:10px 16px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.3);
+    transition:opacity .2s ease,transform .2s ease}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important;animation:none !important}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html" aria-label="Roadmap DIO">
+      <img class="brand-logo" src="assets/dio-logo.webp" width="28" height="28" alt="">
+    </a>
+    <nav class="tabs" aria-label="Páginas do guia">
+      <a class="tab" href="index.html">Guias</a>
+      <a class="tab" href="roadmap.html" aria-current="page">Roadmaps</a>
+      <a class="tab" href="mentorias.html">Mentorias</a>
+      <a class="tab" href="blog.html">Blog</a>
+    </nav>
+    <!-- marca e abas à esquerda; o Meu plano fica sozinho no canto direito.
+         O plano mora nas Guias: o botão leva para lá com o painel aberto -->
+    <div class="spacer"></div>
+    <a class="tbtn" id="planBtn" href="index.html#plano" title="Abrir Meu plano nas Guias">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>
+      Meu plano
+      <span class="plan-count zero" id="planCount">0</span>
+    </a>
+  </div>
+</header>
+
+<!-- ===== lista de roadmaps (Roadmaps / Lesson packs / Project ideas) ===== -->
+<main id="listView">
+  <section class="m-hero">
+    <video class="hero-video" src="assets/videos/splash.webm" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
+    <div class="hero-veil" aria-hidden="true"></div>
+    <script>if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches){var hv=document.querySelector('.hero-video');hv.removeAttribute('autoplay');hv.pause();}</script>
+    <div class="wrap">
+    <p class="eyebrow">Roadmaps · DIO</p>
+    <h1>Escolha um caminho. <em>Veja o mapa.</em></h1>
+    <nav class="seg" aria-label="Seções do Roadmap">
+      <a href="#roadmaps" data-seg="roadmaps">Roadmaps</a>
+      <a href="#lesson-packs" data-seg="lesson-packs">Lesson packs <span class="soon">Em breve</span></a>
+      <a href="#project-ideas" data-seg="project-ideas">Project ideas <span class="soon">Em breve</span></a>
+    </nav>
+    </div>
+  </section>
+
+  <div id="segRoadmaps">
+    <section class="rl-sec" id="role-based">
+      <h2>Role-based <span class="n" id="roleCount"></span></h2>
+      <p>Para quem já sabe a profissão que quer seguir.</p>
+      <div class="rl-grid" id="roleGrid"></div>
+    </section>
+    <section class="rl-sec" id="skill-based">
+      <h2>Skill-based <span class="n" id="skillCount"></span></h2>
+      <p>Para quem já escolheu uma tecnologia: cada rota alternativa das trilhas vira um mapa próprio.</p>
+      <div class="rl-grid" id="skillGrid"></div>
+    </section>
+  </div>
+
+  <div id="segSoon" hidden>
+    <div class="soon-box">
+      <div class="ic" id="soonIc">📦</div>
+      <h2 id="soonTitle">Lesson packs</h2>
+      <p id="soonText">Em breve.</p>
+      <a href="#roadmaps">Ver os roadmaps →</a>
+    </div>
+  </div>
+  <!-- lesson packs / project ideas preenchidos em paths/ viram cards aqui -->
+  <section class="rl-sec" id="segItems" hidden>
+    <h2 id="segItemsTitle"></h2>
+    <div class="pk-grid" id="segItemsGrid"></div>
+  </section>
+
+  <p class="foot">Os mapas usam o mesmo catálogo das Guias. A ordem é uma sugestão de estudo: adapte ao seu ritmo e objetivo.</p>
+</main>
+
+<!-- ===== mapa mental de um roadmap ===== -->
+<main class="mv" id="mapView" hidden>
+  <div class="mv-head" id="mapHead"></div>
+  <div class="map" id="map"></div>
+</main>
+
+<!-- ===== painel lateral ===== -->
+<div class="pn-ov" id="pnOv" hidden></div>
+<aside class="pn" id="pn" role="dialog" aria-modal="true" aria-labelledby="pnTitle" aria-hidden="true">
+  <button class="pn-x" id="pnX" type="button" aria-label="Fechar painel">✕</button>
+  <div id="pnBody"></div>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- conteúdos (data/), catálogo único (js/) e configuração dos caminhos (paths/) -->
+<script src="data/formacoes.js"></script>
+<script src="data/certificacoes.js"></script>
+<script src="data/projetos.js"></script>
+<script src="data/cursos.js"></script>
+<script src="data/artigos.js"></script>
+<script src="data/mentorias.js"></script>
+<script src="js/catalogo.js"></script>
+<script src="paths/guias.js"></script>
+<script src="paths/roadmaps-role.js"></script>
+<script src="paths/roadmaps-skill.js"></script>
+<script src="paths/lesson-packs.js"></script>
+<script src="paths/project-ideas.js"></script>
+<script>
+(function(){
+'use strict';
+
+/* =====================================================================
+   A configuração mora em paths/ (roadmaps-role.js, roadmaps-skill.js,
+   lesson-packs.js, project-ideas.js) e os conteúdos em data/. Aqui só lemos.
+   ===================================================================== */
+var ROLE_CFG={}, ROLE_IDS=[];
+(window.ROADMAPS_ROLE||[]).forEach(function(r){ ROLE_CFG[r.id]=r; ROLE_IDS.push(r.id); });
+var SKILLS=window.ROADMAPS_SKILL||[];
+var TEMAS=window.TEMAS_MENTORIA||{};
+function temaNome(tag){ return (TEMAS[tag]&&TEMAS[tag].nome)||tag; }
+function temaAncora(tag){ return (TEMAS[tag]&&TEMAS[tag].ancora)||[]; }
+function ancoraDe(id){ return TRACKS[id]&&TRACKS[id].ancora; }
+
+/* ===================================================================== */
+
+var PLAN_KEY='dio-study-plan';
+var TYPE_LABEL={formacao:'Formação',certificacao:'Certificação',projeto:'Projeto',mentoria:'Mentoria',curso:'Curso',artigo:'Artigo',mentorias:'Mentorias'};
+var GO_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+var EXT_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+var TYPE_ICON={
+  formacao:'<path d="M2 9.5 12 4.5l10 5-10 5z"/><path d="M6 11.6v4.6c0 1.6 2.7 3 6 3s6-1.4 6-3v-4.6"/><path d="M22 9.5v5.2"/>',
+  certificacao:'<circle cx="12" cy="9" r="5.6"/><path d="M8.6 13.4 7.2 21l4.8-2.6 4.8 2.6-1.4-7.6"/>',
+  projeto:'<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5.5l-3 13"/>',
+  curso:'<path d="M2.5 5.5c3-1.4 6.6-1.3 9.5.6 2.9-1.9 6.5-2 9.5-.6v13.4c-3-1.4-6.6-1.3-9.5.6-2.9-1.9-6.5-2-9.5-.6z"/><path d="M12 6.1v13.4"/>',
+  mentoria:'<rect x="2.5" y="6" width="13" height="12" rx="2.5"/><path d="M15.5 10.5l6-3.5v10l-6-3.5"/>',
+  artigo:'<path d="M6.5 2.5h8l4 4v15h-12z"/><path d="M14.5 2.5v4h4M9.5 12h5M9.5 15.5h5M9.5 9h2"/>'
+};
+TYPE_ICON.mentorias=TYPE_ICON.mentoria;
+function typeIcon(type,cls){ return '<span class="tp-ic'+(cls?' '+cls:'')+'" aria-hidden="true"><svg viewBox="0 0 24 24">'+(TYPE_ICON[type]||TYPE_ICON.formacao)+'</svg></span>'; }
+var GLYPH={
+  artigo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 2.5h8l4 4v15h-12z"/><path d="M14.5 2.5v4h4M9.5 12h5M9.5 15.5h5M9.5 9h2"/></svg>',
+  projeto:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13.5 6l-3 12"/></svg>',
+  mentoria:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2.5"/><path d="M16 10.5l5-3v9l-5-3"/></svg>',
+  curso:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>'
+};
+
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function career(id){ for(var i=0;i<CAREERS.length;i++) if(CAREERS[i].id===id) return CAREERS[i]; return null; }
+function title(id){ return TRACKS[id]?TRACKS[id].t:'—'; }
+function tagSlug(tag){ return encodeURIComponent(tag.replace(/ /g,'-')); }
+
+/* ---------- mentorias por tema (mais recentes primeiro) ---------- */
+var MENT=(window.MENTORIAS||[]).slice().sort(function(a,b){ return a.d<b.d?1:a.d>b.d?-1:0; });
+var MENT_BY_TAG={};
+MENT.forEach(function(m){ (m.g||[]).forEach(function(g){ (MENT_BY_TAG[g]=MENT_BY_TAG[g]||[]).push(m); }); });
+var TODAY=new Date(); TODAY=TODAY.getFullYear()+'-'+String(TODAY.getMonth()+1).padStart(2,'0')+'-'+String(TODAY.getDate()).padStart(2,'0');
+function fmtDate(iso){ var p=iso.split('-'); return p[2]+'/'+p[1]+'/'+p[0]; }
+
+/* ---------- definições: id -> {kind, name, hue, ...} ---------- */
+var DEFS={}, ORDER_ROLE=[], ORDER_SKILL=[];
+ROLE_IDS.forEach(function(id){
+  var c=career(id); if(!c) return;
+  DEFS[id]={id:id,kind:'role',name:c.name,hue:c.hue,ink:'#fff',career:id,pick:null,pre:[],skip:[],desc:c.tag,
+    tags:ROLE_CFG[id].temas||[],ori:ROLE_CFG[id].ori,blocks:id};
+  ORDER_ROLE.push(id);
+});
+SKILLS.forEach(function(s){
+  var base=career(s.career||s.from); if(!base) return;
+  DEFS[s.id]={id:s.id,kind:'skill',name:s.name,hue:s.cor||base.hue,ink:s.tinta||'#fff',acc:s.acento||'',hole:s.furo||'',
+    logo:s.logo||'',career:s.career||s.from,pick:s.pick||null,pre:s.pre||[],skip:s.skip||[],
+    tags:s.temas||[],parent:s.career?null:s.from,blocks:s.career||s.from,
+    desc:'Passo a passo para aprender '+s.name+' com os conteúdos da DIO.'};
+  ORDER_SKILL.push(s.id);
+});
+/* rota alternativa (trilha, rótulo) -> id da skill, para o link "Ver roadmap de X" */
+function skillFor(careerId,label){
+  for(var i=0;i<SKILLS.length;i++){
+    var s=SKILLS[i];
+    if(s.from===careerId&&s.pick===label) return s.id;
+    if(s.alias) for(var j=0;j<s.alias.length;j++) if(s.alias[j][0]===careerId&&s.alias[j][1]===label) return s.id;
+  }
+  return null;
+}
+
+/* ---------- monta o mapa: linhas da espinha (nós ou "escolha 1") + satélites ---------- */
+function buildMap(def){
+  var c=career(def.career), rows=[], sats=[], lastNodeRow=-1, seen={};
+  function node(id,cls){ seen[id]=1; return {key:'t'+id,id:id,type:tipoDe(id),cls:cls}; }
+  function pushSpine(id,isBase){
+    rows.push({kind:'node',node:node(id,isBase?'base':'main'),left:[],right:[]});
+    lastNodeRow=rows.length-1;
+  }
+  def.pre.forEach(function(id){ pushSpine(id,true); });
+  c.steps.forEach(function(st){
+    if(st.d) return;
+    if(st.fork){
+      if(def.pick){
+        st.opts.forEach(function(o){ if(o.l===def.pick) o.n.forEach(function(id){ if(!seen[id]) pushSpine(id,false); }); });
+      }else{
+        rows.push({kind:'fork',label:st.fork,alts:st.opts.map(function(o){
+          return {label:o.l,skill:skillFor(def.career,o.l),nodes:o.n.map(function(id){ return node(id,'alt'); })};
+        })});
+      }
+      return;
+    }
+    if(def.skip.indexOf(st.r)>=0||seen[st.r]) return;
+    if(!st.s||st.s==='base') pushSpine(st.r,st.s==='base'&&!def.pre.length);
+    else { seen[st.r]=1; sats.push({id:st.r,s:st.s,after:lastNodeRow}); }
+  });
+  /* artigos do blog (data/artigos.js) cuja âncora está no caminho principal deste mapa */
+  Object.keys(TRACKS).forEach(function(k){
+    var t=TRACKS[k]; if(t.k==='artigo'&&t.ancora&&t.ancora.length) sats.push({id:+k,s:'art',artAnc:t.ancora,after:lastNodeRow});
+  });
+  def.tags.forEach(function(tag){ if(MENT_BY_TAG[tag]) sats.push({tag:tag,after:lastNodeRow}); });
+
+  function rowOf(id){ for(var i=0;i<rows.length;i++) if(rows[i].kind==='node'&&rows[i].node.id===id) return i; return -1; }
+  function firstNodeRow(){ for(var i=0;i<rows.length;i++) if(rows[i].kind==='node') return i; return -1; }
+  sats.forEach(function(s){
+    var at=-1;
+    if(s.artAnc){ /* artigo só entra se uma das formações que ele explica estiver no mapa */
+      s.artAnc.some(function(id){ at=rowOf(id); return at>=0; });
+      if(at<0) return;
+    }
+    else if(s.id&&ancoraDe(s.id)) at=rowOf(ancoraDe(s.id));
+    if(at<0&&s.tag) temaAncora(s.tag).some(function(id){ at=rowOf(id); return at>=0; });
+    if(at<0) at=s.after>=0?s.after:firstNodeRow();
+    if(at<0) return;
+    var row=rows[at], n;
+    if(s.tag) n={key:'m-'+tagSlug(s.tag),tag:s.tag,type:'mentorias',cls:'sat',count:MENT_BY_TAG[s.tag].length};
+    else n={key:'t'+s.id,id:s.id,type:tipoDe(s.id),cls:s.s==='opt'?'opt':'sat',s:s.s};
+    n.anchor=row.node;
+    /* alterna os lados para o mapa ficar equilibrado */
+    (row.right.length<=row.left.length?row.right:row.left).push(n);
+  });
+  return rows;
+}
+
+function countMap(def){
+  var rows=buildMap(def), f=0, ce=0, cu=0, ar=0, p=0, tags=[], seenM={}, nm=0;
+  function add(n){
+    if(n.type==='mentorias'){ tags.push(n.tag); return; }
+    if(n.type==='mentoria'){ var sl=TRACKS[n.id].u.split('/lives/')[1]; if(!seenM[sl]){ seenM[sl]=1; nm++; } return; }
+    if(n.type==='projeto') p++; else if(n.type==='certificacao') ce++; else if(n.type==='curso') cu++; else if(n.type==='artigo') ar++; else f++;
+  }
+  rows.forEach(function(r){
+    if(r.kind==='fork') r.alts.forEach(function(a){ a.nodes.forEach(add); });
+    else { add(r.node); r.left.concat(r.right).forEach(add); }
+  });
+  tags.forEach(function(t){ MENT_BY_TAG[t].forEach(function(m){ if(!seenM[m.s]){ seenM[m.s]=1; nm++; } }); });
+  var parts=[];
+  if(f) parts.push(f+(f>1?' formações':' formação'));
+  if(ce) parts.push(ce+(ce>1?' certificações':' certificação'));
+  if(cu) parts.push(cu+(cu>1?' cursos':' curso'));
+  if(ar) parts.push(ar+(ar>1?' artigos':' artigo'));
+  if(p) parts.push(p+(p>1?' projetos':' projeto'));
+  if(nm) parts.push(nm+(nm>1?' mentorias':' mentoria'));
+  return parts.join(' · ');
+}
+
+/* ---------- Meu plano (mesma chave e formato das Guias) ---------- */
+function loadPlan(){ try{ return JSON.parse(localStorage.getItem(PLAN_KEY))||[]; }catch(e){ return []; } }
+function savePlan(p){ try{ localStorage.setItem(PLAN_KEY,JSON.stringify(p)); }catch(e){} }
+function inPlan(id){ return loadPlan().some(function(x){ return x.id===id; }); }
+function syncPlanCount(){
+  var n=loadPlan().length, el=document.getElementById('planCount');
+  el.textContent=n; el.classList.toggle('zero',!n);
+}
+window.addEventListener('storage',function(e){ if(e.key===PLAN_KEY) syncPlanCount(); });
+var toastT=0;
+function toast(html){
+  var t=document.getElementById('toast'); t.innerHTML=html; t.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(function(){ t.classList.remove('show'); },2200);
+}
+
+/* ---------- lista ---------- */
+/* cores de um roadmap como variáveis CSS: --hue fundo, --tinta desenho, --acc acento, --k furos
+   (não usar --ink: é a cor de texto do site e vazaria para o card) */
+function hueVars(d){
+  return '--hue:'+d.hue+';--tinta:'+d.ink+(d.acc?';--acc:'+d.acc:'')+(d.hole?';--k:'+d.hole:'');
+}
+var listView=document.getElementById('listView'), mapView=document.getElementById('mapView');
+function cardIcon(d){
+  if(d.ori)
+    return '<span class="rl-ic ori" aria-hidden="true" title="Origami: '+esc(d.ori[0])+'">'+oriRender(d.ori[1])+'</span>';
+  if(d.logo)
+    return '<span class="rl-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor">'+d.logo+'</svg></span>';
+  return '';
+}
+function card(id){
+  var d=DEFS[id];
+  var from=d.parent?'<span class="from">rota de '+esc(career(d.parent).name)+'</span>':'';
+  return '<a class="rl-card" href="#'+id+'" style="'+hueVars(d)+'">'+cardIcon(d)
+    +'<span class="rl-txt"><b>'+esc(d.name)+'</b>'+from+'<small>'+countMap(d)+'</small></span></a>';
+}
+document.getElementById('roleGrid').innerHTML=ORDER_ROLE.map(card).join('');
+document.getElementById('skillGrid').innerHTML=ORDER_SKILL.map(card).join('');
+document.getElementById('roleCount').textContent=ORDER_ROLE.length;
+document.getElementById('skillCount').textContent=ORDER_SKILL.length;
+
+var SOON={
+  'lesson-packs':{ic:'📦',t:'Lesson packs',p:'Pacotes de aulas curtas e focadas, combinando cursos da DIO por assunto. Estamos preparando.'},
+  'project-ideas':{ic:'💡',t:'Project ideas',p:'Ideias de projetos práticos por nível, para você montar portfólio com o que aprendeu. Estamos preparando.'}
+};
+/* lesson packs e project ideas vêm de paths/; vazios = "Em breve" */
+var SEG_ITEMS={'lesson-packs':window.LESSON_PACKS||[],'project-ideas':window.PROJECT_IDEAS||[]};
+Object.keys(SEG_ITEMS).forEach(function(k){
+  if(!SEG_ITEMS[k].length) return;
+  var b=document.querySelector('.seg a[data-seg="'+k+'"] .soon'); if(b) b.remove();
+});
+function packCard(it){
+  var itens=(it.itens||[]).filter(function(id){ return TRACKS[id]; }).map(function(id){
+    return '<a class="pk-it" href="'+esc(TRACKS[id].u)+'" target="_blank" rel="noopener"><i>'+TYPE_LABEL[tipoDe(id)]+'</i>'+esc(TRACKS[id].t)+'</a>';
+  }).join('');
+  return '<article class="pk" style="--hue:'+esc(it.cor||'#BF5AF2')+'"><h3>'+esc(it.titulo||'')+'</h3>'
+    +(it.nivel?'<span class="pk-lv">'+esc(it.nivel)+'</span>':'')
+    +(it.descricao?'<p>'+esc(it.descricao)+'</p>':'')
+    +(itens?'<div class="pk-its">'+itens+'</div>':'')+'</article>';
+}
+function showList(seg,anchor){
+  closePanel(true);
+  mapView.hidden=true; listView.hidden=false; current=null;
+  [].forEach.call(document.querySelectorAll('.seg a'),function(a){
+    if(a.getAttribute('data-seg')===seg) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+  });
+  var soon=SOON[seg], items=soon?SEG_ITEMS[seg]:null;
+  document.getElementById('segRoadmaps').hidden=!!soon;
+  document.getElementById('segSoon').hidden=!soon||!!(items&&items.length);
+  document.getElementById('segItems').hidden=!(items&&items.length);
+  if(items&&items.length){
+    document.getElementById('segItemsTitle').innerHTML=esc(soon.t)+' <span class="n">'+items.length+'</span>';
+    document.getElementById('segItemsGrid').innerHTML=items.map(packCard).join('');
+  }else if(soon){
+    document.getElementById('soonIc').textContent=soon.ic;
+    document.getElementById('soonTitle').textContent=soon.t;
+    document.getElementById('soonText').textContent=soon.p;
+  }
+  var target=anchor&&document.getElementById(anchor);
+  if(target) target.scrollIntoView({block:'start'}); else window.scrollTo(0,0);
+}
+
+/* ---------- mapa ---------- */
+var mapEl=document.getElementById('map'), current=null, rowsData=null, byKey={};
+function nodeBtn(n,extraCls){
+  var chip='';
+  if(n.cls==='base') chip='Comece aqui';
+  else if(n.type==='mentorias') chip='Mentorias · '+n.count;
+  else if(n.cls==='opt') chip='Opcional';
+  else if(n.type==='projeto') chip='Projeto';
+  else if(n.type==='artigo') chip=TRACKS[n.id].tag==='Cheatsheet'?'Cheatsheet':'Artigo';
+  else if(n.type==='mentoria') chip='Mentoria';
+  else if(n.type==='curso') chip='Curso';
+  else if(n.type==='certificacao') chip='Certificação';
+  var label=n.type==='mentorias'?'Mentorias de '+temaNome(n.tag):title(n.id);
+  var cls='nd'+(n.cls==='sat'||n.cls==='opt'?' nd-sat':' nd-main')+(n.cls==='opt'?' nd-opt':'')+(n.cls==='alt'?' nd-alt':'')+(extraCls||'');
+  byKey[n.key]=n;
+  return '<button class="'+cls+'" type="button" data-key="'+n.key+'">'+typeIcon(n.type)+'<span class="sr">'+TYPE_LABEL[n.type]+': </span>'
+    +(chip?'<span class="chip">'+chip+'</span>':'')+'<span class="t">'+esc(label)+'</span></button>';
+}
+function showMap(id,nodeKey){
+  var d=DEFS[id];
+  if(current!==id){
+    current=id; byKey={};
+    rowsData=buildMap(d);
+    var c=career(d.career);
+    var head='<a class="mv-back" href="#roadmaps">← Todos os roadmaps</a><br>'
+      +'<span class="mv-kind" style="'+hueVars(d)+'">'+(d.kind==='role'?'Role-based':'Skill-based')+'</span>'
+      +'<h1>'+esc(d.name)+'</h1><p class="desc">'+esc(d.desc)+'</p><p class="mv-meta">'+countMap(d)+'</p>'
+      +'<div class="mv-actions"><a class="mv-btn" href="index.html#trilha='+d.blocks+'">Ver em blocos'+GO_SVG+'</a>'
+      +(d.parent?'<a class="mv-btn ghost" href="#'+d.parent+'">Faz parte de '+esc(c.name)+GO_SVG+'</a>':'')+'</div>'
+      +'<div class="legend" aria-label="Legenda">'
+      +'<span><i class="lg-box main"></i>Formação obrigatória</span>'
+      +'<span><i class="lg-box sat"></i>Projeto ou mentoria que reforça o passo</span>'
+      +'<span><i class="lg-box opt"></i>Opcional</span>'
+      +'<span><i class="lg-check">✓</i>Escolha 1 entre as alternativas</span>'
+      +'<span><i class="lg-line"></i>Caminho principal</span>'
+      +'<span><i class="lg-line dot"></i>Complementos</span>'
+      +['formacao','certificacao','projeto','curso','mentoria','artigo'].map(function(t){ return '<span>'+typeIcon(t,'lg-tp')+TYPE_LABEL[t]+'</span>'; }).join('')+'</div>';
+    var body='<svg class="map-lines" id="mapLines" aria-hidden="true"></svg>';
+    rowsData.forEach(function(r){
+      if(r.kind==='fork'){
+        body+='<div class="row fork"><div class="fork-box"><div class="fork-label"><span class="badge">Escolha 1</span>'+esc(r.label)+'</div><div class="alts">'
+          +r.alts.map(function(a){
+            return '<div class="alt"><div class="alt-label">'+esc(a.label)+'</div>'
+              +a.nodes.map(function(n){ n.alt=a; n.fork=r.label; return nodeBtn(n); }).join('')
+              +(a.skill?'<a class="alt-link" href="#'+a.skill+'">Ver roadmap de '+esc(DEFS[a.skill].name)+' →</a>':'')+'</div>';
+          }).join('')+'</div></div></div>';
+      }else{
+        body+='<div class="row"><div class="col l">'+r.left.map(function(n){ return nodeBtn(n); }).join('')+'</div>'
+          +'<div class="col c">'+nodeBtn(r.node)+'</div>'
+          +'<div class="col r">'+r.right.map(function(n){ return nodeBtn(n); }).join('')+'</div></div>';
+      }
+    });
+    document.getElementById('mapHead').innerHTML=head;
+    mapEl.innerHTML=body;
+    document.getElementById('mapHead').style.setProperty('--hue',d.hue);
+    listView.hidden=true; mapView.hidden=false;
+    window.scrollTo(0,0);
+    requestAnimationFrame(function(){ requestAnimationFrame(drawLines); });
+  }
+  if(nodeKey&&byKey[nodeKey]) openPanel(nodeKey,false); else closePanel(true);
+}
+
+/* linhas: contínuas na espinha, pontilhadas até os satélites (recalculadas a cada mudança de tamanho) */
+var narrowMQ=window.matchMedia('(max-width:760px)');
+function drawLines(){
+  var svg=document.getElementById('mapLines'); if(!svg||mapView.hidden) return;
+  var box=mapEl.getBoundingClientRect(), narrow=narrowMQ.matches, d1='', d2='', prev=null;
+  function R(el){ var b=el.getBoundingClientRect(); return {l:b.left-box.left,t:b.top-box.top,r:b.right-box.left,b:b.bottom-box.top,cx:(b.left+b.right)/2-box.left,cy:(b.top+b.bottom)/2-box.top}; }
+  function f(n){ return Math.round(n*10)/10; }
+  [].forEach.call(mapEl.querySelectorAll('.row'),function(row){
+    var isFork=row.classList.contains('fork');
+    var main=R(isFork?row.querySelector('.fork-box'):row.querySelector('.col.c .nd'));
+    var x=narrow?main.l+18:main.cx;
+    if(prev) d1+='M'+f(prev.x)+' '+f(prev.y)+'L'+f(x)+' '+f(main.t);
+    prev={x:x,y:main.b};
+    if(isFork){
+      [].forEach.call(row.querySelectorAll('.alt'),function(alt){
+        var ns=alt.querySelectorAll('.nd');
+        for(var i=1;i<ns.length;i++){ var a=R(ns[i-1]), b=R(ns[i]); d1+='M'+f(a.cx)+' '+f(a.b)+'L'+f(b.cx)+' '+f(b.t); }
+      });
+      return;
+    }
+    [].forEach.call(row.querySelectorAll('.nd-sat'),function(s){
+      var S=R(s);
+      if(narrow){ d2+='M'+f(x)+' '+f(S.cy)+'L'+f(S.l)+' '+f(S.cy); return; }
+      var left=S.cx<main.cx, x1=left?main.l:main.r, x2=left?S.r:S.l, mx=(x1+x2)/2;
+      d2+='M'+f(x1)+' '+f(main.cy)+'C'+f(mx)+' '+f(main.cy)+' '+f(mx)+' '+f(S.cy)+' '+f(x2)+' '+f(S.cy);
+    });
+  });
+  /* zera o SVG antes de medir: senão a largura do desenho anterior (ex.: antes de virar celular)
+     "segura" o mapa largo e cria rolagem lateral */
+  svg.setAttribute('width',0); svg.setAttribute('height',0);
+  var w=mapEl.clientWidth, h=mapEl.scrollHeight;
+  svg.setAttribute('width',w); svg.setAttribute('height',h); svg.setAttribute('viewBox','0 0 '+w+' '+h);
+  svg.innerHTML='<path class="ln-sub" d="'+d2+'"/><path class="ln-main" d="'+d1+'"/>';
+}
+if('ResizeObserver' in window) new ResizeObserver(function(){ drawLines(); }).observe(mapEl);
+window.addEventListener('resize',drawLines);
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(drawLines);
+
+/* ---------- painel ---------- */
+var pn=document.getElementById('pn'), pnOv=document.getElementById('pnOv'), pnBody=document.getElementById('pnBody'), lastFocus=null, openKey=null;
+function spineSteps(){ return rowsData.filter(function(r){ return true; }); }
+function nextOf(n){
+  /* próximo passo: na alternativa, o próximo nó dela; senão a próxima linha da espinha */
+  var idx=-1;
+  rowsData.forEach(function(r,i){
+    if(r.kind==='node'&&r.node===n) idx=i;
+    if(r.kind==='fork') r.alts.forEach(function(a){ var k=a.nodes.indexOf(n); if(k>=0){ if(k<a.nodes.length-1) idx=-2-k; else idx=i; } });
+  });
+  if(idx<=-2){ var a=n.alt; return {node:a.nodes[a.nodes.indexOf(n)+1]}; }
+  var nx=rowsData[idx+1];
+  if(!nx) return null;
+  return nx.kind==='node'?{node:nx.node}:{fork:nx.label,first:nx.alts[0].nodes[0]};
+}
+function roleText(n){
+  if(n.cls==='alt') return 'Escolha 1 · alternativa “'+n.alt.label+'” em “'+n.fork+'”';
+  if(n.cls==='base'||n.cls==='main'){
+    var pos=0,total=0;
+    rowsData.forEach(function(r){ total++; if(r.kind==='node'&&r.node===n) pos=total; });
+    return 'Obrigatório · passo '+pos+' de '+total+' do caminho principal'+(n.cls==='base'?' (comece aqui)':'');
+  }
+  var a=n.anchor?title(n.anchor.id):'';
+  if(n.type==='mentorias') return 'Mentorias ao vivo sobre '+temaNome(n.tag)+', ligadas a “'+a+'”';
+  if(n.cls==='opt') return 'Opcional · complementa “'+a+'”';
+  if(n.type==='projeto') return 'Projeto prático · reforça “'+a+'”';
+  if(n.type==='artigo') return 'Artigo do blog · explica “'+a+'”';
+  return 'Complemento de “'+a+'”';
+}
+function stepBtn(n,prefix){
+  var label=n.type==='mentorias'?'Mentorias de '+temaNome(n.tag):title(n.id);
+  return '<button class="pn-step" type="button" data-go="'+n.key+'">'+(prefix||'')+esc(label)+GO_SVG+'</button>';
+}
+function openPanel(key,updateHash){
+  var n=byKey[key]; if(!n) return;
+  var d=DEFS[current], h='';
+  var icon=(n.id&&ORI[n.id])?oriSvg(n.id):(GLYPH[n.type==='mentorias'?'mentoria':n.type]||GLYPH.projeto);
+  h+='<div class="pn-ic'+((n.id&&ORI[n.id])?'':' glyph')+'" style="'+hueVars(d)+'" aria-hidden="true">'+icon+'</div>';
+  h+='<div class="pn-chips"><span class="pn-chip type" style="'+hueVars(d)+'">'+TYPE_LABEL[n.type]+'</span>'
+    +(n.cls==='opt'?'<span class="pn-chip">Opcional</span>':'')
+    +(n.cls==='alt'?'<span class="pn-chip">Escolha 1</span>':'')
+    +(n.cls==='base'||n.cls==='main'?'<span class="pn-chip">Obrigatório</span>':'')+'</div>';
+  if(n.type==='mentorias'){
+    var list=MENT_BY_TAG[n.tag], lab=temaNome(n.tag);
+    h+='<h2 id="pnTitle">Mentorias de '+esc(lab)+'</h2><p class="pn-role">'+esc(roleText(n))+'</p>';
+    h+='<div class="pn-sec"><h3>Mais recentes</h3><ul class="pn-list">'+list.slice(0,5).map(function(m){
+      return '<li><a href="https://web.dio.me/lives/'+encodeURIComponent(m.s)+'" target="_blank" rel="noopener"><b>'+esc(m.t)+'</b><small>'
+        +(m.d>TODAY?'<span class="fut">Em breve · </span>':'')+fmtDate(m.d)+'</small></a></li>';
+    }).join('')+'</ul></div>';
+    h+='<div class="pn-acts"><a class="pn-go" href="mentorias.html#t='+tagSlug(n.tag)+'">Ver todas as '+list.length+' na aba Mentorias'+GO_SVG+'</a></div>';
+  }else{
+    var tk=TRACKS[n.id], isArt=n.type==='artigo';
+    h+='<h2 id="pnTitle">'+esc(title(n.id))+'</h2><p class="pn-role">'+esc(roleText(n))+'</p>';
+    if(isArt&&tk.sub) h+='<p class="pn-sub">'+esc(tk.sub)+'</p>';
+    if(n.cls==='alt'&&n.alt.skill) h+='<div class="pn-sec"><h3>Roadmap desta rota</h3><a class="pn-step" href="#'+n.alt.skill+'">Ver roadmap de '+esc(DEFS[n.alt.skill].name)+GO_SVG+'</a></div>';
+    if(n.anchor) h+='<div class="pn-sec"><h3>Reforça</h3>'+stepBtn(n.anchor)+'</div>';
+    else{
+      var nx=nextOf(n);
+      h+='<div class="pn-sec"><h3>Próximo passo</h3>'+(nx?(nx.node?stepBtn(nx.node):stepBtn(nx.first,'Escolha 1: '+esc(nx.fork)+' — ')):'<p class="pn-role" style="margin:0">Fim do caminho principal. 🎉</p>')+'</div>';
+    }
+    h+='<div class="pn-acts">'+(isArt
+        ?'<a class="pn-go" href="'+esc(tk.u)+'">Ler artigo'+(tk.min?' · '+tk.min+' min':'')+GO_SVG+'</a>'
+        :'<a class="pn-go" href="'+esc(tk.u)+'" target="_blank" rel="noopener">Ver na DIO'+EXT_SVG+'</a>')
+      +'<button class="pn-plan'+(inPlan(n.id)?' in':'')+'" type="button" data-plan="'+n.id+'">'+(inPlan(n.id)?'✓ No Meu plano':'+ Adicionar ao Meu plano')+'</button></div>';
+  }
+  pnBody.innerHTML=h;
+  [].forEach.call(mapEl.querySelectorAll('.nd.is-active'),function(b){ b.classList.remove('is-active'); });
+  var btn=mapEl.querySelector('.nd[data-key="'+key+'"]');
+  if(btn) btn.classList.add('is-active');
+  if(!pn.classList.contains('show')){
+    lastFocus=btn||document.activeElement;
+    pnOv.hidden=false;
+    requestAnimationFrame(function(){ pnOv.classList.add('show'); pn.classList.add('show'); });
+    pn.setAttribute('aria-hidden','false');
+  }
+  openKey=key;
+  if(updateHash!==false) history.replaceState(null,'','#'+current+'/'+key);
+  setTimeout(function(){ document.getElementById('pnX').focus(); },60);
+}
+function closePanel(silent){
+  if(!pn.classList.contains('show')&&!openKey) return;
+  pn.classList.remove('show'); pnOv.classList.remove('show'); pn.setAttribute('aria-hidden','true');
+  setTimeout(function(){ if(!pn.classList.contains('show')) pnOv.hidden=true; },300);
+  [].forEach.call(mapEl.querySelectorAll('.nd.is-active'),function(b){ b.classList.remove('is-active'); });
+  openKey=null;
+  if(silent!==true){
+    if(current) history.replaceState(null,'','#'+current);
+    if(lastFocus&&lastFocus.focus) lastFocus.focus();
+  }
+}
+mapEl.addEventListener('click',function(e){
+  var b=e.target.closest('.nd'); if(b) openPanel(b.getAttribute('data-key'));
+});
+pnBody.addEventListener('click',function(e){
+  var go=e.target.closest('[data-go]');
+  if(go){ var k=go.getAttribute('data-go'); var target=mapEl.querySelector('.nd[data-key="'+k+'"]');
+    if(target) target.scrollIntoView({block:'center',behavior:window.matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
+    openPanel(k); return; }
+  var pb=e.target.closest('[data-plan]');
+  if(pb){
+    var id=parseInt(pb.getAttribute('data-plan'),10), plan=loadPlan();
+    if(plan.some(function(x){ return x.id===id; })){ plan=plan.filter(function(x){ return x.id!==id; }); toast('Removido do Meu plano'); }
+    else { plan.push({id:id,hue:DEFS[current].hue}); toast('<b>'+esc(title(id))+'</b> adicionado ao Meu plano'); }
+    savePlan(plan); syncPlanCount();
+    var on=inPlan(id); pb.classList.toggle('in',on); pb.textContent=on?'✓ No Meu plano':'+ Adicionar ao Meu plano';
+  }
+});
+document.getElementById('pnX').addEventListener('click',function(){ closePanel(); });
+pnOv.addEventListener('click',function(){ closePanel(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&pn.classList.contains('show')) closePanel(); });
+
+/* ---------- rotas por hash ---------- */
+function route(){
+  var h=decodeURIComponent(location.hash.replace(/^#/,'')), parts=h.split('/'), key=parts[0];
+  if(SOON[key]) return showList(key);
+  if(DEFS[key]) return showMap(key,parts[1]);
+  showList('roadmaps',key==='role-based'||key==='skill-based'?key:null);
+}
+window.addEventListener('hashchange',route);
+syncPlanCount();
+route();
+})();
+</script>
+</body>
+</html>

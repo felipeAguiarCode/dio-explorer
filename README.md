@@ -35,9 +35,14 @@ Não precisa instalar nada. É só abrir no navegador. 😉
 
 ## 🗺️ O que você encontra
 
-- **Roadmap — "Por onde eu começo?"**
+- **Guias — "Por onde eu começo?"**
   As formações da DIO montadas como **torres de LEGO**. Escolha a carreira dos seus sonhos e vá
   encaixando as peças, do básico ao avançado.
+
+- **Roadmaps — mapas mentais no estilo roadmap.sh**
+  Cada carreira (**role-based**) e cada tecnologia (**skill-based**: React, Python, AWS…) vira um mapa
+  interativo: formações obrigatórias no caminho principal, opcionais tracejadas, projetos e mentorias
+  ligados ao passo que reforçam. Clique numa caixa para abrir o conteúdo na DIO ou guardar no seu plano.
 
 - **Conteúdos — o sistema solar dos planos**
   Uma tela animada onde o seu plano fica no **centro** e tudo o que ele inclui **gira em volta**
@@ -59,9 +64,23 @@ Não precisa instalar nada. É só abrir no navegador. 😉
 ## 🖱️ Como usar
 
 1. Abra o site pelo botão **[🌐 Acessar o site](https://felipeaguiarcode.github.io/dio-explorer/)**.
-2. Na aba **Roadmap**, clique na carreira que combina com você e veja a trilha completa.
-3. Na aba **Conteúdos**, troque entre **DIO Pro** e **DIO Global** para ver o que cada plano oferece.
-4. Clique em qualquer **planeta** para ler o que aquele conteúdo significa.
+2. Na aba **Guias**, clique na carreira que combina com você e veja a trilha completa.
+3. Na aba **Roadmaps**, abra o mapa da carreira ou da tecnologia e clique nas caixas para ver cada conteúdo.
+4. Na aba **Conteúdos**, troque entre **DIO Pro** e **DIO Global** para ver o que cada plano oferece.
+5. Clique em qualquer **planeta** para ler o que aquele conteúdo significa.
+
+<br>
+
+## 🗂️ Onde fica cada coisa
+
+| Pasta | O que tem |
+|---|---|
+| `data/` | Os conteúdos, um arquivo por tipo: `formacoes.js`, `certificacoes.js`, `projetos.js`, `cursos.js`, `mentorias.js` (sessões + temas) e `artigos.js` (índice dos posts do blog, com as formações que cada um explica). Todo conteúdo tem um **id** único em todo o catálogo. |
+| `paths/` | A configuração dos caminhos: `guias.js` (trilhas das Guias), `roadmaps-role.js`, `roadmaps-skill.js`, `lesson-packs.js` e `project-ideas.js`. |
+| `js/catalogo.js` | Junta os arquivos de `data/` num catálogo único e desenha os origamis. |
+
+Para incluir um curso, projeto ou mentoria novo: cadastre no arquivo certo de `data/` com um id livre
+e encaixe esse id numa trilha em `paths/guias.js`. Os roadmaps se atualizam sozinhos.
 
 <br>
 

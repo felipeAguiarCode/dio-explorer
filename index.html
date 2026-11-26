@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#000000">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>Roadmap - DIO</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-dio-32.png">
+<title>DIO | Mapa do AI Builder</title>
 
 <style>
   :root{
@@ -55,6 +55,7 @@
   .brand .pin{width:28px;height:28px;flex:none;display:grid;place-items:center;border-radius:8px;
     background:var(--brand);color:#fff}
   .brand .pin svg{width:16px;height:16px}
+  .brand-logo{width:28px;height:28px;display:block}
   .spacer{flex:1}
   .tbtn{font:inherit;font-size:.8rem;font-weight:500;letter-spacing:-.01em;color:var(--ink);background:transparent;border:0;
     border-radius:var(--radius-pill);padding:7px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;
@@ -150,6 +151,14 @@
     0%,100%{opacity:.5;transform:translateX(-50%) scale(1)}
     50%{opacity:.28;transform:translateX(-50%) scale(.82)}
   }
+  /* robô 3D (three.js): mesmo palco do sprite; a cena inclui a plataforma, então o palco é um pouco maior.
+     enquanto o modelo baixa, só o brilho neon pulsa no lugar; o canvas entra com fade quando fica pronto */
+  .hero-3d{--ahc-size:300px}
+  .hero-3d canvas{opacity:0;transition:opacity .8s var(--ease)}
+  .hero-3d.is-ready canvas{opacity:1}
+  .hero-3d::after{bottom:2%}
+  @media (min-width:821px){.hero-in>.hero-character:has(.hero-3d){width:300px;right:64px;top:-30px}}
+  @media (min-width:1180px){.hero-in>.hero-character:has(.hero-3d){width:340px;right:80px;top:-44px}}
   .eyebrow{font-size:1.15rem;font-weight:600;letter-spacing:-.015em;
     color:var(--brand-ink);margin-bottom:12px}
   h1{font-weight:700;font-size:clamp(2.75rem,7.2vw,5rem);line-height:1.04;
@@ -338,6 +347,8 @@
   footer{margin:96px 0 40px;padding-top:22px;border-top:1px solid var(--line);
     display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
   footer p{margin:0;font-size:.78rem;line-height:1.5;color:var(--ink-faint);max-width:56ch}
+  footer p.credit{flex-basis:100%;order:3;max-width:none;font-size:.72rem}
+  footer p.credit a{color:var(--ink-soft)}
   footer a.dio{display:inline-flex;align-items:center;gap:6px;font-size:.95rem;font-weight:500;text-decoration:none;
     color:#fff;background:var(--brand);border-radius:var(--radius-pill);padding:11px 22px;
     transition:background .2s var(--ease)}
@@ -442,6 +453,13 @@
   .brick.opt .add-brick.in-plan,.brick.ment .add-brick.in-plan,.brick.proj .add-brick.in-plan{background:var(--gold);border-color:var(--gold);color:#1c1600}
   .brick.sub .add-brick{width:24px;height:24px}
   .brick.sub .add-brick svg{width:13px;height:13px}
+
+  /* link "Ver como mapa" (aba Roadmap) no cabeçalho da trilha */
+  .map-link{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:700;letter-spacing:-.005em;
+    color:var(--ink-soft);text-decoration:none;border:1px solid var(--line-strong);border-radius:999px;padding:6px 13px;transition:.16s}
+  .map-link svg{width:13px;height:13px;transition:transform .2s var(--ease)}
+  .map-link:hover{color:#fff;border-color:color-mix(in srgb,var(--huec) 60%,transparent);background:color-mix(in srgb,var(--huec) 14%,transparent)}
+  .map-link:hover svg{transform:translateX(2px)}
 
   /* botão "adicionar conteúdo todo" no cabeçalho da trilha */
   .trail-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:11px}
@@ -1063,7 +1081,10 @@
   .hero .eyebrow{color:var(--ment);font-weight:600}
   .hero h1{font-weight:700}
   .hero h1 .u{background:linear-gradient(90deg,var(--ment),#FF6FB5 55%,var(--accent));
-    -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+    -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+    /* o gradiente só pinta dentro da caixa do span; com o letter-spacing negativo a ponta do "?" ficava de fora.
+       o padding estende a área pintada e a margem negativa devolve o espaço, sem mexer no layout */
+    padding:0 .14em .06em 0;margin-right:-.14em}
   .hero-cta-row .quiz-btn.quiz-btn--gold{background:var(--ment);color:#1d1d1f;font-weight:700;
     box-shadow:0 6px 22px color-mix(in srgb,var(--ment) 35%,transparent)}
   .hero-cta-row .quiz-btn.quiz-btn--gold:hover{background:color-mix(in srgb,var(--ment) 80%,#fff)}
@@ -1391,6 +1412,21 @@
   .legbrick.proj,.legbrick.proj::before,.legbrick.proj::after{background:color-mix(in srgb,#2FD98A 38%,var(--surface));border:0}
   .legbrick.proj{box-shadow:inset 0 0 0 1px color-mix(in srgb,#2FD98A 70%,transparent),0 3px 0 -1px rgba(0,0,0,.45)}
 
+  /* ============ origami nas formações: papel dobrado (facetas com opacidades diferentes) sobre o plástico ============ */
+  .brick-ori{flex:none;width:30px;height:30px;display:grid;place-items:center;color:#fff;--ori-k:var(--deep);
+    transition:transform .35s var(--ease)}
+  .brick-ori svg{width:30px;height:30px;overflow:visible;filter:drop-shadow(0 1.5px 0 rgba(0,0,0,.22))}
+  .brick-ori .ol{fill:none;stroke:currentColor;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round}
+  .brick-ori .ok{fill:var(--ori-k)}
+  .brick-ori .om{stroke:var(--ori-k)}
+  .brick:hover .brick-ori{transform:rotate(-8deg) scale(1.1)}
+  /* peça opcional (translúcida): papel na cor da trilha, olhos/furos na cor do fundo da peça */
+  .brick.opt .brick-ori{color:var(--huec);--ori-k:color-mix(in srgb,var(--hue) 15%,var(--surface))}
+  .brick.opt .brick-ori svg{filter:none}
+  .brick.sub .brick-ori,.brick.sub .brick-ori svg{width:24px;height:24px}
+  @media (max-width:560px){.brick-ori,.brick-ori svg{width:26px;height:26px}}
+  @media (prefers-reduced-motion:reduce){.brick:hover .brick-ori{transform:none}}
+
   /* ============ divisória "site de jogos" entre o topo e as trilhas ============ */
   .gdiv{position:relative;margin-top:-34px;z-index:3;padding:0 0 6px}
   /* faixa escura com as pontas cortadas em diagonal, por cima do fim do hero */
@@ -1533,27 +1569,25 @@
 <header class="topbar">
   <div class="topbar-in">
     <div class="brand">
-      <span class="pin" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 21s7-6.3 7-11a7 7 0 0 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/>
-        </svg>
-      </span>
+      <img class="brand-logo" src="assets/dio-logo.webp" width="28" height="28" alt="">
     </div>
     <nav class="tabs" aria-label="Páginas do guia">
-      <a class="tab" href="index.html" aria-current="page">Roadmap</a>
+      <a class="tab" href="index.html" aria-current="page">Guias</a>
+      <a class="tab" href="roadmap.html">Roadmaps</a>
       <a class="tab" href="mentorias.html">Mentorias</a>
       <a class="tab" href="blog.html">Blog</a>
     </nav>
-    <button class="tbtn" id="planBtn" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>
-      Meu plano
-      <span class="plan-count zero" id="planCount">0</span>
-    </button>
-    <div class="spacer"></div>
     <button class="tbtn searchbar-btn" id="searchBtn" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
       <span>Buscar conteúdo</span>
       <kbd id="searchKbd">Ctrl K</kbd>
+    </button>
+    <!-- marca, abas e busca à esquerda; o Meu plano fica sozinho no canto direito -->
+    <div class="spacer"></div>
+    <button class="tbtn" id="planBtn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>
+      Meu plano
+      <span class="plan-count zero" id="planCount">0</span>
     </button>
   </div>
 </header>
@@ -1597,7 +1631,7 @@
         <span class="gdiv-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6 6-6M6 13l6 6 6-6"/></svg></span>
         <span class="gdiv-label">FASE 01 <em>//</em> SELECIONE SUA CLASSE</span>
       </span>
-      <span class="gdiv-side r"><b id="gdivTrails">16</b> TRILHAS <em>·</em> <b id="gdivItems">96</b> CONTEÚDOS<i></i></span>
+      <span class="gdiv-side r"><b id="gdivTrails">16</b> ROTAS <em>·</em> <b id="gdivItems">96</b> CONTEÚDOS<i></i></span>
     </div>
   </div>
 
@@ -1629,6 +1663,8 @@
 
   <footer>
     <p>Todos os conteúdos fazem parte da plataforma de ensino DIO. A ordem é uma sugestão de estudo, adapte ao seu ritmo e objetivo.</p>
+    <!-- crédito exigido pela licença CC BY 4.0; aparece quando o robô 3D do hero carrega -->
+    <p class="credit" id="robotCredit" hidden>Robô 3D do topo: <a href="https://sketchfab.com/3d-models/robot-playground-59fc99d8dcb146f3a6c16dbbcc4680da" target="_blank" rel="noopener">“Robot Playground”</a>, de <a href="https://sketchfab.com/Hadrien59" target="_blank" rel="noopener">Hadrien59</a>, licença <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>.</p>
     <a class="dio" href="https://web.dio.me/" target="_blank" rel="noopener">
       Explorar na plataforma DIO
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
@@ -1700,248 +1736,17 @@
 <!-- ===== toasts ===== -->
 <div class="toast-wrap" id="toastWrap" aria-live="polite" aria-atomic="false"></div>
 
+<!-- conteúdos (data/), catálogo único (js/) e configuração das trilhas (paths/) -->
+<script src="data/formacoes.js"></script>
+<script src="data/certificacoes.js"></script>
+<script src="data/projetos.js"></script>
+<script src="data/cursos.js"></script>
+<script src="data/artigos.js"></script>
+<script src="data/mentorias.js"></script>
+<script src="js/catalogo.js"></script>
+<script src="paths/guias.js"></script>
 <script>
-/* ---------- data ---------- */
-var TRACKS={
-  1:{t:"AI Builder com Lovable",u:"https://web.dio.me/track/ai-builder-com-lovable"},
-  2:{t:"CrewAI Fundamentals",u:"https://web.dio.me/track/crew-ai-fundalmentals"},
-  3:{t:"AWS Cloud Foundations",u:"https://web.dio.me/track/formacao-aws-cloud-fundations"},
-  4:{t:"AI Automation com N8N",u:"https://web.dio.me/track/ai-automation-com-n8n"},
-  5:{t:"GitHub Copilot",u:"https://web.dio.me/track/formacao-github-copilot"},
-  6:{t:"Análise de Dados com Excel e IA",u:"https://web.dio.me/track/formacao-analise-de-dados-com-excel-e-ia"},
-  7:{t:"Neo4J: Análise de Dados com Grafos",u:"https://web.dio.me/track/formacao-neo4j-analise-de-dado-com-grafos"},
-  8:{t:"AI for Teachers",u:"https://web.dio.me/track/formacao-ai-for-teachers"},
-  9:{t:"UI/UX Designer",u:"https://web.dio.me/track/formacao-uiux-designer"},
-  10:{t:"AZ-204 Certification",u:"https://web.dio.me/track/formacao-az-204-certification"},
-  11:{t:"Databricks Data Engineer",u:"https://web.dio.me/track/formacao-databricks-data-engineer"},
-  12:{t:"AI-102 Certification",u:"https://web.dio.me/track/formacao-ai-102-certification"},
-  13:{t:"DP-100 (Microsoft)",u:"https://web.dio.me/track/formacao-dp-100-da-microsoft"},
-  14:{t:"Java Fundamentals",u:"https://web.dio.me/track/formacao-java-fundamentals"},
-  15:{t:"AWS CLF-02 Practitioner",u:"https://web.dio.me/track/formacao-aws-clf-02"},
-  16:{t:"Azure AI Fundamentals (AI-900)",u:"https://web.dio.me/track/formacao-microsoft-azure-ai-900-fundamentals"},
-  17:{t:"Python Backend Developer",u:"https://web.dio.me/track/formacao-python-backend-developer"},
-  18:{t:"Python Fundamentals",u:"https://web.dio.me/track/formacao-python-fundamentals"},
-  19:{t:"Rust Fundamentals",u:"https://web.dio.me/track/formacao-rust-fundamentals"},
-  20:{t:"Node.js Fundamentals",u:"https://web.dio.me/track/formacao-nodejs-fundamentals"},
-  21:{t:"GitHub Certification",u:"https://web.dio.me/track/formacao-github-certification"},
-  22:{t:"Microsoft AZ-900 Certification",u:"https://web.dio.me/track/formacao-microsoft-az-900-certification"},
-  23:{t:"Ruby on Rails Developer",u:"https://web.dio.me/track/formacao-ruby-rails-developer"},
-  24:{t:"Automação de Testes com Cypress",u:"https://web.dio.me/track/formacao-automacao-testes-cypress"},
-  25:{t:"Kotlin Back-end Developer",u:"https://web.dio.me/track/formacao-kotlin-backend-developer"},
-  26:{t:"Fundamentos de Inteligência Artificial",u:"https://web.dio.me/track/formacao-fundamentos-de-inteligencia-artificial"},
-  27:{t:"DevOps Fundamentals",u:"https://web.dio.me/track/formacao-devops-fundamentals"},
-  28:{t:"Lógica de Programação",u:"https://web.dio.me/track/formacao-logica-de-programacao"},
-  29:{t:"ChatGPT for Devs",u:"https://web.dio.me/track/formacao-chatgpt-devs"},
-  30:{t:"OutSystems Fundamentals",u:"https://web.dio.me/track/formacao-outsystems-fundamentals"},
-  31:{t:"Lua Developer",u:"https://web.dio.me/track/formacao-lua-developer"},
-  32:{t:"AWS Cloud Practitioner Certification",u:"https://web.dio.me/track/formacao-aws-cloud-practitioner-certification"},
-  33:{t:"Ruby Developer",u:"https://web.dio.me/track/formacao-ruby-developer"},
-  34:{t:"Web3 Fundamentals",u:"https://web.dio.me/track/formacao-web3-fundamentals"},
-  35:{t:"Unity 3D Game Developer",u:"https://web.dio.me/track/formacao-unity-3d-game-developer"},
-  36:{t:"Cybersecurity Specialist",u:"https://web.dio.me/track/formacao-cybersecurity"},
-  37:{t:"IoT Specialist",u:"https://web.dio.me/track/formacao-iot-specialist"},
-  38:{t:"Power BI Analyst",u:"https://web.dio.me/track/formacao-power-bi-analyst"},
-  39:{t:"React Native Developer",u:"https://web.dio.me/track/formacao-react-native-developer"},
-  40:{t:"CI/CD com GitLab",u:"https://web.dio.me/track/formacao-gitlab-cicd"},
-  41:{t:"Android Developer",u:"https://web.dio.me/track/formacao-android-developer"},
-  42:{t:"Go Developer",u:"https://web.dio.me/track/formacao-go-developer"},
-  43:{t:"Kubernetes Fundamentals",u:"https://web.dio.me/track/formacao-kubernetes"},
-  44:{t:"TypeScript Fullstack Developer",u:"https://web.dio.me/track/formacao-typescript-fullstack-developer"},
-  45:{t:"Programação Reativa com Spring WebFlux",u:"https://web.dio.me/track/formacao-programacao-reativa-com-spring-webflux"},
-  46:{t:"Angular Developer",u:"https://web.dio.me/track/formacao-angular-developer"},
-  47:{t:"HTML Web Developer",u:"https://web.dio.me/track/formacao-html-web-developer"},
-  48:{t:"CSS Web Developer",u:"https://web.dio.me/track/formacao-css-web-developer"},
-  49:{t:"Docker Fundamentals",u:"https://web.dio.me/track/formacao-docker-fundamentals"},
-  50:{t:"Scrum Master Certification",u:"https://web.dio.me/track/formacao-scrum-master"},
-  51:{t:"PHP Experience",u:"https://web.dio.me/track/formacao-php-experience"},
-  52:{t:"Blockchain Specialist",u:"https://web.dio.me/track/formacao-blockchain"},
-  53:{t:"Google Cloud (GCP) Specialist",u:"https://web.dio.me/track/formacao-gcp-specialist"},
-  54:{t:"Linux Fundamentals",u:"https://web.dio.me/track/formacao-linux-fundamentals"},
-  55:{t:"UX Designer",u:"https://web.dio.me/track/formacao-ux-designer"},
-  56:{t:"Flutter Specialist",u:"https://web.dio.me/track/formacao-flutter-specialist"},
-  57:{t:"Swift & iOS Experience",u:"https://web.dio.me/track/formacao-swift-and-ios-experience"},
-  58:{t:"SQL Database Specialist",u:"https://web.dio.me/track/formacao-sql-db-specialist"},
-  59:{t:"Game Developer: Roblox & Metaverse",u:"https://web.dio.me/track/formacao-game-developer-roblox"},
-  60:{t:"iOS Developer",u:"https://web.dio.me/track/formacao-ios-developer"},
-  61:{t:"Machine Learning Specialist",u:"https://web.dio.me/track/formacao-machine-learning-specialist"},
-  62:{t:"React Developer",u:"https://web.dio.me/track/formacao-react-developer"},
-  63:{t:"CRM Dynamics 365 Developer",u:"https://web.dio.me/track/formacao-dynamics-365"},
-  64:{t:"JavaScript Developer",u:"https://web.dio.me/track/formacao-javascript-developer"},
-  65:{t:"Quality Assurance (QA) Experience",u:"https://web.dio.me/track/formacao-quality-assurance-experience"},
-  66:{t:".NET Developer",u:"https://web.dio.me/track/formacao-dotnet-developer"},
-  67:{t:"Java Developer",u:"https://web.dio.me/track/formacao-java-developer"},
-  /* mentorias ao vivo (lives) — Claude Code */
-  68:{t:"Imersão em Claude Code do Zero ao Expert",u:"https://web.dio.me/lives/imersao-em-claude-code-do-zero-ao-expert"},
-  69:{t:"Sessão 01: Setup do Claude Code para acelerar 100x a produtividade no desenvolvimento",u:"https://web.dio.me/lives/setup-do-claude-code-para-acelerar-100x-a-produtividade-no-desenvolvimento"},
-  70:{t:"Sessão 02: Construindo os Agentes de Inteligência Artificial Back-end, Front-end, QA e DevOps com Claude Code",u:"https://web.dio.me/lives/construindo-os-agentes-de-inteligencia-artificial-back-end-front-end-qa-e-devops-com-claude-code"},
-  71:{t:"Sessão 03: Criação do Kanban ao vivo para orquestração do seu time de Agentes de AI com Claude Code",u:"https://web.dio.me/lives/criacao-do-kanban-ao-vivo-para-orquestracao-do-seu-time-de-agentes-de-ai"},
-  72:{t:"Construindo um time de agentes de AI para prospecção de freelas com Claude Code",u:"https://web.dio.me/lives/construindo-um-time-de-agentes-de-ai-para-prospeccao-de-vagas-e-projetos-freelancer-em-tecnologia"},
-  /* projetos (labs) */
-  73:{t:"Criando uma Dashboard da Porsche com Agentes de IA",u:"https://web.dio.me/lab/criando-agentes-de-criacao-de-dashboards-com-excel-e-claude-code/learning/d77a7428-f40b-451b-a890-1b942712194e"},
-  74:{t:"Copiloto de Vendas com IA para Atendimento ao Cliente",u:"https://web.dio.me/lab/copiloto-de-vendas-com-ia-para-atendimento-em-loja/learning/30b2b6c1-ee9c-433a-af21-d97ac9fee691"},
-  75:{t:"Criando um Agente para Automatizar um Fluxo de Trabalho em Python",u:"https://web.dio.me/lab/criando-um-agente-para-automatizar-um-fluxo-de-trabalho/learning/6634e12c-42c2-4d96-92bb-55058f769fbe"},
-  76:{t:"Plataformas e Arquiteturas Inteligentes para Dados e IA",u:"https://web.dio.me/lab/plataformas-e-arquiteturas-inteligentes-para-dados-e-ia/learning/44207581-32d3-4cd9-ae5f-430c1dac0fca"},
-  77:{t:"Agente para Criar Processo de Deploy Automatizado com Azure DevOps",u:"https://web.dio.me/lab/agente-para-criar-processo-de-deploy-automatizado-com-azure-devops/learning/fdfbc15c-2a89-438e-a784-923b5163a289"},
-  78:{t:"Criando um Agente de Revisão de Qualidade de Código com Microsoft Copilot Studio",u:"https://web.dio.me/lab/criando-um-agente-de-revisao-de-qualidade-de-codigo-com-microsoft-copilot-studio/learning/3a35d382-66bf-41ef-887b-cdc301482898"},
-  79:{t:"Agente de IA para Criar Serviços Serverless com GitHub Copilot e Azure Functions",u:"https://web.dio.me/lab/agente-de-ia-para-criar-servicos-serverless-com-github-copilot-e-azure-functions/learning/50cf2641-eae8-46d3-84b5-ef8c7aa1c8db"},
-  80:{t:"Treinando uma IA de Aprendizagem: Explore o Poder do NotebookLM",u:"https://web.dio.me/lab/acelere-sua-aprendizagem-com-ia-explore-o-poder-do-notebooklm/learning/36ac21c8-859c-430b-aa28-1ea3521799b0"},
-  81:{t:"Construa seu Assistente Virtual com Inteligência Artificial",u:"https://web.dio.me/lab/construa-seu-assistente-virtual-com-inteligencia-artificial/learning/26e69a48-c98d-4f01-ac54-0841a8c417a0"},
-  82:{t:"Calculadora EcoTrip: Simulador de Impacto Ambiental para Viagens",u:"https://web.dio.me/lab/calculadora-ecotrip-simulador-de-impacto-ambiental-para-viagens/learning/0c97038d-5595-4102-924a-eae2d11fc090"},
-  83:{t:"IA Entrevistador: Seu Simulador Inteligente de Entrevistas",u:"https://web.dio.me/lab/ia-entrevistador-seu-simulador-inteligente-de-entrevistas/learning/20285967-5eee-4f43-a1da-e7e5a90eb473"},
-  84:{t:"IA Mentor de Carreira: Descubra Seu Futuro em Tech",u:"https://web.dio.me/lab/ia-mentor-de-carreira-descubra-seu-futuro-em-tech/learning/23f5a8f4-88e3-4fc1-b7fd-93decc384de5"},
-  85:{t:"Criando um APP de Organização de Finanças Pessoais com Vibe Coding",u:"https://web.dio.me/lab/criando-um-app-de-organizacao-de-financas-pessoais-com-vibe-coding/learning/56e71f84-8be7-43e5-a9a6-5799eb3eac66"},
-  86:{t:"Criando um Plano de Aula Interativo e Personalizado com Ecossistema IA",u:"https://web.dio.me/lab/plano-de-aula-interativo-e-personalizado-com-ecossistema-ia/learning/afb8967f-c58a-483c-84be-24d615d3378c"},
-  87:{t:"Gerenciando uma Fábrica de Agentes com Azure IA Foundry",u:"https://web.dio.me/lab/gerenciando-uma-fabrica-de-agentes-com-azure-ia-foundry/learning/f7dbbe32-573b-42cc-b064-3e3c228f4a32"},
-  88:{t:"Criando um Agente para Detecção de Vulnerabilidades em Arquiteturas",u:"https://web.dio.me/lab/geracao-de-vulnerabilidades/learning/e2a0f011-72fc-4928-a216-868742656279"},
-  89:{t:"Gerando Testes Unitários com LangChain e Azure ChatGPT",u:"https://web.dio.me/lab/gerando-testes-unitarios-com-langchain-e-azure-chatgpt/learning/2ba57c3e-cd6f-4295-b60b-2b26704a03a5"},
-  90:{t:"Agente de IA para Consultas SQL",u:"https://web.dio.me/lab/agente-de-ia-para-consultas-sql/learning/d29374c1-6aa6-44b9-98c4-41515fe7465a"},
-  91:{t:"Treinando seu Primeiro Modelo de Machine Learning para prever Vendas",u:"https://web.dio.me/lab/treinando-um-modelo-de-machine-learning-para-prever-vendas/learning/2923a5ee-1a38-4844-a00c-aac5ebc2214d"},
-  92:{t:"Criando um Chatbot Baseado em Conteúdo de PDFs",u:"https://web.dio.me/lab/como-criar-um-chat-que-responde-com-base-em-pdfs-proprios/learning/c2168e0e-783c-4977-a13f-20a064147b0c"},
-  93:{t:"Inteligência Artificial na Prática",u:"https://web.dio.me/track/formacao-inteligencia-artificial-na-pratica"},
-  94:{t:"Inteligência Artificial Aplicada a Negócios",u:"https://web.dio.me/track/formacao-inteligencia-artificial-aplicada-negocios"},
-  95:{t:"Desenvolvimento de SaaS com IA e Claude Code",u:"https://web.dio.me/track/formacao-desenvolvimento-de-saas-com-ia-e-claude-code"},
-  96:{t:"Avançada em Orquestração de Agentes de IA",u:"https://web.dio.me/track/formacao-avancada-em-orquestracao-de-agentes-de-ia"}
-};
-
-var IC={
-  frontend:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M6.5 6.5h.01M9 6.5h.01"/>',
-  backend:'<rect x="3" y="4" width="18" height="6" rx="1.6"/><rect x="3" y="14" width="18" height="6" rx="1.6"/><path d="M6.5 7h.01M6.5 17h.01"/>',
-  fullstack:'<path d="M12 3 3 7.7l9 4.7 9-4.7L12 3Z"/><path d="M3 12.3l9 4.7 9-4.7"/><path d="M3 16.8l9 4.7 9-4.7" opacity=".55"/>',
-  mobile:'<rect x="6.5" y="3" width="11" height="18" rx="2.6"/><path d="M11 18h2"/>',
-  data:'<path d="M3 21h18"/><rect x="5" y="11" width="3" height="7" rx="1"/><rect x="10.5" y="6" width="3" height="12" rx="1"/><rect x="16" y="14" width="3" height="4" rx="1"/>',
-  ai:'<path d="M12 3.2l1.7 4.9 4.9 1.7-4.9 1.7L12 16.4l-1.7-4.9L5.4 9.8l4.9-1.7L12 3.2Z"/><path d="M19 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2Z"/>',
-  iadev:'<rect x="6" y="6" width="12" height="12" rx="2.5"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9.5 3v2.5M14.5 3v2.5M9.5 18.5V21M14.5 18.5V21M3 9.5h2.5M3 14.5h2.5M18.5 9.5H21M18.5 14.5H21"/>',
-  wand:'<path d="M14.4 3.4l1.15 2.85L18.4 7.4l-2.85 1.15L14.4 11.4l-1.15-2.85L10.4 7.4l2.85-1.15L14.4 3.4Z"/><path d="M12.6 9.6 4.6 17.6"/><path d="M6 5v2.4M4.8 6.2h2.4"/><path d="M18.2 14.6v2M17.2 15.6h2"/>',
-  devops:'<path d="M7 18a4 4 0 0 1-.5-7.97A5 5 0 0 1 16 8.5a3.5 3.5 0 0 1 1 6.9"/><path d="M12 12v7"/><path d="M9.5 16.5 12 19l2.5-2.5"/>',
-  qa:'<circle cx="12" cy="12" r="9"/><path d="M8 12.2l2.6 2.6L16 9"/>',
-  game:'<rect x="2" y="7.5" width="20" height="9" rx="4.5"/><path d="M6.5 11v3M5 12.5h3"/><path d="M15.5 12h.01M18 13.5h.01"/>',
-  uiux:'<path d="M4.5 19.5 8 18.5 18.5 8l-3-3L5 15.5l-.5 4Z"/><path d="M14 6.5l3 3"/>',
-  emergentes:'<circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2 5.2-5.2 2 2-5.2 5.2-2Z"/>',
-  gestao:'<rect x="3" y="4" width="4.6" height="16" rx="1.2"/><rect x="9.7" y="4" width="4.6" height="10" rx="1.2"/><rect x="16.4" y="4" width="4.6" height="13" rx="1.2"/>',
-  aws:'<path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/><path d="M12 17.8v-3.4M10.2 16l1.8-1.8 1.8 1.8"/>',
-  azure:'<path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/><path d="M9.2 15.4l2 2 3.6-3.8"/>'
-};
-
-var CAREERS=[
-  {id:"frontend",name:"Frontend",hue:"#1E5FC0",icon:IC.frontend,
-   tag:"Eu quero criar as telas e a parte visual dos sites e aplicativos que as pessoas usam.",
-   steps:[{r:28,s:'base'},{r:47},{r:48},{r:64},{r:21},
-     {fork:"Escolha um framework",opts:[{l:"React",n:[62]},{l:"Angular",n:[46]}]},
-     {r:44},{r:9,s:'opt'},
-     {d:"Projetos"},{r:82,s:'proj'},{r:85,s:'proj'}]},
-
-  {id:"backend",name:"Backend",hue:"#0F766E",icon:IC.backend,
-   tag:"Quero trabalhar fazendo o que funciona por trás do sistema: banco de dados, regras e servidores.",
-   steps:[{r:28,s:'base'},{r:21},
-     {fork:"Escolha uma linguagem",opts:[
-       {l:"Python",n:[18,17]},
-       {l:"Java",n:[14,67,45]},
-       {l:"JavaScript / Node",n:[64,20]},
-       {l:"C# / .NET",n:[66]},
-       {l:"Go",n:[42]},
-       {l:"Kotlin",n:[25]},
-       {l:"PHP",n:[51]},
-       {l:"Ruby",n:[33,23]},
-       {l:"Rust",n:[19]}
-     ]},
-     {r:58},{r:49},
-     {d:"Projetos"},{r:90,s:'proj'}]},
-
-  {id:"fullstack",name:"Full Stack",hue:"#8B2FC9",icon:IC.fullstack,
-   tag:"Eu quero aprender a criar um sistema completo, da tela até o banco de dados.",
-   steps:[{r:28,s:'base'},{r:47},{r:48},{r:64},{r:21},{r:20},{r:44},{r:62},{r:58},{r:49},{r:95,s:'opt'}]},
-
-  {id:"mobile",name:"Mobile",hue:"#D60A52",icon:IC.mobile,
-   tag:"Quero criar aplicativos de celular para Android, iPhone ou os dois.",
-   steps:[{r:28,s:'base'},{r:21},
-     {fork:"Escolha a plataforma",opts:[
-       {l:"Android (Kotlin)",n:[25,41]},
-       {l:"iOS (Swift)",n:[57,60]},
-       {l:"Flutter",n:[56]},
-       {l:"React Native",n:[39]}
-     ]}]},
-
-  {id:"dados-ia",name:"Dados & IA",hue:"#C2410C",icon:IC.data,
-   tag:"Eu quero trabalhar transformando dados em gráficos, relatórios e modelos de inteligência artificial.",
-   steps:[{r:28,s:'base'},{r:18},{r:58},{r:26},{r:93},{r:6},{r:38},{r:61},{r:11},{r:7,s:'opt'},
-     {d:"Certificações Azure para IA (opcional)"},
-     {r:16,s:'opt'},{r:13,s:'opt'},{r:12,s:'opt'},
-     {d:"Projetos"},{r:73,s:'proj'},{r:76,s:'proj'},{r:91,s:'proj'}]},
-
-  {id:"ai-builder",name:"AI Builder / GenAI",hue:"#B800E7",icon:IC.ai,
-   tag:"Quero criar produtos e automações com inteligência artificial, mesmo sem saber programar.",
-   steps:[{r:26,s:'base'},{r:93},{r:29},{r:5},{r:1},{r:4},{r:2},{r:94},{r:96,s:'opt'},{r:8,s:'opt'},
-     {d:"Projetos"},{r:74,s:'proj'},{r:81,s:'proj'},{r:83,s:'proj'},{r:92,s:'proj'}]},
-
-  {id:"ia-non-devs",name:"AI & Low Code",hue:"#15803D",icon:IC.wand,
-   tag:"Eu quero criar aplicativos, automações e análises com inteligência artificial sem escrever código.",
-   steps:[{r:26,s:'base'},{r:93},{r:1},{r:4},{r:6},{r:94},{r:8,s:'opt'},
-     {d:"Projetos"},{r:80,s:'proj'},{r:84,s:'proj'},{r:86,s:'proj'}]},
-
-  {id:"ia-developer",name:"IA Developer",hue:"#0891B2",icon:IC.iadev,
-   tag:"Quero programar usando inteligência artificial como parceira, do básico ao código assistido por IA.",
-   steps:[{r:26,s:'base'},{r:29},{r:5},{r:95},
-     {d:"Mentorias · Claude Code"},
-     {r:68,s:'ment'},{r:69,s:'ment'},{r:70,s:'ment'},{r:71,s:'ment'},{r:72,s:'ment'},
-     {d:"Nível avançado"},{r:96},
-     {d:"Projetos"},{r:75,s:'proj'}]},
-
-  {id:"devops-cloud",name:"DevOps & Cloud",hue:"#3949AB",icon:IC.devops,
-   tag:"Eu quero trabalhar automatizando a entrega de sistemas e cuidando da infraestrutura na nuvem.",
-   steps:[{r:54,s:'base'},{r:21},{r:49},{r:43},{r:40},{r:27},
-     {fork:"Escolha uma nuvem",opts:[
-       {l:"AWS",n:[3,15,32]},
-       {l:"Azure",n:[22,10]},
-       {l:"Google Cloud",n:[53]}
-     ]},
-     {d:"Projetos"},{r:77,s:'proj'}]},
-
-  {id:"aws",name:"AWS Cloud",hue:"#D97706",icon:IC.aws,
-   tag:"Quero me especializar na nuvem da Amazon, do zero até a certificação de fundamentos.",
-   steps:[{r:3,s:'base'},{r:32},{r:15},
-     {d:"Bases que reforçam seus estudos (opcional)"},
-     {r:54,s:'opt'},{r:49,s:'opt'},{r:43,s:'opt'},{r:27,s:'opt'}]},
-
-  {id:"azure",name:"Microsoft Azure",hue:"#0078D4",icon:IC.azure,
-   tag:"Eu quero me especializar na nuvem da Microsoft, do zero até certificações em inteligência artificial e dados.",
-   steps:[{r:22,s:'base'},{r:10},
-     {fork:"Escolha uma especialização",opts:[
-       {l:"Inteligência Artificial",n:[16,12]},
-       {l:"Dados & Machine Learning",n:[13]}
-     ]},
-     {d:"Bases que reforçam seus estudos (opcional)"},
-     {r:54,s:'opt'},{r:49,s:'opt'},
-     {d:"Projetos"},{r:79,s:'proj'},{r:87,s:'proj'}]},
-
-  {id:"qa",name:"QA & Testes",hue:"#4D7C0F",icon:IC.qa,
-   tag:"Quero garantir que tudo funcione bem, testando os sistemas antes de chegarem ao usuário.",
-   steps:[{r:28,s:'base'},{r:21},{r:65},{r:24},
-     {d:"Projetos"},{r:78,s:'proj'},{r:89,s:'proj'}]},
-
-  {id:"game",name:"Game Dev",hue:"#CC0000",icon:IC.game,
-   tag:"Eu quero criar jogos e experiências interativas em 2D, 3D ou no metaverso.",
-   steps:[{r:28,s:'base'},{r:21},{r:35},{r:59},{r:31,s:'opt'}]},
-
-  {id:"uiux",name:"UI/UX Design",hue:"#A21CAF",icon:IC.uiux,
-   tag:"Quero projetar telas e experiências pensando em como as pessoas vão usar o produto.",
-   steps:[{r:9,s:'base'},{r:55}]},
-
-  {id:"emergentes",name:"Especializações",hue:"#0E7490",icon:IC.emergentes,
-   tag:"Eu quero me aprofundar em áreas mais avançadas da tecnologia, depois de já ter uma base em programação.",
-   steps:[
-     {fork:"Escolha uma especialização",opts:[
-       {l:"Cybersecurity",n:[36]},
-       {l:"Web3 & Blockchain",n:[34,52]},
-       {l:"IoT",n:[37]},
-       {l:"Low-code (OutSystems)",n:[30]},
-       {l:"CRM (Dynamics 365)",n:[63]}
-     ]},
-     {d:"Projetos"},{r:88,s:'proj'}]},
-
-  {id:"gestao",name:"Gestão & Ágil",hue:"#475569",icon:IC.gestao,
-   tag:"Quero liderar times e processos, aplicando metodologias ágeis em qualquer área técnica.",
-   steps:[{r:50},{r:94}]}
-];
+/* TRACKS, ORI e oriSvg vêm de js/catalogo.js; IC e CAREERS de paths/guias.js */
 
 var EXT='<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
 var FLAG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 5h10l-2 3 2 3H6"/></svg>';
@@ -1990,8 +1795,10 @@ function brick(id,variant,num,badge){
   var tagWord=variant.indexOf('ment')>=0?'mentoria':(variant.indexOf('proj')>=0?'projeto':'trilha');
   var bh=(badge?('<span class="brick-badge">'+badge+'</span>'):'')+'<span class="brick-badge trilha">'+tagWord+'</span>';
   var add='<button class="add-brick" type="button" data-id="'+id+'" aria-label="Adicionar ao plano de estudos" title="Adicionar ao plano de estudos">'+PLUS+CHECK+'</button>';
+  /* só as formações têm origami (mentorias e projetos não) */
+  var ori=ORI[id]?'<span class="brick-ori" aria-hidden="true" title="Origami: '+ORI[id][0]+'">'+oriSvg(id)+'</span>':'';
   return '<a class="'+cls+'" href="'+tk.u+'" target="_blank" rel="noopener">'
-    +studs(sc)+lead
+    +studs(sc)+lead+ori
     +'<span class="brick-t">'+tk.t+'</span>'
     +'<span class="brick-tail">'+bh+add+EXT+'</span></a>';
 }
@@ -2018,6 +1825,12 @@ cardsEl.addEventListener('pointermove',function(e){
 });
 
 /* ---------- render trails ---------- */
+/* cada trilha abre o mapa mental correspondente na aba Roadmap; Especializações
+   virou um conjunto de mapas skill-based, então leva para essa seção da lista */
+function mapLink(id){
+  var href='roadmap.html#'+(id==='emergentes'?'skill-based':id);
+  return '<a class="map-link" href="'+href+'">Ver como mapa'+GO+'</a>';
+}
 var trailsEl=document.getElementById('trails');
 CAREERS.forEach(function(c){
   var sec=document.createElement('section');
@@ -2028,7 +1841,7 @@ CAREERS.forEach(function(c){
     +PLUS+CHECK
     +'<span class="lbl-add">Adicionar roadmap todo</span><span class="lbl-done">Roadmap no plano</span></button>';
   var head='<div class="trail-head"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+c.icon+'</svg></span>'
-    +'<div><h2>'+c.name+'</h2><p class="tag">'+c.tag+'</p><div class="trail-meta">'+pill+allBtn+'</div></div></div>';
+    +'<div><h2>'+c.name+'</h2><p class="tag">'+c.tag+'</p><div class="trail-meta">'+pill+allBtn+mapLink(c.id)+'</div></div></div>';
 
   var n=0, rows='';
   c.steps.forEach(function(st){
@@ -2098,6 +1911,11 @@ backLink.addEventListener('click',function(){
   showAll();
   document.getElementById('cards').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
 });
+/* vindo da aba Roadmap ("Ver em blocos"): index.html#trilha=<id> já abre a trilha */
+(function(){
+  var m=/[#&]trilha=([\w-]+)/.exec(location.hash);
+  if(m&&document.getElementById('trail-'+m[1])) setTimeout(function(){ filterTo(m[1]); },80);
+})();
 var heroPlanBtn=document.getElementById('heroPlanBtn');
 if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
   document.getElementById('cards').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
@@ -2182,7 +2000,9 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
           +'<div class="ag-name">'+esc(tk.t)+'</div>'
         +'</div>'
         +'<div class="lego-actions">'
-          +'<a class="ag-open mini-btn" href="'+tk.u+'" target="_blank" rel="noopener" draggable="false">Ver na plataforma'
+          +(tipoDe(item.id)==='artigo'
+            ?'<a class="ag-open mini-btn" href="'+tk.u+'" draggable="false">Ler artigo'
+            :'<a class="ag-open mini-btn" href="'+tk.u+'" target="_blank" rel="noopener" draggable="false">Ver na plataforma')
             +'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a>'
           +'<button class="ag-remove mini-btn icon-btn" type="button" data-id="'+item.id+'" aria-label="Remover do plano" title="Remover">✕</button>'
           +'<button class="ag-handle mini-btn icon-btn" type="button" data-idx="'+i+'" aria-label="Reordenar (use as setas para cima e para baixo)" title="Arraste para reordenar">'
@@ -2245,6 +2065,8 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
 
   document.getElementById('planBtn').addEventListener('click',openPanel);
   document.getElementById('planClose').addEventListener('click',closePanel);
+  /* o botão "Meu plano" da aba Roadmap chega aqui como index.html#plano */
+  if(/[#&]plano\b/.test(location.hash)) setTimeout(openPanel,120);
   overlay.addEventListener('click',closePanel);
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&panel.classList.contains('show')) closePanel(); });
 
@@ -2414,7 +2236,7 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
     hits.forEach(function(id,i){
       var tk=TRACKS[id], isM=!!MENT[id], isP=!!PROJ[id];
       var hue=isM?'#EDA486':(isP?'#2FD98A':SPAL[i%SPAL.length]);
-      var tipo=isM?'Mentoria':(isP?'Projeto':'Formação');
+      var tipo=isM?'Mentoria':(isP?'Projeto':({certificacao:'Certificação',artigo:'Artigo',curso:'Curso'}[tipoDe(id)]||'Formação'));
       html+='<div class="sr-block'+(isM?' ment':(isP?' proj':''))+'" style="--hue:'+hue+'">'
         +'<span class="sr-type">'+tipo+'</span>'
         +'<div class="sr-name">'+hl(tk.t,q)+'</div>'
@@ -3875,15 +3697,32 @@ function AnimatedHeroCharacter(root,opts){
      do AnimatedHeroCharacter ainda cobre qualquer outro src não processado) */
   /* robô LEGO (assets/hero/charbase_1.png, grade 3×3), com as manchas brancas
      de recorte já limpas em charbase_1-transparent.png. A sequência vai e volta:
-     anotando → olha para cima → sorri, e retorna, com pausas nas pontas */
-  if(target) AnimatedHeroCharacter(target,{
-    size:280,src:'assets/hero/charbase_1-transparent.png',className:'ahc-flip',
-    columns:3,rows:3,fps:7,chromaKey:false,
-    /* o robô não fica centrado nas células de 418px: cada frame é recortado pelo
-       centro e pelo topo da cabeça medidos, para ele não "pular" entre frames */
-    frameOrigins:[[19,0],[412,1],[805,2],[19,419],[412,421],[805,420],[19,835],[412,836],[805,835]],
-    frameSequence:[0,0,0,1,2,3,4,5,6,7,8,8,8,8,7,6,5,4,3,2,1]
-  });
+     anotando → olha para cima → sorri, e retorna, com pausas nas pontas.
+     Hoje ele é o PLANO B: o hero tenta primeiro o robô 3D (módulo three.js no fim
+     da página) e só cai no sprite se não houver WebGL, se o modelo não carregar
+     (ex.: página aberta direto do disco, file://) ou se o three.js nem chegar */
+  function startSprite(){
+    if(!target||window.__heroSpriteStarted) return;
+    window.__heroSpriteStarted=true;
+    target.classList.remove('hero-3d','is-ready');
+    target.replaceChildren();
+    AnimatedHeroCharacter(target,{
+      size:280,src:'assets/hero/charbase_1-transparent.png',className:'ahc-flip',
+      columns:3,rows:3,fps:7,chromaKey:false,
+      /* o robô não fica centrado nas células de 418px: cada frame é recortado pelo
+         centro e pelo topo da cabeça medidos, para ele não "pular" entre frames */
+      frameOrigins:[[19,0],[412,1],[805,2],[19,419],[412,421],[805,420],[19,835],[412,836],[805,835]],
+      frameSequence:[0,0,0,1,2,3,4,5,6,7,8,8,8,8,7,6,5,4,3,2,1]
+    });
+  }
+  window.__heroSprite=startSprite;
+  var gl=null;
+  try{ var tc=document.createElement('canvas'); gl=tc.getContext('webgl2')||tc.getContext('webgl'); }catch(e){}
+  if(gl){ var lose=gl.getExtension('WEBGL_lose_context'); if(lose) lose.loseContext(); } /* só testamos; libera o contexto */
+  if(!gl||!('noModule' in HTMLScriptElement.prototype)){ startSprite(); return; }
+  /* redes de segurança: o módulo nem começou (CDN bloqueado) ou o modelo demorou demais */
+  setTimeout(function(){ if(!window.__hero3d) startSprite(); },10000);
+  setTimeout(function(){ if(window.__hero3d!=='ready') startSprite(); },25000);
 })();
 
 /* ---------- hero: estrelas cintilantes (canvas) ---------- */
@@ -3949,6 +3788,139 @@ function AnimatedHeroCharacter(root,opts){
 
 /* divisória gamer: mostra o total de trilhas e de conteúdos do catálogo */
 (function(){ var a=document.getElementById('gdivTrails'), b=document.getElementById('gdivItems'); if(a) a.textContent=CAREERS.length; if(b) b.textContent=Object.keys(TRACKS).length; })();
+</script>
+
+<!-- ---------- hero: robô 3D "Robot Playground" (Hadrien59, CC BY 4.0) com three.js ---------- -->
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.187.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+
+/* baixado do Sketchfab ("Download 3D Model"): aceita o .glb ou o pacote glTF (scene.gltf + scene.bin + textures/) */
+const MODEL_URLS=['assets/3d/robot-playground/scene.glb','assets/3d/robot-playground/scene.gltf'];
+const target=document.getElementById('heroCharacter');
+
+function fallback(err){
+  if(window.__hero3d==='failed') return;
+  window.__hero3d='failed';
+  console.info('[hero 3D] usando o robô em sprite:',(err&&err.message)||err);
+  if(window.__heroSprite) window.__heroSprite();
+}
+
+async function loadModel(){
+  const loader=new GLTFLoader();
+  let lastErr;
+  for(const url of MODEL_URLS){ try{ return await loader.loadAsync(url); }catch(e){ lastErr=e; } }
+  throw lastErr;
+}
+
+async function init(){
+  if(!target||window.__heroSpriteStarted) return;
+  window.__hero3d='loading';
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* mesmo "palco" do sprite: brilho neon atrás, sombra embaixo e a flutuação suave (CSS) */
+  target.replaceChildren();
+  target.classList.add('animated-hero-character','hero-3d');
+  const stage=document.createElement('div');
+  stage.className='ahc-stage';
+  target.appendChild(stage);
+
+  let renderer;
+  try{ renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'low-power'}); }
+  catch(e){ return fallback(e); }
+
+  let gltf;
+  try{ gltf=await loadModel(); }
+  catch(e){ renderer.dispose(); return fallback(e); }
+  if(window.__heroSpriteStarted){ renderer.dispose(); return; } /* o sprite já assumiu (timeout) */
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  renderer.toneMapping=THREE.NeutralToneMapping;
+  renderer.toneMappingExposure=1.05;
+  const canvas=renderer.domElement;
+  canvas.setAttribute('role','img');
+  canvas.setAttribute('aria-label','Robô holográfico em 3D brincando com um icosaedro');
+  stage.appendChild(canvas);
+
+  const scene=new THREE.Scene();
+  const pmrem=new THREE.PMREMGenerator(renderer);
+  scene.environment=pmrem.fromScene(new RoomEnvironment(),.04).texture;
+  pmrem.dispose();
+  scene.add(new THREE.HemisphereLight(0xd8f6ff,0x2b0f45,1.2));
+  const key=new THREE.DirectionalLight(0xffffff,1.6);
+  key.position.set(2,4,3);
+  scene.add(key);
+
+  /* centraliza e normaliza o tamanho do modelo; o pivô é quem gira com o mouse */
+  const model=gltf.scene;
+  const pivot=new THREE.Group();
+  pivot.add(model);
+  scene.add(pivot);
+  const box=new THREE.Box3().setFromObject(model);
+  const size=box.getSize(new THREE.Vector3()), center=box.getCenter(new THREE.Vector3());
+  const s=2/Math.max(size.x,size.y,size.z);
+  model.scale.setScalar(s);
+  model.position.copy(center).multiplyScalar(-s);
+
+  /* câmera um pouco acima, em 3/4, enquadrando a esfera que envolve o modelo (com folga para a animação) */
+  const camera=new THREE.PerspectiveCamera(30,1,.01,100);
+  const sphere=new THREE.Box3().setFromObject(pivot).getBoundingSphere(new THREE.Sphere());
+  const dist=sphere.radius*1.08/Math.sin(THREE.MathUtils.degToRad(camera.fov/2));
+  camera.position.copy(new THREE.Vector3(0,.42,1).normalize().multiplyScalar(dist)).add(sphere.center);
+  camera.lookAt(sphere.center);
+
+  const mixer=new THREE.AnimationMixer(model);
+  gltf.animations.forEach(clip=>mixer.clipAction(clip).play());
+
+  function resize(){
+    const w=Math.max(1,Math.round(stage.clientWidth));
+    renderer.setSize(w,w,false);
+    camera.aspect=1;
+    camera.updateProjectionMatrix();
+    renderer.render(scene,camera);
+  }
+  new ResizeObserver(resize).observe(stage);
+
+  /* o robô acompanha o mouse de leve (paralaxe) e balança devagar quando parado */
+  let tx=0,ty=0;
+  if(!reduce) addEventListener('pointermove',e=>{
+    tx=(e.clientX/innerWidth-.5)*.9;
+    ty=(e.clientY/innerHeight-.5)*.22;
+  },{passive:true});
+
+  let running=false,last=0,onScreen=true;
+  function frame(now){
+    if(!running) return;
+    const dt=Math.min((now-last)/1000,.05); last=now;
+    mixer.update(dt);
+    const sway=Math.sin(now/2600)*.22;
+    pivot.rotation.y+=(tx+sway-pivot.rotation.y)*.05;
+    pivot.rotation.x+=(ty-pivot.rotation.x)*.05;
+    renderer.render(scene,camera);
+    requestAnimationFrame(frame);
+  }
+  function start(){ if(running||reduce) return; running=true; last=performance.now(); requestAnimationFrame(frame); }
+  function stop(){ running=false; }
+  /* só anima enquanto o hero está na tela e a aba está visível */
+  new IntersectionObserver(([e])=>{ onScreen=e.isIntersecting; (onScreen&&!document.hidden)?start():stop(); }).observe(target);
+  document.addEventListener('visibilitychange',()=>{ document.hidden?stop():(onScreen&&start()); });
+
+  if(reduce) mixer.update(1.5); /* movimento reduzido: um quadro parado, já no meio da brincadeira */
+  resize();
+  window.__hero3d='ready';
+  target.classList.add('is-ready');
+  const credit=document.getElementById('robotCredit');
+  if(credit) credit.hidden=false;
+}
+
+init().catch(fallback);
 </script>
 </body>
 </html>
