@@ -559,6 +559,24 @@
   @media (prefers-reduced-motion:reduce){
     .sim[data-sim="scrum"] .sm-fill,.sim[data-sim="scrum"] .sm-over{transition:none}
   }
+  /* Claude Code: instalação (abas de sistema) e "qual comando eu uso?" */
+  .sim[data-sim="instalar-claude-code"] .ic-os .sim-btn,.sim[data-sim="comandos-claude-code"] .cc-sits .sim-btn{padding:6px 11px;font-size:.82rem}
+  .sim[data-sim="instalar-claude-code"] .sim-out{overflow-wrap:anywhere}
+  .sim[data-sim="instalar-claude-code"] .ic-act{margin:12px 0 0}
+  .sim[data-sim="comandos-claude-code"] .sim-out{min-height:6.5em}
+  /* economizar tokens: barra de contexto por categoria */
+  .sim[data-sim="tokens-claude-code"] .tk-bar{display:flex;height:22px;border-radius:6px;overflow:hidden;background:var(--soft);border:1px solid var(--line)}
+  .sim[data-sim="tokens-claude-code"] .tk-bar span{height:100%;transition:width .45s var(--ease)}
+  .sim[data-sim="tokens-claude-code"] .tk-k1{background:#8b8fa3}
+  .sim[data-sim="tokens-claude-code"] .tk-k2{background:#c9631a}
+  .sim[data-sim="tokens-claude-code"] .tk-k3{background:#2f7fd0}
+  .sim[data-sim="tokens-claude-code"] .tk-k4{background:#d64545}
+  .sim[data-sim="tokens-claude-code"] .tk-k5{background:#7c4ddb}
+  .sim[data-sim="tokens-claude-code"] .tk-leg{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 8px;font-size:.8rem;color:var(--ink-soft)}
+  .sim[data-sim="tokens-claude-code"] .tk-leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  .sim[data-sim="tokens-claude-code"] .tk-total{margin:0 0 12px;font-family:var(--mono);font-size:.84rem;font-weight:700;color:var(--ink)}
+  .sim[data-sim="tokens-claude-code"] .tk-acts .sim-btn{padding:6px 11px;font-size:.82rem}
+  @media (prefers-reduced-motion:reduce){ .sim[data-sim="tokens-claude-code"] .tk-bar span{transition:none} }
   /* @@artigos:css-fim */
 
   /* ---------- rodapé ---------- */
@@ -704,6 +722,352 @@
 <!-- ===== artigos ===== -->
 <div class="post-wrap" id="postWrap" hidden>
 <main class="post-main">
+
+<article class="post" id="economizar-tokens-claude-code" hidden data-tag="Ferramentas" data-min="6"
+  data-title="Como economizar tokens no Claude Code"
+  data-sub="Dez hábitos para gastar menos do seu limite (ou da sua fatura) sem perder qualidade: conversa, contexto, modelo e esforço.">
+  <div class="p-cover">
+    <svg viewBox="0 0 800 360" role="img" aria-label="Capa animada: a barra de contexto do Claude Code esvazia depois de um /compact e o contador de tokens cai">
+      <rect width="800" height="360" fill="#17100c"/>
+      <text x="80" y="92" fill="#a8968a" font-family="ui-monospace,Consolas,monospace" font-size="20">contexto</text>
+      <text x="720" y="92" text-anchor="end" fill="#f5f5f7" font-family="ui-monospace,Consolas,monospace" font-size="26" font-weight="700">
+        <tspan>203k<animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;.42;.46;.94;1" dur="7s" repeatCount="indefinite"/></tspan>
+      </text>
+      <text x="720" y="92" text-anchor="end" fill="#7ee787" font-family="ui-monospace,Consolas,monospace" font-size="26" font-weight="700" opacity="0">41k<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.44;.48;.94;1" dur="7s" repeatCount="indefinite"/></text>
+      <rect x="80" y="112" width="640" height="44" rx="10" fill="#2b1f17"/>
+      <rect x="80" y="112" width="70" height="44" rx="10" fill="#8b8fa3"/>
+      <rect x="150" y="112" height="44" fill="#2f7fd0" width="150"><animate attributeName="width" values="150;150;40;40;150" keyTimes="0;.4;.48;.94;1" dur="7s" repeatCount="indefinite"/></rect>
+      <rect y="112" height="44" fill="#d64545" x="300" width="190"><animate attributeName="x" values="300;300;190;190;300" keyTimes="0;.4;.48;.94;1" dur="7s" repeatCount="indefinite"/><animate attributeName="width" values="190;190;20;20;190" keyTimes="0;.4;.48;.94;1" dur="7s" repeatCount="indefinite"/></rect>
+      <rect y="112" height="44" fill="#EDA486" x="490" width="230"><animate attributeName="x" values="490;490;210;210;490" keyTimes="0;.4;.48;.94;1" dur="7s" repeatCount="indefinite"/><animate attributeName="width" values="230;230;40;40;230" keyTimes="0;.4;.48;.94;1" dur="7s" repeatCount="indefinite"/></rect>
+      <text x="80" y="236" fill="#EDA486" font-family="ui-monospace,Consolas,monospace" font-size="28" font-weight="700" opacity="0">&gt; /compact<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.28;.32;.94;1" dur="7s" repeatCount="indefinite"/></text>
+      <text x="80" y="290" fill="#a8968a" font-family="ui-monospace,Consolas,monospace" font-size="19" opacity="0">conversa resumida · mesmo fio, menos tokens<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.5;.56;.94;1" dur="7s" repeatCount="indefinite"/></text>
+      <g transform="translate(676 262)"><path d="M0 -26V26M-26 0H26M-18 -18L18 18M18 -18L-18 18" stroke="#EDA486" stroke-width="6" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="12s" repeatCount="indefinite"/></path></g>
+    </svg>
+  </div>
+  <div class="p-body">
+    <p class="one"><b>Em uma frase</b>A cada pedido, o Claude Code manda a conversa inteira de novo para o modelo: quanto menos coisa sobrando no contexto, menos tokens cada mensagem gasta.</p>
+
+    <h2>Tokens, contexto e quem paga</h2>
+    <p><b>Tokens</b> são os pedaços de texto que o modelo lê e escreve. O <b>contexto</b> é tudo o que o Claude está "lendo" na sessão: as instruções, o <code>CLAUDE.md</code>, os arquivos que ele abriu, as saídas de comandos e toda a conversa até ali.</p>
+    <ul>
+      <li><b>Na assinatura</b> (Pro, Max, Team ou Enterprise), o uso desconta dos limites do plano, que se renovam de tempos em tempos.</li>
+      <li><b>Na API</b>, pelo Console da Anthropic, você paga por token usado.</li>
+    </ul>
+    <p>Nos dois casos a regra é a mesma: contexto velho pesa em todas as mensagens seguintes. Até uma pergunta de uma linha, numa sessão aberta desde cedo, leva o dia inteiro de conversa junto.</p>
+
+    <h2>Veja o contexto encher (e esvaziar)</h2>
+    <p>Uma sessão longa, que já passou por várias tarefas. Aplique os hábitos e veja quanto cada pedido novo deixa de carregar.</p>
+    <div class="sim" data-sim="tokens-claude-code">
+      <div class="sim-h">Contexto da sessão</div>
+      <div class="tk-bar" role="img" aria-label="Barra de contexto"></div>
+      <div class="tk-leg"></div>
+      <p class="tk-total" aria-live="polite"></p>
+      <div class="sim-row tk-acts" role="group" aria-label="Hábitos">
+        <button class="sim-btn ghost" type="button" data-acao="compact">/compact</button>
+        <button class="sim-btn ghost" type="button" data-acao="clear">/clear</button>
+        <button class="sim-btn ghost" type="button" data-acao="at">Pedido específico com @</button>
+        <button class="sim-btn ghost" type="button" data-acao="sub">Logs num subagente</button>
+        <button class="sim-btn ghost" type="button" data-acao="md">CLAUDE.md enxuto</button>
+        <button class="sim-btn" type="button" data-acao="reset">Recomeçar</button>
+      </div>
+      <div class="sim-out" aria-live="polite"></div>
+      <p class="sim-note">Valores ilustrativos, para comparar os hábitos. Os números reais da sua sessão aparecem no <code>/context</code>.</p>
+    </div>
+
+    <h2>Os 10 hábitos</h2>
+    <h3>Na conversa</h3>
+    <ol>
+      <li><b>Uma tarefa por conversa.</b> Trocou de assunto, rode <code>/clear</code>: começa uma conversa nova, com o contexto vazio. Quer voltar depois? Dê um nome com <code>/rename</code> antes e retome com <code>/resume</code>.</li>
+      <li><b>Resuma as conversas longas.</b> O <code>/compact</code> troca o histórico por um resumo e libera espaço sem perder o fio. Dá para dizer o que manter: <code>/compact foque nos testes e nas mudanças de código</code>. Quando o contexto chega ao limite, ele resume sozinho.</li>
+      <li><b>Peça de forma específica.</b> "Melhore este projeto" faz ele vasculhar tudo. "Adicione validação na função de login do auth.ts" vai direto ao ponto. Use <code>@caminho/arquivo</code> para apontar o arquivo certo.</li>
+      <li><b>Plano antes do código.</b> Em mudanças grandes, aperte <code>Shift+Tab</code> até o modo de planejamento: ele estuda e propõe antes de mexer em qualquer arquivo. Errou o rumo? <code>Esc</code> para parar e <code>/rewind</code> para voltar. Corrigir cedo sai muito mais barato que refazer.</li>
+    </ol>
+    <h3>No contexto</h3>
+    <ol start="5">
+      <li><b>CLAUDE.md enxuto.</b> Ele entra em toda sessão, então cada linha custa sempre. Mire em menos de 200 linhas, só com o essencial. Fluxos específicos, como revisar um PR, viram skills, que só carregam quando são usadas.</li>
+      <li><b>Trabalho barulhento vai para um subagente.</b> Rodar testes, ler logs e buscar no projeto geram muito texto. Um subagente faz isso no contexto dele e devolve só o resumo. Ele também gasta do seu uso, mas a conversa principal fica limpa.</li>
+      <li><b>Só os servidores MCP que você usa.</b> Desligue os que não está usando no <code>/mcp</code>; a configuração fica guardada. Quando der, prefira ferramentas de terminal como <code>gh</code>: elas não ocupam espaço no contexto.</li>
+    </ol>
+    <h3>No modelo</h3>
+    <ol start="8">
+      <li><b>O modelo certo para cada tarefa.</b> O Sonnet dá conta da maior parte do código e custa menos que o Opus; guarde o Opus para decisões de arquitetura e raciocínios longos. Troque com <code>/model sonnet</code> ou <code>/model opus</code>. O <code>opusplan</code> usa o Opus no planejamento e o Sonnet na execução. Para subagentes simples, o Haiku basta.</li>
+      <li><b>Esforço na medida.</b> O <code>/effort</code> ajusta o quanto o modelo pensa antes de responder: níveis mais altos gastam mais tokens (o raciocínio é cobrado como resposta). Para mudanças pequenas, um nível baixo resolve.</li>
+    </ol>
+    <h3>No acompanhamento</h3>
+    <ol start="10">
+      <li><b>Meça antes de otimizar.</b> O <code>/context</code> mostra o que está ocupando o contexto, por categoria, com sugestões. O <code>/usage</code> mostra o custo da sessão e os limites do seu plano.</li>
+    </ol>
+
+    <h2>O que evitar no meio de uma tarefa</h2>
+    <p>O Claude Code reaproveita sozinho o que se repete entre um pedido e outro (o chamado cache de prompt), e isso deixa cada mensagem mais barata. Algumas ações zeram esse aproveitamento e fazem o próximo pedido custar mais. Deixe para fazer entre uma tarefa e outra:</p>
+    <ul>
+      <li>trocar de modelo;</li>
+      <li>mudar o nível de esforço;</li>
+      <li>ligar ou desligar servidores MCP e plugins.</li>
+    </ul>
+    <blockquote>Editar arquivos do projeto, mudar o modo de permissão e usar skills não atrapalham o cache. Na dúvida, rode <code>/usage</code> antes e depois e compare.</blockquote>
+
+    <div class="quiz">
+      <div class="quiz-h">Teste rápido</div>
+      <div class="q" data-ans="2">
+        <p>Você terminou uma tarefa e vai começar outra, sem relação nenhuma. O que fazer?</p>
+        <div class="opts"><button class="opt" type="button">Continuar na mesma conversa</button><button class="opt" type="button">Trocar para o Opus</button><button class="opt" type="button">Rodar /clear</button></div>
+        <p class="why" hidden>Contexto velho gasta tokens em todas as mensagens seguintes. O /clear começa do zero; se quiser voltar depois, dê um nome com /rename e retome com /resume.</p>
+      </div>
+      <div class="q" data-ans="0">
+        <p>Qual comando mostra o que está ocupando o contexto?</p>
+        <div class="opts"><button class="opt" type="button">/context</button><button class="opt" type="button">/init</button><button class="opt" type="button">/rewind</button></div>
+        <p class="why" hidden>O /context mostra o uso por categoria e sugere otimizações. O /usage complementa com o custo da sessão e os limites do plano.</p>
+      </div>
+      <div class="q" data-ans="1">
+        <p>Os testes geram um log enorme a cada rodada. Como evitar que ele lote a conversa?</p>
+        <div class="opts"><button class="opt" type="button">Colar o log inteiro no pedido</button><button class="opt" type="button">Rodar os testes num subagente, que devolve só o resumo</button><button class="opt" type="button">Aumentar o nível de esforço</button></div>
+        <p class="why" hidden>O subagente trabalha no contexto dele e devolve só o que importa. Esforço maior, ao contrário, gasta mais tokens.</p>
+      </div>
+    </div>
+
+    <p class="p-next">Próximo: <a href="#comandos-claude-code">Principais comandos do Claude Code</a></p>
+  </div>
+</article>
+
+<article class="post" id="instalar-claude-code" hidden data-tag="Ferramentas" data-min="5"
+  data-title="Como instalar o Claude Code (CLI)"
+  data-sub="Instalação no Windows, no macOS e no Linux, o primeiro login e como conferir se ficou tudo certo.">
+  <div class="p-cover">
+    <svg viewBox="0 0 800 360" role="img" aria-label="Capa animada: o comando de instalação do Claude Code é digitado no terminal, a barra de progresso enche e aparece a confirmação">
+      <defs><clipPath id="ccInstType"><rect x="120" y="110" width="0" height="40"><animate attributeName="width" values="0;570;570;0" keyTimes="0;.3;.92;1" dur="7s" repeatCount="indefinite"/></rect></clipPath></defs>
+      <rect width="800" height="360" fill="#17100c"/>
+      <rect x="90" y="48" width="620" height="264" rx="16" fill="#221812" stroke="#3a2a20" stroke-width="2"/>
+      <rect x="90" y="48" width="620" height="40" rx="16" fill="#2b1f17"/>
+      <circle cx="118" cy="68" r="6" fill="#ff5f57"/><circle cx="138" cy="68" r="6" fill="#febc2e"/><circle cx="158" cy="68" r="6" fill="#28c840"/>
+      <text x="120" y="138" clip-path="url(#ccInstType)" fill="#f5f5f7" font-family="ui-monospace,Consolas,monospace" font-size="20">$ curl -fsSL https://claude.ai/install.sh | bash</text>
+      <rect x="120" y="170" width="560" height="12" rx="6" fill="#3a2a20"/>
+      <rect x="120" y="170" width="0" height="12" rx="6" fill="#EDA486"><animate attributeName="width" values="0;0;560;560;0" keyTimes="0;.32;.62;.92;1" dur="7s" repeatCount="indefinite"/></rect>
+      <text x="120" y="226" fill="#7ee787" font-family="ui-monospace,Consolas,monospace" font-size="20" opacity="0">✓ Claude Code instalado<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.64;.68;.92;1" dur="7s" repeatCount="indefinite"/></text>
+      <g opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.74;.78;.92;1" dur="7s" repeatCount="indefinite"/>
+        <text x="120" y="276" fill="#f5f5f7" font-family="ui-monospace,Consolas,monospace" font-size="20">$ claude</text>
+        <g transform="translate(236 268)"><path d="M0 -14V14M-14 0H14M-10 -10L10 10M10 -10L-10 10" stroke="#EDA486" stroke-width="4" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0" to="90" dur="1.6s" repeatCount="indefinite"/></path></g>
+      </g>
+    </svg>
+  </div>
+  <div class="p-body">
+    <p class="one"><b>Em uma frase</b>O Claude Code é o assistente de programação da Anthropic que roda no terminal: ele lê o seu projeto, edita arquivos e executa comandos, sempre pedindo a sua permissão.</p>
+
+    <h2>Antes de começar</h2>
+    <ul>
+      <li><b>Sistema:</b> macOS 13 ou mais novo, Windows 10 (versão 1809 ou mais nova) ou 11, Ubuntu 20.04+, Debian 10+ ou Alpine 3.19+, com pelo menos 4 GB de RAM.</li>
+      <li><b>Conta:</b> um plano pago do Claude (Pro, Max, Team ou Enterprise) ou uma conta do Console da Anthropic. O plano gratuito do Claude não inclui o Claude Code.</li>
+      <li><b>Internet</b> ligada enquanto você usa.</li>
+      <li><b>No Windows:</b> vale instalar o Git for Windows, para o Claude Code poder usar o Bash. Sem ele, o Claude Code usa o PowerShell.</li>
+    </ul>
+
+    <h2>1. Instalar</h2>
+    <p>O jeito recomendado é o instalador oficial: não precisa de Node.js e se atualiza sozinho. Escolha o seu sistema e copie o comando para o terminal.</p>
+    <div class="sim" data-sim="instalar-claude-code">
+      <div class="sim-h">Escolha o seu sistema</div>
+      <div class="sim-row ic-os" role="group" aria-label="Sistema e forma de instalar">
+        <button class="sim-btn ghost" type="button" data-os="mac" aria-pressed="true">macOS · Linux · WSL</button>
+        <button class="sim-btn ghost" type="button" data-os="ps" aria-pressed="false">Windows (PowerShell)</button>
+        <button class="sim-btn ghost" type="button" data-os="cmd" aria-pressed="false">Windows (CMD)</button>
+        <button class="sim-btn ghost" type="button" data-os="brew" aria-pressed="false">Homebrew</button>
+        <button class="sim-btn ghost" type="button" data-os="winget" aria-pressed="false">WinGet</button>
+        <button class="sim-btn ghost" type="button" data-os="npm" aria-pressed="false">npm</button>
+      </div>
+      <div class="sim-out" aria-live="polite"></div>
+      <p class="sim-note"></p>
+      <div class="sim-row ic-act"><button class="sim-btn" type="button" data-copy>Copiar comando</button></div>
+    </div>
+
+    <h2>2. Entrar na sua conta (login)</h2>
+    <p>O login é feito uma vez só: depois ele fica salvo. Siga o passo a passo:</p>
+    <ol>
+      <li><b>Abra o Claude Code na pasta do projeto.</b> Feche e abra o terminal de novo (para ele achar o comando recém-instalado), entre na pasta e chame o Claude Code:
+        <pre><code>cd meu-projeto
+claude</code></pre></li>
+      <li><b>Escolha como entrar</b>, com as setas e o Enter:
+        <ul>
+          <li><b>Conta do Claude</b> (Pro, Max, Team ou Enterprise): a recomendada para quem já assina o Claude. Em Team e Enterprise, use a conta para a qual o administrador te convidou.</li>
+          <li><b>Conta do Console da Anthropic</b>: cobra pelo uso da API, com créditos pré-pagos. Na tela seguinte, prefira entrar com a conta do Console (a opção recomendada).</li>
+          <li><b>Plataforma de terceiros</b> (Amazon Bedrock, Google Cloud ou Microsoft Foundry): para empresas que já usam esses serviços.</li>
+        </ul></li>
+      <li><b>Entre pelo navegador.</b> Ele abre sozinho na página de login: entre na sua conta e autorize o acesso.
+        <ul>
+          <li>Se o navegador não abrir, aperte <code>c</code> no terminal para copiar o link e cole no navegador.</li>
+          <li>Se o navegador mostrar um código em vez de voltar sozinho, copie e cole no terminal, no campo <b>"Paste code here if prompted"</b>.</li>
+        </ul></li>
+      <li><b>Volte ao terminal.</b> Quando aparecer <b>"Login successful"</b>, aperte Enter.</li>
+      <li><b>Pronto.</b> O Claude Code mostra a versão, o modelo e a pasta em que você está. Escreva o primeiro pedido em português mesmo, por exemplo: "explique este projeto".</li>
+    </ol>
+
+    <h3>Gerenciar o login</h3>
+    <table>
+      <tr><th>Comando</th><th>O que faz</th></tr>
+      <tr><td><code>/status</code></td><td>Mostra com qual conta e de que jeito você entrou</td></tr>
+      <tr><td><code>/login</code></td><td>Troca de conta ou entra de novo, sem sair da sessão</td></tr>
+      <tr><td><code>/logout</code></td><td>Sai da conta; na próxima vez ele pede o login de novo</td></tr>
+      <tr><td><code>claude auth logout</code></td><td>Sai da conta pelo terminal, sem abrir a sessão</td></tr>
+    </table>
+    <p>O login fica guardado no Keychain, no macOS, e no arquivo <code>~/.claude/.credentials.json</code>, no Linux e no Windows. Não edite esse arquivo na mão: use <code>/login</code> e <code>/logout</code>.</p>
+    <blockquote>Tem a variável <code>ANTHROPIC_API_KEY</code> configurada no computador? Na primeira vez o Claude Code pergunta se deve usar essa chave. Se você aceitar, ele pula o login e passa a cobrar pela API, mesmo que você tenha uma assinatura do Claude. Para voltar à assinatura, remova a variável e confira com <code>/status</code>.</blockquote>
+
+    <h2>3. Conferir se deu certo</h2>
+    <table>
+      <tr><th>Comando</th><th>O que faz</th></tr>
+      <tr><td><code>claude --version</code></td><td>Mostra a versão instalada</td></tr>
+      <tr><td><code>claude doctor</code></td><td>Faz um diagnóstico da instalação, sem abrir uma sessão</td></tr>
+      <tr><td><code>claude update</code></td><td>Atualiza na hora para a versão mais nova</td></tr>
+    </table>
+
+    <h2>4. Se algo der errado</h2>
+    <ul>
+      <li><b>"claude: command not found"</b> (ou "não é reconhecido"): feche e abra o terminal. Se continuar, a pasta da instalação não está no PATH. O <code>claude doctor</code> ajuda a achar o problema.</li>
+      <li><b>Erro de permissão no npm:</b> nunca rode o <code>npm install -g</code> com <code>sudo</code>. Prefira o instalador oficial.</li>
+      <li><b>Comando "não reconhecido" no Windows:</b> PowerShell e CMD usam comandos diferentes. Se aparecer "irm não é reconhecido", você está no CMD; se aparecer um erro sobre <code>&amp;&amp;</code>, você está no PowerShell.</li>
+    </ul>
+    <blockquote>Para desinstalar a versão do instalador oficial no macOS ou no Linux, apague <code>~/.local/bin/claude</code> e a pasta <code>~/.local/share/claude</code>. A pasta <code>~/.claude</code> guarda suas configurações e o histórico das conversas: só apague se quiser perder tudo.</blockquote>
+
+    <div class="quiz">
+      <div class="quiz-h">Teste rápido</div>
+      <div class="q" data-ans="1">
+        <p>Qual forma de instalar não precisa de Node.js e se atualiza sozinha?</p>
+        <div class="opts"><button class="opt" type="button">npm</button><button class="opt" type="button">O instalador oficial</button><button class="opt" type="button">Homebrew</button></div>
+        <p class="why" hidden>O instalador oficial (curl no macOS e no Linux, irm no PowerShell) não depende do Node.js e atualiza em segundo plano. Homebrew e WinGet pedem que você atualize na mão.</p>
+      </div>
+      <div class="q" data-ans="2">
+        <p>A instalação pelo npm deu erro de permissão. O que fazer?</p>
+        <div class="opts"><button class="opt" type="button">Rodar de novo com sudo</button><button class="opt" type="button">Desinstalar o Node.js</button><button class="opt" type="button">Usar o instalador oficial, sem sudo</button></div>
+        <p class="why" hidden>A documentação pede para nunca usar sudo no npm install -g: causa problemas de permissão e é um risco de segurança.</p>
+      </div>
+      <div class="q" data-ans="0">
+        <p>Qual comando faz um diagnóstico da instalação?</p>
+        <div class="opts"><button class="opt" type="button">claude doctor</button><button class="opt" type="button">claude -p</button><button class="opt" type="button">claude -c</button></div>
+        <p class="why" hidden>O claude doctor confere a instalação sem abrir uma sessão. O -p responde a um pedido e sai; o -c continua a última conversa.</p>
+      </div>
+      <div class="q" data-ans="1">
+        <p>Na hora do login, o navegador não abriu sozinho. O que fazer?</p>
+        <div class="opts"><button class="opt" type="button">Reinstalar o Claude Code</button><button class="opt" type="button">Apertar c no terminal para copiar o link e abrir no navegador</button><button class="opt" type="button">Rodar o claude com sudo</button></div>
+        <p class="why" hidden>O terminal mostra o link de login: com a tecla c ele vai para a área de transferência. Se o navegador mostrar um código depois, cole no terminal.</p>
+      </div>
+    </div>
+
+    <p class="p-next">Próximo: <a href="#comandos-claude-code">Principais comandos do Claude Code</a></p>
+  </div>
+</article>
+
+<article class="post" id="comandos-claude-code" hidden data-tag="Ferramentas" data-min="5"
+  data-title="Principais comandos do Claude Code"
+  data-sub="Os comandos de terminal, os comandos de barra e os atalhos do dia a dia, com um guia de qual usar em cada situação.">
+  <div class="p-cover">
+    <svg viewBox="0 0 800 360" role="img" aria-label="Capa animada: no terminal do Claude Code, o menu de comandos de barra abre e a seleção desce por /init, /compact, /model e /rewind">
+      <rect width="800" height="360" fill="#17100c"/>
+      <rect x="90" y="40" width="620" height="280" rx="16" fill="#221812" stroke="#3a2a20" stroke-width="2"/>
+      <text x="120" y="92" fill="#EDA486" font-family="ui-monospace,Consolas,monospace" font-size="22" font-weight="700">&gt; /</text>
+      <rect x="160" y="74" width="12" height="22" fill="#f5f5f7"><animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/></rect>
+      <rect x="120" y="112" width="440" height="184" rx="12" fill="#2b1f17" stroke="#3a2a20"/>
+      <rect x="128" y="120" width="424" height="40" rx="8" fill="#EDA486" fill-opacity=".22">
+        <animate attributeName="y" values="120;120;164;164;208;208;252;252;120" keyTimes="0;.2;.25;.45;.5;.7;.75;.95;1" dur="6s" repeatCount="indefinite"/>
+      </rect>
+      <g font-family="ui-monospace,Consolas,monospace" font-size="19">
+        <text x="146" y="147" fill="#f5f5f7">/init</text><text x="290" y="147" fill="#a8968a">cria o CLAUDE.md</text>
+        <text x="146" y="191" fill="#f5f5f7">/compact</text><text x="290" y="191" fill="#a8968a">resume a conversa</text>
+        <text x="146" y="235" fill="#f5f5f7">/model</text><text x="290" y="235" fill="#a8968a">troca o modelo</text>
+        <text x="146" y="279" fill="#f5f5f7">/rewind</text><text x="290" y="279" fill="#a8968a">volta no tempo</text>
+      </g>
+      <g transform="translate(636 186)"><path d="M0 -30V30M-30 0H30M-21 -21L21 21M21 -21L-21 21" stroke="#EDA486" stroke-width="7" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="12s" repeatCount="indefinite"/></path></g>
+    </svg>
+  </div>
+  <div class="p-body">
+    <p class="one"><b>Em uma frase</b>No Claude Code você pede as coisas em linguagem natural; os comandos servem para controlar a sessão: abrir, retomar, limpar a conversa, trocar o modelo e decidir o quanto ele pode fazer sozinho.</p>
+
+    <h2>Três tipos de comando</h2>
+    <ul>
+      <li><b>No terminal</b>, antes de abrir a sessão: começam com <code>claude</code>, como <code>claude -c</code>.</li>
+      <li><b>Comandos de barra</b>, dentro da sessão: começam com <code>/</code>, como <code>/init</code>. Digitar só a <code>/</code> abre o menu com todos.</li>
+      <li><b>Atalhos</b> de teclado e de texto, como o <code>@</code> para citar um arquivo.</li>
+    </ul>
+
+    <h2>Qual comando eu uso?</h2>
+    <p>Escolha uma situação do dia a dia e veja o comando certo.</p>
+    <div class="sim" data-sim="comandos-claude-code">
+      <div class="sim-h">Escolha a situação</div>
+      <div class="sim-row cc-sits" role="group" aria-label="Situações"></div>
+      <div class="sim-out" aria-live="polite"></div>
+    </div>
+
+    <h2>No terminal</h2>
+    <table>
+      <tr><th>Comando</th><th>O que faz</th></tr>
+      <tr><td><code>claude</code></td><td>Abre uma sessão na pasta atual</td></tr>
+      <tr><td><code>claude "explique este projeto"</code></td><td>Abre a sessão já com um pedido</td></tr>
+      <tr><td><code>claude -p "pedido"</code></td><td>Responde e sai, sem sessão interativa (bom para scripts)</td></tr>
+      <tr><td><code>cat erro.log | claude -p "explique"</code></td><td>Manda o conteúdo de um arquivo junto com o pedido</td></tr>
+      <tr><td><code>claude -c</code></td><td>Continua a conversa mais recente desta pasta</td></tr>
+      <tr><td><code>claude -r</code></td><td>Retoma uma conversa anterior (pelo nome ou pelo id)</td></tr>
+      <tr><td><code>claude --model opus</code></td><td>Abre com um modelo específico</td></tr>
+      <tr><td><code>claude update</code></td><td>Atualiza para a versão mais nova</td></tr>
+      <tr><td><code>claude doctor</code></td><td>Confere se a instalação está saudável</td></tr>
+    </table>
+
+    <h2>Comandos de barra</h2>
+    <table>
+      <tr><th>Comando</th><th>O que faz</th></tr>
+      <tr><td><code>/help</code></td><td>Lista os comandos da sua versão</td></tr>
+      <tr><td><code>/init</code></td><td>Analisa o projeto e cria o <code>CLAUDE.md</code></td></tr>
+      <tr><td><code>/clear</code></td><td>Começa uma conversa nova, com o contexto vazio</td></tr>
+      <tr><td><code>/compact</code></td><td>Resume a conversa para liberar contexto, sem perder o fio</td></tr>
+      <tr><td><code>/model</code></td><td>Troca o modelo</td></tr>
+      <tr><td><code>/plan</code></td><td>Entra no modo de planejamento: ele propõe antes de mexer no código</td></tr>
+      <tr><td><code>/rewind</code></td><td>Volta a conversa e o código para um ponto anterior</td></tr>
+      <tr><td><code>/resume</code></td><td>Retoma uma conversa anterior</td></tr>
+      <tr><td><code>/memory</code></td><td>Edita os arquivos <code>CLAUDE.md</code> (as instruções que ele lembra)</td></tr>
+      <tr><td><code>/usage</code></td><td>Mostra o custo da sessão e os limites do seu plano (<code>/cost</code> também funciona)</td></tr>
+      <tr><td><code>/status</code></td><td>Versão, modelo, conta e conexão</td></tr>
+      <tr><td><code>/config</code></td><td>Abre as configurações</td></tr>
+    </table>
+
+    <h2>Atalhos</h2>
+    <table>
+      <tr><th>Atalho</th><th>O que faz</th></tr>
+      <tr><td><code>@caminho/arquivo</code></td><td>Cita um arquivo ou pasta no pedido, com autocompletar</td></tr>
+      <tr><td><code>!npm test</code></td><td>Roda um comando do terminal direto na sessão; a saída fica na conversa</td></tr>
+      <tr><td><code>Shift+Tab</code></td><td>Alterna o modo: normal → aceitar edições → planejamento</td></tr>
+      <tr><td><code>Esc</code> duas vezes</td><td>Com a caixa vazia, abre o menu para voltar a um ponto anterior</td></tr>
+      <tr><td><code>Ctrl+C</code></td><td>Interrompe o que está rodando; sem nada rodando, duas vezes sai</td></tr>
+      <tr><td><code>Ctrl+R</code></td><td>Procura nos pedidos que você já fez</td></tr>
+      <tr><td><code>Shift+Enter</code></td><td>Quebra a linha sem enviar (nos terminais que suportam)</td></tr>
+    </table>
+
+    <h2>O arquivo CLAUDE.md</h2>
+    <p>Cada sessão começa do zero. O <code>CLAUDE.md</code> é onde ficam as instruções que valem sempre: como rodar o projeto, os testes e os padrões do time. O <code>/init</code> cria um ponto de partida e o <code>/memory</code> abre o arquivo para editar. Um exemplo curto:</p>
+    <pre><code># Projeto: loja-api
+- Rodar: npm run dev
+- Testes: npm test (rode antes de cada commit)
+- Padrão: TypeScript, sem any
+- Não mexer na pasta legacy/</code></pre>
+    <blockquote>Os comandos mudam entre versões. Na dúvida, digite <code>/help</code> dentro da sessão para ver a lista da sua versão.</blockquote>
+
+    <div class="quiz">
+      <div class="quiz-h">Teste rápido</div>
+      <div class="q" data-ans="1">
+        <p>Você quer que o Claude Code saiba, em toda sessão, como rodar os testes do projeto. O que usa?</p>
+        <div class="opts"><button class="opt" type="button">/compact</button><button class="opt" type="button">O CLAUDE.md, criado com /init</button><button class="opt" type="button">claude -c</button></div>
+        <p class="why" hidden>O CLAUDE.md é lido no começo de cada sessão. O /compact só resume a conversa atual e o claude -c continua a última conversa.</p>
+      </div>
+      <div class="q" data-ans="0">
+        <p>Qual atalho alterna entre os modos normal, aceitar edições e planejamento?</p>
+        <div class="opts"><button class="opt" type="button">Shift+Tab</button><button class="opt" type="button">Ctrl+R</button><button class="opt" type="button">Esc duas vezes</button></div>
+        <p class="why" hidden>O Shift+Tab percorre os modos. O Ctrl+R procura no histórico e o Esc duas vezes (com a caixa vazia) volta a um ponto anterior.</p>
+      </div>
+      <div class="q" data-ans="2">
+        <p>Qual comando responde a um pedido e sai, bom para usar em scripts?</p>
+        <div class="opts"><button class="opt" type="button">claude -c</button><button class="opt" type="button">/clear</button><button class="opt" type="button">claude -p "pedido"</button></div>
+        <p class="why" hidden>O -p (de print) responde e encerra, sem sessão interativa. Dá até para mandar conteúdo pelo pipe: cat erro.log | claude -p "explique".</p>
+      </div>
+    </div>
+
+    <p class="p-next">Próximo: <a href="#cheatsheet-claude-code">Cheatsheet de Claude Code</a></p>
+  </div>
+</article>
 
 <!-- @@fundamentos:inicio -->
 <article class="post" id="logica-de-programacao" hidden data-tag="Fundamentos" data-min="4"
@@ -2912,7 +3276,7 @@ git commit -m "Remove arquivo de segredos do repositório"</code></pre>
     <p>Os comandos mudam entre versões. Dentro do Claude Code, <code>/help</code> mostra a lista da versão instalada.</p>
     <h2>Instalar e abrir</h2>
     <table>
-      <tr><td><code>npm install -g @anthropic-ai/claude-code</code></td><td>Instala (precisa do Node.js)</td></tr>
+      <tr><td><code>curl -fsSL https://claude.ai/install.sh | bash</code></td><td>Instala no macOS, no Linux e no WSL (Windows: veja <a href="#instalar-claude-code">o guia de instalação</a>)</td></tr>
       <tr><td><code>claude</code></td><td>Abre uma sessão na pasta atual</td></tr>
       <tr><td><code>claude "explique este projeto"</code></td><td>Abre já com um pedido</td></tr>
       <tr><td><code>claude -p "pedido"</code></td><td>Responde e sai, sem sessão interativa</td></tr>
@@ -2930,7 +3294,7 @@ git commit -m "Remove arquivo de segredos do repositório"</code></pre>
       <tr><td><code>/memory</code></td><td>Edita os arquivos de memória</td></tr>
       <tr><td><code>/permissions</code></td><td>Define o que pode rodar sem pedir confirmação</td></tr>
       <tr><td><code>/mcp</code></td><td>Gerencia as conexões com ferramentas externas</td></tr>
-      <tr><td><code>/agents</code></td><td>Cria e gerencia subagentes</td></tr>
+      <tr><td><code>/agents</code></td><td>Subagentes: ficam em <code>.claude/agents/</code> (peça ao Claude para criar um)</td></tr>
       <tr><td><code>/review</code></td><td>Revisa as mudanças de código</td></tr>
       <tr><td><code>/resume</code></td><td>Retoma uma conversa anterior</td></tr>
     </table>
@@ -4014,6 +4378,104 @@ BLOG_SIMS['scrum']=function(root){
   });
   desenha();
 };
+
+/* --- instalar-claude-code: comando de instalação de cada sistema, com botão de copiar --- */
+BLOG_SIMS['instalar-claude-code']=function(root){
+  var OS={
+    mac:{p:'$ ',cmd:'curl -fsSL https://claude.ai/install.sh | bash',
+      nota:'Funciona no macOS, no Linux e no WSL (o Linux dentro do Windows). Atualiza sozinho em segundo plano.'},
+    ps:{p:'PS> ',cmd:'irm https://claude.ai/install.ps1 | iex',
+      nota:'Abra o PowerShell (não precisa ser como administrador). Se aparecer "irm não é reconhecido", você está no CMD: use a opção ao lado. Atualiza sozinho.'},
+    cmd:{p:'C:\\> ',cmd:'curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd',
+      nota:'Para o Prompt de Comando (CMD). Se aparecer um erro sobre "&&", você está no PowerShell: use a opção ao lado. Atualiza sozinho.'},
+    brew:{p:'$ ',cmd:'brew install --cask claude-code',
+      nota:'Pelo Homebrew. Não atualiza sozinho: rode brew upgrade claude-code de tempos em tempos.'},
+    winget:{p:'PS> ',cmd:'winget install Anthropic.ClaudeCode',
+      nota:'Pelo gerenciador de pacotes do Windows. Não atualiza sozinho: rode winget upgrade Anthropic.ClaudeCode de tempos em tempos.'},
+    npm:{p:'$ ',cmd:'npm install -g @anthropic-ai/claude-code@latest',
+      nota:'Precisa do Node.js 22 ou mais novo. Nunca use sudo nesse comando: dá problema de permissão e é um risco de segurança.'}
+  };
+  var out=root.querySelector('.sim-out'), nota=root.querySelector('.sim-note'), copy=root.querySelector('[data-copy]'), atual='mac';
+  function esc(s){ return String(s).replace(/[&<>]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+  function mostra(k){
+    atual=k;
+    [].forEach.call(root.querySelectorAll('[data-os]'),function(b){ b.setAttribute('aria-pressed',String(b.getAttribute('data-os')===k)); });
+    out.innerHTML='<span class="c">'+esc(OS[k].p)+'</span>'+esc(OS[k].cmd);
+    nota.textContent=OS[k].nota;
+    copy.textContent='Copiar comando';
+  }
+  root.addEventListener('click',function(e){
+    var b=e.target.closest('[data-os]'); if(b){ mostra(b.getAttribute('data-os')); return; }
+    if(!e.target.closest('[data-copy]')) return;
+    var txt=OS[atual].cmd;
+    var ok=function(){ copy.textContent='Copiado ✓'; }, falha=function(){ copy.textContent='Selecione o comando e copie (Ctrl+C)'; };
+    try{ navigator.clipboard.writeText(txt).then(ok,falha); }catch(err){ falha(); }
+  });
+  mostra('mac');
+};
+
+/* --- comandos-claude-code: escolha uma situação e veja o comando certo --- */
+BLOG_SIMS['comandos-claude-code']=function(root){
+  var S=[
+    {k:'novo',l:'Comecei agora num projeto',c:'/init',t:'Cria o CLAUDE.md: ele analisa o projeto e anota como rodar, testar e os padrões que encontrou. Toda sessão começa lendo esse arquivo.'},
+    {k:'ontem',l:'Quero voltar à conversa de ontem',c:'claude -c',t:'Continua a conversa mais recente desta pasta. Para escolher outra conversa, use claude -r no terminal ou /resume dentro da sessão.'},
+    {k:'longa',l:'A conversa ficou longa',c:'/compact',t:'Resume a conversa e libera espaço no contexto, sem perder o fio. Para começar do zero, use /clear.'},
+    {k:'plano',l:'Quero ver o plano antes do código',c:'Shift+Tab (até o modo de planejamento) ou /plan',t:'No modo de planejamento ele pesquisa e propõe, sem mexer nos arquivos. Você lê, ajusta e só então aprova.'},
+    {k:'arquivo',l:'Quero falar de um arquivo',c:'@src/app.js',t:'O @ abre o autocompletar de arquivos e coloca o arquivo no seu pedido, por exemplo: "explique o @src/app.js".'},
+    {k:'terminal',l:'Preciso rodar um comando',c:'!npm test',t:'Com ! no começo, o comando roda direto na sessão e a saída fica na conversa para o Claude analisar.'},
+    {k:'desfazer',l:'Ele mudou algo que eu não queria',c:'/rewind (ou Esc duas vezes com a caixa vazia)',t:'Volta a conversa e o código para um ponto anterior, antes da mudança.'},
+    {k:'parar',l:'Quero interromper agora',c:'Ctrl+C',t:'Interrompe o que está rodando. Sem nada rodando, aperte duas vezes para sair da sessão.'},
+    {k:'script',l:'Quero usar num script',c:'claude -p "pedido"',t:'Responde e sai, sem sessão interativa. Dá para mandar conteúdo pelo pipe: cat erro.log | claude -p "explique".'},
+    {k:'custo',l:'Quanto já usei?',c:'/usage',t:'Mostra o custo da sessão e os limites do seu plano. O /cost leva para o mesmo lugar.'}
+  ];
+  var row=root.querySelector('.cc-sits'), out=root.querySelector('.sim-out');
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  row.innerHTML=S.map(function(s){ return '<button class="sim-btn ghost" type="button" data-k="'+s.k+'" aria-pressed="false">'+esc(s.l)+'</button>'; }).join('');
+  function mostra(k){
+    var s=S.filter(function(x){ return x.k===k; })[0]; if(!s) return;
+    [].forEach.call(row.querySelectorAll('[data-k]'),function(b){ b.setAttribute('aria-pressed',String(b.getAttribute('data-k')===k)); });
+    out.innerHTML='<span class="c">Use:</span> <b>'+esc(s.c)+'</b>\n\n'+esc(s.t);
+  }
+  row.addEventListener('click',function(e){ var b=e.target.closest('[data-k]'); if(b) mostra(b.getAttribute('data-k')); });
+  mostra('novo');
+};
+
+/* --- tokens-claude-code: barra de contexto que enche e esvazia com cada hábito (valores ilustrativos) --- */
+BLOG_SIMS['tokens-claude-code']=function(root){
+  var PARTES=[['base','Instruções e ferramentas'],['md','CLAUDE.md'],['arq','Arquivos lidos'],['out','Saídas de comandos e logs'],['conv','Conversa']];
+  var INI={base:20,md:8,arq:45,out:60,conv:70}, MAX=203, st={};
+  var bar=root.querySelector('.tk-bar'), leg=root.querySelector('.tk-leg'), tot=root.querySelector('.tk-total'), out=root.querySelector('.sim-out');
+  var ACOES={
+    reset:{f:function(){ for(var k in INI) st[k]=INI[k]; },
+      t:'Sessão longa, que já passou por várias tarefas: cada pedido novo leva tudo isso junto.'},
+    compact:{f:function(){ st.conv=Math.min(st.conv,12); st.out=Math.min(st.out,6); st.arq=Math.min(st.arq,10); },
+      t:'/compact: a conversa vira um resumo. O fio continua; os detalhes antigos saem do contexto.'},
+    clear:{f:function(){ st.arq=0; st.out=0; st.conv=0; },
+      t:'/clear: conversa nova, contexto vazio. Só as instruções e o CLAUDE.md voltam. Use ao trocar de assunto.'},
+    at:{f:function(){ st.arq=Math.min(st.arq,12); },
+      t:'Pedido específico com @arquivo: ele lê só o que precisa, em vez de vasculhar o projeto.'},
+    sub:{f:function(){ st.out=Math.min(st.out,5); },
+      t:'Testes e buscas num subagente: o log fica no contexto dele e só o resumo volta para a conversa.'},
+    md:{f:function(){ st.md=Math.min(st.md,3); },
+      t:'CLAUDE.md enxuto, com menos de 200 linhas: ele entra em toda sessão, então cada linha custa sempre.'}
+  };
+  function total(){ var s=0; PARTES.forEach(function(p){ s+=st[p[0]]; }); return s; }
+  function desenha(msg){
+    bar.innerHTML=PARTES.map(function(p,i){
+      return '<span class="tk-k'+(i+1)+'" style="width:'+(st[p[0]]/MAX*100).toFixed(2)+'%" title="'+p[1]+': '+st[p[0]]+' mil"></span>';
+    }).join('');
+    leg.innerHTML=PARTES.map(function(p,i){ return '<span><i class="tk-k'+(i+1)+'"></i>'+p[1]+' · '+st[p[0]]+' mil</span>'; }).join('');
+    var t=total(), eco=MAX-t;
+    tot.textContent='Cada novo pedido carrega cerca de '+t+' mil tokens'+(eco>0?' · '+Math.round(eco/MAX*100)+'% a menos que no começo':'');
+    out.textContent=msg;
+  }
+  root.addEventListener('click',function(e){
+    var b=e.target.closest('[data-acao]'); if(!b) return;
+    var a=ACOES[b.getAttribute('data-acao')]; if(!a) return;
+    a.f(); desenha(a.t);
+  });
+  ACOES.reset.f(); desenha(ACOES.reset.t);
+};
 </script><!-- @@artigos:sims-fim -->
 <script>
 (function(){
@@ -4256,20 +4718,6 @@ BLOG_SIMS['scrum']=function(root){
   });
   if(window.blogQuiz) [].forEach.call(document.querySelectorAll('.quiz'),blogQuiz);
 
-  /* @@artigos:init — liga cada simulador e cada teste rápido dos artigos, uma única vez */
-  [].forEach.call(document.querySelectorAll('[data-sim]'),function(el){
-    var f=(window.BLOG_SIMS||{})[el.getAttribute('data-sim')];
-    if(f){ try{ f(el); }catch(e){ console.error('[simulador '+el.getAttribute('data-sim')+']',e); } }
-  });
-  if(window.blogQuiz) [].forEach.call(document.querySelectorAll('.quiz'),blogQuiz);
-
-  /* @@artigos:init — liga cada simulador e cada teste rápido dos artigos, uma única vez */
-  [].forEach.call(document.querySelectorAll('[data-sim]'),function(el){
-    var f=(window.BLOG_SIMS||{})[el.getAttribute('data-sim')];
-    if(f){ try{ f(el); }catch(e){ console.error('[simulador '+el.getAttribute('data-sim')+']',e); } }
-  });
-  if(window.blogQuiz) [].forEach.call(document.querySelectorAll('.quiz'),blogQuiz);
-
   /* quem prefere menos movimento vê as capas paradas */
   still(document);
 
@@ -4287,5 +4735,7 @@ BLOG_SIMS['scrum']=function(root){
   route();
 })();
 </script>
+<!-- "Meu plano": componente que abre em qualquer página -->
+<script src="../js/plan.js"></script>
 </body>
 </html>

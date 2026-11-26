@@ -61,4 +61,10 @@ const ARTICLES={
      sub:"Um teste é um exemplo que o código precisa acertar. Rode os casos, ache o bug e veja tudo ficar verde.",ancora:[65,24]},
   325:{t:"Scrum em 4 minutos: sprints, papéis e eventos",u:"pages/blog.html#scrum",tag:"Fundamentos",min:4,
      sub:"Scrum organiza o trabalho em ciclos curtos. Monte uma sprint dentro da capacidade do time e conheça cada evento.",ancora:[50]},
+  326:{t:"Como instalar o Claude Code (CLI)",u:"pages/blog.html#instalar-claude-code",tag:"Ferramentas",min:5,
+     sub:"Instalação no Windows, no macOS e no Linux, o primeiro login e como conferir se ficou tudo certo.",ancora:[95]},
+  327:{t:"Principais comandos do Claude Code",u:"pages/blog.html#comandos-claude-code",tag:"Ferramentas",min:5,
+     sub:"Os comandos de terminal, os comandos de barra e os atalhos do dia a dia, com um guia de qual usar em cada situação.",ancora:[95]},
+  328:{t:"Como economizar tokens no Claude Code",u:"pages/blog.html#economizar-tokens-claude-code",tag:"Ferramentas",min:6,
+     sub:"Dez hábitos para gastar menos do seu limite (ou da sua fatura) sem perder qualidade: conversa, contexto, modelo e esforço.",ancora:[95]},
 };

@@ -10,13 +10,29 @@
      icone      ícone do pack (SVG 24×24, miolo do <svg>, desenhado em currentColor) ligado ao
                 projeto; aparece sobre a cor do pack. Sem ele, vale o ícone do roadmap
      arte       (opcional) animação SVG da caixa: 'voz' (assistente de voz), 'time' (time de
-                agentes ligado a um orquestrador), 'negocio' (painel com vendas crescendo)
-                ou 'blocos' (padrão)
+                agentes ligado a um orquestrador), 'negocio' (painel com vendas crescendo),
+                'agente' (conversa de chat virando um agente com ferramentas), 'terminal'
+                (terminal com código sendo escrito), 'codigo' (diff de código e testes passando),
+                'dados' (gráficos e pontos de dados), 'cert' (medalha de certificação e
+                checklist da preparação) ou 'blocos' (padrão)
      aprender   lista "O que você vai aprender"
      itens      na ordem de estudo: ids de data/ (cursos, projetos, mentorias com id...),
                 ou {id, nota} para explicar o papel daquele item no pack
    ===================================================================== */
 var LESSON_PACKS=[
+  {id:'primeiro-agente', titulo:"Criando meu Primeiro Agente",
+   descricao:"Do chatbot ao agente: entenda o ecossistema de agentes de IA, prepare o ambiente com OpenAgents e crie seu primeiro agente com o Google ADK.",
+   cor:'#2563EB', roadmap:'ai-agents', selo:"Para começar", arte:'agente',
+   icone:'<path fill-rule="evenodd" d="M5 4h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-6.5L8 21.5V18H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3zM7.6 11a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0-3 0zM13.4 11a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0-3 0z"/><path d="M12 4V2.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="1.9" r="1.1"/>',
+   aprender:["Diferenciar chatbots, copilotos e agentes de IA",
+     "Entender o ecossistema de agentes e as ferramentas de cada parte",
+     "Instalar e configurar o ambiente de agentes com OpenAgents",
+     "Criar o seu primeiro agente com o Google ADK"],
+   itens:[
+     {id:203, nota:"Entenda a diferença entre chatbots, copilotos e agentes, e como cada um ajuda nos estudos e na carreira."},
+     {id:204, nota:"Conheça o ecossistema de agentes de IA: as peças, as ferramentas e como tudo se conecta."},
+     {id:205, nota:"Prepare o ambiente: instale e configure o OpenAgents para rodar seus agentes."},
+     {id:206, nota:"Dê os primeiros passos com o Google ADK e coloque o seu primeiro agente para funcionar."}]},
   {id:'ia-para-empreendedores', titulo:"IA para empreendedores",
    descricao:"Comece a empreender na era da IA: tire a ideia do papel, toque um negócio de uma pessoa só com agentes de IA e crie produtos que geram renda.",
    cor:'#059669', roadmap:'ia-non-devs', selo:"Para empreender", arte:'negocio',
@@ -50,5 +66,63 @@ var LESSON_PACKS=[
    itens:[
      {id:99, nota:"Monte do zero o seu time de agentes de desenvolvimento no Claude Code."},
      {id:100, nota:"Orquestre o time: do problema ao produto, com os agentes trabalhando juntos."},
-     {id:101, nota:"Coloque o time para trabalhar: recrie o Tinder do zero até o MVP."}]}
+     {id:101, nota:"Coloque o time para trabalhar: recrie o Tinder do zero até o MVP."}]},
+  {id:'claude-code', titulo:"Programando com Claude Code",
+   descricao:"Do setup ao app pronto: aprenda a programar com o Claude Code no dia a dia, com vibe coding, design e segurança.",
+   cor:'#EA580C', roadmap:'claude-code', selo:"Do zero ao expert", arte:'terminal',
+   icone:'<path d="M7 7l-4.5 5L7 17M17 7l4.5 5L17 17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 7.6v8.8M7.6 12h8.8M8.9 8.9l6.2 6.2M15.1 8.9l-6.2 6.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+   aprender:["Configurar o Claude Code e usá-lo para acelerar o desenvolvimento",
+     "Programar com IA em projetos reais, do back-end ao front-end",
+     "Usar o Claude Design junto com o Claude Code",
+     "Cuidar da segurança do código gerado com IA"],
+   itens:[
+     {id:326, nota:"Comece por aqui: instale o Claude Code no seu sistema e faça o primeiro login."},
+     {id:327, nota:"Os comandos e atalhos do dia a dia, com um guia de qual usar em cada situação."},
+     {id:68, nota:"A visão completa: do primeiro comando ao uso avançado do Claude Code."},
+     {id:103, nota:"Programe com IA no Claude Code, do problema ao código funcionando."},
+     {id:105, nota:"Do design ao código: una o Claude Design e o Claude Code no mesmo fluxo."},
+     {id:106, nota:"Antes de publicar: os cuidados de segurança com código feito por IA."},
+     {id:85, nota:"Projeto final: crie um app de finanças pessoais com vibe coding."}]},
+  {id:'codex', titulo:"Programando com GPT e Codex",
+   descricao:"Do ChatGPT ao Codex: domine o assistente de código da OpenAI, recrie um app conhecido e crie agentes de IA.",
+   cor:'#10A37F', roadmap:'codex', selo:"Mão no código", arte:'codigo',
+   icone:'<path d="M6 2.5h8l4.5 4.5v6.3M11 21.5H6A1.5 1.5 0 0 1 4.5 20V4A1.5 1.5 0 0 1 6 2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.6 9h2.8M9 7.6v2.8M7.6 13.6h2.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12.4 9h3.2M12.4 13.6h2.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".65"/><circle cx="17" cy="17.5" r="4.6"/><path d="M15 17.6l1.4 1.4 2.6-2.8" fill="none" style="stroke:var(--hue)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+   aprender:["Usar o GPT e o Codex passo a passo para programar",
+     "Recriar um app open source com a ajuda da IA",
+     "Criar agentes de IA com o GPT Codex"],
+   itens:[
+     {id:107, nota:"O passo a passo para dominar o GPT e o Codex."},
+     {id:108, nota:"Programe com o ChatGPT e o Codex em uma imersão prática."},
+     {id:109, nota:"Mão na massa: recrie o Canva open source com o Codex."},
+     {id:110, nota:"Do código aos agentes: crie agentes de IA com o GPT Codex (e compare com o Claude Code)."}]},
+  {id:'ia-para-dados', titulo:"IA para dados",
+   descricao:"Use a IA para analisar dados de ponta a ponta: do Excel ao Python, de consultas SQL a dashboards e modelos de machine learning.",
+   cor:'#0891B2', roadmap:'data-analyst', selo:"Dados + IA", arte:'dados',
+   icone:'<path d="M3 5.5c0-1.5 2.9-2.8 6.5-2.8S16 4 16 5.5v12.6c0 1.5-2.9 2.8-6.5 2.8S3 19.6 3 18.1z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 5.5c0 1.5 2.9 2.8 6.5 2.8S16 7 16 5.5M3 11.8c0 1.5 2.9 2.8 6.5 2.8S16 13.3 16 11.8" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M19.6 13.2l1 2.3 2.3 1-2.3 1-1 2.3-1-2.3-2.3-1 2.3-1z"/>',
+   aprender:["Entender os fundamentos de dados para IA e machine learning",
+     "Analisar dados com IA no Excel, no Power BI e no Python",
+     "Contar histórias com dados em dashboards feitos com IA",
+     "Criar agentes de IA para consultar bancos de dados e prever resultados"],
+   itens:[
+     {id:111, nota:"A base: o que a IA e o machine learning precisam dos seus dados."},
+     {id:112, nota:"IA na análise de dados, do Excel ao Power BI."},
+     {id:113, nota:"Imersão prática: dados e IA com Excel e Claude Code."},
+     {id:73, nota:"Projeto: crie um dashboard da Porsche com agentes de IA."},
+     {id:114, nota:"Leve a análise para o Python com a ajuda do Claude."},
+     {id:90, nota:"Projeto: um agente de IA que responde perguntas consultando o banco em SQL."},
+     {id:115, nota:"Storytelling com dados: dashboards que contam uma história, feitos com IA."},
+     {id:91, nota:"Projeto final: treine seu primeiro modelo de machine learning para prever vendas."}]},
+  {id:'certificacao-dp-700', titulo:"Certificação DP-700",
+   descricao:"Prepare-se para a prova DP-700 da Microsoft, de engenharia de dados no Microsoft Fabric, em quatro workshops ao vivo.",
+   cor:'#0F766E', roadmap:'azure', selo:"Certificação", arte:'cert',
+   icone:'<path d="M8.4 15 6.8 21.3 12 18.9l5.2 2.4L15.6 15" fill="currentColor" fill-opacity=".7"/><circle cx="12" cy="9.3" r="6.9"/><path d="M9.1 9.4l2 2 3.8-4" fill="none" style="stroke:var(--hue)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>',
+   aprender:["Desenhar a arquitetura e a segurança de soluções no Microsoft Fabric",
+     "Ingerir e transformar dados no Fabric",
+     "Operar, versionar e fazer o deploy das soluções",
+     "Otimizar a performance e chegar preparado ao exame DP-700"],
+   itens:[
+     {id:116, nota:"Workshop 1: arquitetura e segurança no Fabric, a base cobrada na prova."},
+     {id:117, nota:"Workshop 2: ingestão e transformação de dados."},
+     {id:118, nota:"Workshop 3: operação, ciclo de vida e deploy das soluções."},
+     {id:119, nota:"Workshop 4: otimização de performance e preparação final para o exame."}]}
 ];

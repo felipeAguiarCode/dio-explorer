@@ -176,7 +176,18 @@
   .future .tl-badge{background:var(--ment);color:#1d1d1f}
   .today .tl-badge{background:var(--gold);color:#1c1600}
 
-  .tl-body{padding:10px 14px 11px;min-width:0;display:flex;flex-direction:column}
+  .tl-body{padding:10px 48px 11px 14px;min-width:0;display:flex;flex-direction:column}
+  /* "+" do Meu plano, no canto de cada mentoria (vira ✓ quando ela já está no plano) */
+  .tl-add{position:absolute;top:10px;right:10px;z-index:2;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;padding:0;cursor:pointer;
+    border:1px solid color-mix(in srgb,var(--tc) 55%,var(--line));background:color-mix(in srgb,var(--tc) 16%,#111);color:#fff;
+    transition:background .2s,border-color .2s,transform .15s}
+  .tl-add:hover{background:var(--tc);border-color:var(--tc);transform:scale(1.08)}
+  .tl-add:focus-visible{outline:2px solid var(--tc);outline-offset:2px}
+  .tl-add svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .tl-add .i-check{display:none}
+  .tl-add[aria-pressed="true"]{background:#1F9D55;border-color:#1F9D55}
+  .tl-add[aria-pressed="true"] .i-plus{display:none}
+  .tl-add[aria-pressed="true"] .i-check{display:block}
   .tl-title{margin:0;font-size:.9rem;line-height:1.28;font-weight:600;letter-spacing:-.015em;
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .tl-title a{text-decoration:none}
@@ -287,12 +298,14 @@
 
 <!-- sessões e temas vêm de data/mentorships.js -->
 <script src="../data/mentorships.js"></script>
+<!-- "Meu plano": componente que abre em qualquer página (cria o botão no topo) -->
+<script src="../js/plan.js"></script>
 <script>
 (function(){
   /* sem d = data a confirmar (date null); sem i = sem capa (fica o ícone de microfone) */
   var DATA=MENTORSHIPS.map(function(m){
     var p=m.d?m.d.split('-'):null;
-    return {date:p?new Date(+p[0],+p[1]-1,+p[2]):null,d:m.d||'',t:m.t,u:'https://web.dio.me/lives/'+m.s,
+    return {pid:m.id!=null?m.id:'live:'+m.s,date:p?new Date(+p[0],+p[1]-1,+p[2]):null,d:m.d||'',t:m.t,u:'https://web.dio.me/lives/'+m.s,
       img:m.i?'https://hermes.dio.me/lives/'+m.i:'',g:m.g};
   });
   var ALL='todos';
@@ -431,6 +444,27 @@
   var ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   var MIC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>';
 
+  /* "+" do Meu plano: id do catálogo quando a sessão tem, senão 'live:<slug>' (js/plan.js entende os dois) */
+  var PLUS='<svg class="i-plus" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+  var OK='<svg class="i-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>';
+  function inPlan(pid){ return !!(window.DioPlan&&DioPlan.has(pid)); }
+  function addLabel(m,on){ return (on?'Tirar do Meu plano: ':'Adicionar ao Meu plano: ')+m.t; }
+  function addBtn(m){
+    var on=inPlan(m.pid);
+    return '<button type="button" class="tl-add" data-pid="'+esc(String(m.pid))+'" aria-pressed="'+on+'" aria-label="'+esc(addLabel(m,on))+'" title="'+(on?'No Meu plano':'Adicionar ao Meu plano')+'">'+PLUS+OK+'</button>';
+  }
+  var BY_PID={}; DATA.forEach(function(m){ BY_PID[String(m.pid)]=m; });
+  function pidOf(b){ var v=b.getAttribute('data-pid'); return /^\d+$/.test(v)?parseInt(v,10):v; }
+  function paintAdds(){
+    [].forEach.call(document.querySelectorAll('.tl-add'),function(b){
+      var m=BY_PID[b.getAttribute('data-pid')], on=inPlan(pidOf(b));
+      b.setAttribute('aria-pressed',String(on));
+      b.title=on?'No Meu plano':'Adicionar ao Meu plano';
+      if(m) b.setAttribute('aria-label',addLabel(m,on));
+    });
+  }
+  window.addEventListener('dio-plan-change',paintAdds);
+
   function cardHtml(m,side){
     var st=status(m.date);
     var soon=st!=='past';
@@ -451,6 +485,7 @@
           +'<div class="tl-tags">'+tags+'</div>'
           +'<a class="tl-cta" href="'+m.u+'" target="_blank" rel="noopener">'+cta+ARROW+'</a>'
         +'</div>'
+        +addBtn(m)
       +'</article>'
       +'<span class="tl-node" aria-hidden="true"></span>'
     +'</li>';
@@ -498,6 +533,10 @@
   }
 
   function bindTimeline(){
+    tl.addEventListener('click',function(e){
+      var add=e.target.closest('.tl-add');
+      if(add){ if(window.DioPlan) DioPlan.toggle(pidOf(add),color(state.topic)); return; }
+    });
     tl.addEventListener('click',function(e){
       var b=e.target.closest('button.tl-tag'); if(!b) return;
       select(b.getAttribute('data-k'),true);

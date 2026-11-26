@@ -117,10 +117,9 @@
   /* lesson packs: lista clara (como roadmap.sh/packs) e página do pack (como roadmap.sh/packs/git) */
   /* caixas no estilo "Grandes eventos nos apps" da App Store: arte animada em SVG, texto sobre degradê
      e, embaixo, a linha com ícone, nome e botão "Ver" */
-  .ev-shelf{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 40px)/3);gap:20px;margin-top:22px;
-    overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 16px;scrollbar-width:none}
-  .ev-shelf::-webkit-scrollbar{display:none}
-  .ev{display:flex;flex-direction:column;gap:12px;min-width:0;scroll-snap-align:start}
+  /* grade que quebra em linhas: todos os packs à vista (3 por linha no computador, 2 no tablet, 1 no celular) */
+  .ev-shelf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 20px;margin-top:22px;padding:4px 2px 16px}
+  .ev{display:flex;flex-direction:column;gap:12px;min-width:0}
   .ev-card{position:relative;display:block;aspect-ratio:5/4;border-radius:18px;overflow:hidden;background:#0c0c11;color:#fff;
     text-decoration:none;box-shadow:0 10px 28px -14px rgba(0,0,0,.45);transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
   .ev-card:hover{transform:translateY(-3px);box-shadow:0 20px 40px -16px rgba(0,0,0,.5)}
@@ -163,6 +162,8 @@
   .ev-svg .pa-grow{transform-box:fill-box;transform-origin:bottom;animation:paGrow 3.6s ease-in-out infinite}
   .ev-svg .pa-draw{stroke-dasharray:320;animation:paDraw 3.6s ease-in-out infinite}
   .ev-svg .pa-flip{transform-box:fill-box;transform-origin:center;animation:paFlip 2.8s ease-in-out infinite}
+  .ev-svg .pa-pop{transform-box:fill-box;transform-origin:center;opacity:0;animation:paPop 4.8s ease-out infinite}
+  .ev-svg .pa-blink{transform-box:fill-box;transform-origin:center;animation:paBlink 4s ease-in-out infinite}
   @keyframes paSpin{to{transform:rotate(360deg)}}
   @keyframes paPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
   @keyframes paPing{0%{transform:scale(1);opacity:.75}100%{transform:scale(2.5);opacity:0}}
@@ -174,8 +175,10 @@
   @keyframes paGrow{0%{transform:scaleY(.12)}45%,85%{transform:scaleY(1)}100%{transform:scaleY(.12)}}
   @keyframes paDraw{0%{stroke-dashoffset:320}45%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:320}}
   @keyframes paFlip{0%,60%,100%{transform:scaleX(1)}80%{transform:scaleX(.08)}}
+  @keyframes paPop{0%{opacity:0;transform:translateY(8px) scale(.92)}12%,82%{opacity:1;transform:none}96%,100%{opacity:0;transform:none}}
+  @keyframes paBlink{0%,88%,100%{transform:scaleY(1)}93%{transform:scaleY(.12)}}
   @media (prefers-reduced-motion:reduce){ .ev-svg *{animation:none !important} .ev-card{transition:none} }
-  @media (max-width:980px){ .ev-shelf{grid-auto-columns:calc((100% - 20px)/2)} }
+  @media (max-width:980px){ .ev-shelf{grid-template-columns:repeat(2,minmax(0,1fr))} }
   .lp-ic{flex:none;width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:var(--hue);color:var(--tinta,#fff)}
   .lp-ic svg{width:26px;height:26px}
   .lpv-in{max-width:1100px;margin:0 auto;padding:26px 22px 80px}
@@ -233,7 +236,7 @@
     .lpv-cv{width:112px;align-self:flex-start;margin-top:2px}
     .lpv-ph svg{width:24px;height:24px}
     .lpv-go{display:none}
-    .ev-shelf{grid-auto-columns:86%;gap:14px}
+    .ev-shelf{grid-template-columns:1fr;gap:26px}
     .ev-txt{padding:16px 16px 18px}
     .ev-txt b{font-size:1.15rem}
   }
@@ -497,7 +500,7 @@
   </div>
 </header>
 
-<!-- ===== lista de roadmaps (Roadmaps / Project ideas / Lesson packs) ===== -->
+<!-- ===== lista de roadmaps (Roadmaps / Projects / Lesson packs) ===== -->
 <main id="listView">
   <section class="m-hero">
     <video class="hero-video" src="../assets/videos/splash.webm" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
@@ -508,7 +511,7 @@
     <h1>Escolha um caminho. <em>Veja o mapa.</em></h1>
     <nav class="seg" aria-label="Seções do Roadmap">
       <a href="#roadmaps" data-seg="roadmaps">Roadmaps</a>
-      <a href="#project-ideas" data-seg="project-ideas">Project ideas <span class="soon">Em breve</span></a>
+      <a href="#project-ideas" data-seg="project-ideas">Projects <span class="soon">Em breve</span></a>
       <a href="#lesson-packs" data-seg="lesson-packs">Lesson packs <span class="soon">Em breve</span></a>
     </nav>
     </div>
@@ -550,7 +553,7 @@
   <section class="pi-wrap" id="segIdeas" hidden>
     <div class="pi-in">
       <div class="pi-head">
-        <h2>Project ideas</h2>
+        <h2>Projects</h2>
         <p>Ideias de projeto para ir do iniciante ao avançado, cada uma com os conteúdos da DIO que ajudam a fazer.</p>
       </div>
       <div class="pi-bar">
@@ -599,6 +602,7 @@
 <script src="../paths/roadmaps-skill.js"></script>
 <script src="../paths/lesson-packs.js"></script>
 <script src="../paths/project-ideas.js"></script>
+<script src="../js/plan.js"></script>
 <script>
 (function(){
 'use strict';
@@ -728,7 +732,8 @@ function buildMap(def){
   });
   /* artigos do blog (data/articles.js) cuja âncora está no caminho principal deste mapa */
   Object.keys(CATALOG).forEach(function(k){
-    var t=CATALOG[k]; if(t.k==='artigo'&&t.ancora&&t.ancora.length&&def.skip.indexOf(+k)<0) sats.push({id:+k,s:'art',artAnc:t.ancora,after:lastNodeRow});
+    /* (artigo já posto nos passos do mapa, como {r:id,s:'art'}, não entra de novo) */
+    var t=CATALOG[k]; if(t.k==='artigo'&&t.ancora&&t.ancora.length&&def.skip.indexOf(+k)<0&&!seen[+k]) sats.push({id:+k,s:'art',artAnc:t.ancora,after:lastNodeRow});
   });
   def.tags.forEach(function(tag){ if(MENT_BY_TAG[tag]) sats.push({tag:tag,after:lastNodeRow}); });
 
@@ -777,13 +782,46 @@ function countMap(def){
 
 /* ---------- Meu plano (mesma chave e formato das Guias) ---------- */
 function loadPlan(){ try{ return JSON.parse(localStorage.getItem(PLAN_KEY))||[]; }catch(e){ return []; } }
-function savePlan(p){ try{ localStorage.setItem(PLAN_KEY,JSON.stringify(p)); }catch(e){} }
+function savePlan(p){ try{ localStorage.setItem(PLAN_KEY,JSON.stringify(p)); }catch(e){} if(window.DioPlan) DioPlan.refresh(); }
 function inPlan(id){ return loadPlan().some(function(x){ return x.id===id; }); }
 function syncPlanCount(){
   var n=loadPlan().length, el=document.getElementById('planCount');
   el.textContent=n; el.classList.toggle('zero',!n);
+  paintMapPlan();
+}
+/* "Adicionar ao meu plano de estudo" (topo de cada roadmap): todos os conteúdos do mapa que
+   estão à vista (respeita o "Mostrar"), fora as alternativas de "Escolha 1", que a pessoa escolhe */
+function mapPlanIds(){
+  var ids=[], seen={};
+  (rowsData||[]).forEach(function(r){
+    if(r.kind==='fork') return;
+    [r.node].concat(r.left||[],r.right||[]).forEach(function(n){
+      if(!n||n.id==null||n.type==='mentorias'||seen[n.id]||!CATALOG[n.id]) return;
+      if(n.type!=='formacao'&&hideTypes[n.type]) return;
+      seen[n.id]=1; ids.push(n.id);
+    });
+  });
+  return ids;
+}
+function mapInPlan(ids){
+  var plan=loadPlan();
+  return ids.length>0&&ids.every(function(id){ return plan.some(function(y){ return y.id===id; }); });
+}
+function paintMapPlan(){
+  var b=document.getElementById('mapPlanBtn'); if(!b||!current) return;
+  var on=mapInPlan(mapPlanIds());
+  b.className='mv-btn '+(on?'in':'ghost');
+  b.textContent=on?'✓ No meu plano de estudo':'+ Adicionar ao meu plano de estudo';
 }
 window.addEventListener('storage',function(e){ if(e.key===PLAN_KEY) syncPlanCount(); });
+/* o plano mudou (no painel do Meu plano, em outra aba ou aqui): atualiza contador e botões à vista */
+window.addEventListener('dio-plan-change',function(){
+  syncPlanCount();
+  var pk=document.querySelector('#packBody [data-pack-plan]');
+  if(pk&&typeof PACK_BY_ID!=='undefined'&&PACK_BY_ID[pk.getAttribute('data-pack-plan')]) paintPackPlan(pk,PACK_BY_ID[pk.getAttribute('data-pack-plan')]);
+  var pb=document.querySelector('#pnBody [data-plan]');
+  if(pb){ var on=inPlan(parseInt(pb.getAttribute('data-plan'),10)); pb.classList.toggle('in',on); pb.textContent=on?'✓ No Meu plano':'+ Adicionar ao Meu plano'; }
+});
 var toastT=0;
 function toast(html){
   var t=document.getElementById('toast'); t.innerHTML=html; t.classList.add('show');
@@ -817,7 +855,7 @@ document.getElementById('skillCount').textContent=ORDER_SKILL.length;
 
 var SOON={
   'lesson-packs':{ic:'📦',t:'Lesson packs',p:'Pacotes de conteúdos da DIO com uma finalidade, juntando cursos, projetos e mentorias. Estamos preparando.'},
-  'project-ideas':{ic:'💡',t:'Project ideas',p:'Ideias de projetos práticos por nível, para você montar portfólio com o que aprendeu. Estamos preparando.'}
+  'project-ideas':{ic:'💡',t:'Projects',p:'Ideias de projetos práticos por nível, para você montar portfólio com o que aprendeu. Estamos preparando.'}
 };
 /* lesson packs e project ideas vêm de paths/; vazios = "Em breve" */
 var SEG_ITEMS={'lesson-packs':window.LESSON_PACKS||[],'project-ideas':window.PROJECT_IDEAS||[]};
@@ -915,6 +953,107 @@ var PACK_ART={
       +'<g class="pa-float"><g class="pa-flip"><circle cx="338" cy="60" r="20" fill="#FBBF24"/><circle cx="338" cy="60" r="15" fill="none" stroke="#92400E" stroke-opacity=".45" stroke-width="1.5"/>'
       +'<text x="338" y="65" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="14" font-weight="800" fill="#92400E">R$</text></g></g>'
       +chip(20,18,84,'1 pessoa')+chip(22,120,62,'+ IA','pa-late');
+  },
+  /* agente: conversa de chat (mensagens aparecendo) virando um agente com ferramentas em órbita */
+  agente:function(c,k){
+    function bub(x,y,w,fill,op,d,extra){
+      return '<g class="pa-pop" style="animation-delay:'+d+'s"><rect x="'+x+'" y="'+y+'" width="'+w+'" height="20" rx="10" fill="'+fill+'" fill-opacity="'+op+'"/>'+(extra||'')+'</g>';
+    }
+    var dots='';
+    [62,75,88].forEach(function(x,j){ dots+='<circle class="pa-dot" style="animation-delay:'+(j*.2)+'s" cx="'+x+'" cy="126" r="2.6" fill="#fff"/>'; });
+    return artBg(c,k)
+      +'<rect x="34" y="28" width="156" height="136" rx="16" fill="#fff" fill-opacity=".06" stroke="#fff" stroke-opacity=".18"/>'
+      +'<circle cx="52" cy="44" r="4" fill="#fff" fill-opacity=".4"/><rect x="62" y="41" width="50" height="6" rx="3" fill="#fff" fill-opacity=".4"/>'
+      +bub(96,60,80,'#fff',.85,0)+bub(48,88,96,c,1,.6)+bub(48,116,54,c,.55,1.2,dots)
+      +'<line class="pa-flow" x1="198" y1="96" x2="238" y2="96" stroke="'+c+'" stroke-width="2.6" stroke-linecap="round"/>'
+      +'<circle class="pa-spin pa-rev" cx="300" cy="96" r="58" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="1.4" stroke-dasharray="3 7"/>'
+      +'<g class="pa-spin pa-slow"><circle cx="300" cy="96" r="65" fill="none"/>'
+      +'<circle cx="358" cy="96" r="7" fill="#fff"/><circle cx="271" cy="45.8" r="6" fill="'+c+'" stroke="#fff" stroke-width="1.5"/>'
+      +'<circle cx="271" cy="146.2" r="5" fill="#fff" fill-opacity=".7"/></g>'
+      +'<g class="pa-float"><line x1="300" y1="70" x2="300" y2="59" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>'
+      +'<circle class="pa-pulse" cx="300" cy="55" r="4.5" fill="'+c+'" stroke="#fff" stroke-width="1.5"/>'
+      +'<rect x="268" y="70" width="64" height="52" rx="14" fill="'+c+'"/>'
+      +'<rect x="276" y="80" width="48" height="26" rx="9" fill="#0c0c11" fill-opacity=".55"/>'
+      +'<rect class="pa-blink" x="287" y="87" width="7" height="12" rx="3.5" fill="#fff"/>'
+      +'<rect class="pa-blink" x="306" y="87" width="7" height="12" rx="3.5" fill="#fff"/></g>'
+      +chip(334,14,48,'ADK');
+  },
+  /* terminal: janela de terminal com linhas de código aparecendo, cursor piscando e o asterisco do Claude girando */
+  terminal:function(c,k){
+    var lines='', ls=[[86,82,120,c,1],[86,98,168,'#fff',.55],[100,114,132,'#fff',.4],[100,130,96,c,.7]];
+    ls.forEach(function(l,j){ lines+='<rect class="pa-pop" style="animation-delay:'+(j*.5).toFixed(1)+'s" x="'+l[0]+'" y="'+l[1]+'" width="'+l[2]+'" height="7" rx="3.5" fill="'+l[3]+'" fill-opacity="'+l[4]+'"/>'; });
+    return artBg(c,k)
+      +'<rect x="68" y="24" width="264" height="132" rx="14" fill="#111117" fill-opacity=".8" stroke="#fff" stroke-opacity=".18"/>'
+      +'<circle cx="86" cy="40" r="4" fill="#ff5f57"/><circle cx="99" cy="40" r="4" fill="#febc2e"/><circle cx="112" cy="40" r="4" fill="#28c840"/>'
+      +'<text x="86" y="68" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="13" font-weight="700" fill="'+c+'">&gt; claude</text>'
+      +lines
+      +'<rect class="pa-dot" x="'+(100+96+6)+'" y="128" width="8" height="11" rx="1.5" fill="#fff"/>'
+      +'<g transform="translate(318 22) scale(1.9)"><g class="pa-spin pa-slow"><circle cx="12" cy="12" r="11" fill="'+c+'"/>'
+      +'<path d="M12 5.5v13M5.5 12h13M7.4 7.4l9.2 9.2M16.6 7.4l-9.2 9.2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></g></g>'
+      +chip(20,112,48,'/init','pa-late');
+  },
+  /* código: diff com linhas removidas e adicionadas e testes passando um a um */
+  codigo:function(c,k){
+    var rows='', rs=[['#fff',.35,120,0],['#EF4444',.55,140,'-'],['#EF4444',.55,96,'-'],[c,.9,150,'+'],[c,.9,118,'+'],['#fff',.35,84,0]];
+    rs.forEach(function(r,j){
+      var y=46+j*17, add=r[3]==='+';
+      rows+='<g'+(add?' class="pa-pop" style="animation-delay:'+((j-2)*.5).toFixed(1)+'s"':'')+'>'
+        +(r[3]?'<rect x="58" y="'+(y-5)+'" width="196" height="15" rx="3" fill="'+r[0]+'" fill-opacity=".16"/>'
+          +'<text x="66" y="'+(y+6)+'" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="11" font-weight="700" fill="'+r[0]+'">'+r[3]+'</text>':'')
+        +'<rect x="80" y="'+y+'" width="'+r[2]+'" height="6" rx="3" fill="'+r[0]+'" fill-opacity="'+r[1]+'"/></g>';
+    });
+    var tests='';
+    [0,1,2].forEach(function(j){
+      var y=58+j*30;
+      tests+='<g class="pa-pop" style="animation-delay:'+(1+j*.45).toFixed(2)+'s"><circle cx="292" cy="'+y+'" r="10" fill="'+c+'"/>'
+        +'<path d="M287.5 '+y+'l3 3 5.5-6" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'
+        +'<rect x="308" y="'+(y-3)+'" width="'+(52-j*10)+'" height="6" rx="3" fill="#fff" fill-opacity=".5"/></g>';
+    });
+    return artBg(c,k)
+      +'<rect x="46" y="26" width="220" height="130" rx="14" fill="#111117" fill-opacity=".8" stroke="#fff" stroke-opacity=".18"/>'
+      +rows
+      +'<rect x="276" y="34" width="96" height="104" rx="14" fill="#fff" fill-opacity=".06" stroke="#fff" stroke-opacity=".18"/>'
+      +tests
+      +chip(296,148,72,'tests ✓','pa-late');
+  },
+  /* dados: rosca girando, pontos de dados piscando e a linha de tendência se desenhando */
+  dados:function(c,k){
+    var pts='', ps=[[236,128],[252,116],[266,120],[280,100],[296,96],[310,82],[324,76],[338,60]];
+    ps.forEach(function(p,j){ pts+='<circle class="pa-dot" style="animation-delay:'+(j*.15).toFixed(2)+'s" cx="'+p[0]+'" cy="'+p[1]+'" r="4.2" fill="'+(j%3?'#fff':c)+'"/>'; });
+    return artBg(c,k)
+      +'<g class="pa-spin pa-slow" style="animation-duration:14s"><circle cx="118" cy="92" r="46" fill="none"/>'
+      +'<circle cx="118" cy="92" r="38" fill="none" stroke="'+c+'" stroke-width="16" stroke-dasharray="110 129"/>'
+      +'<circle cx="118" cy="92" r="38" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="16" stroke-dasharray="0 112 66 61"/>'
+      +'<circle cx="118" cy="92" r="38" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="16" stroke-dasharray="0 180 59 0"/></g>'
+      +'<text x="118" y="97" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="15" font-weight="800" fill="#fff">IA</text>'
+      +'<path d="M222 40V144H352" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.6" stroke-linecap="round"/>'
+      +'<path class="pa-draw" d="M232 132L352 56" fill="none" stroke="'+c+'" stroke-width="2.6" stroke-linecap="round"/>'
+      +pts
+      +chip(20,18,48,'SQL')+chip(322,150,56,'.csv','pa-late');
+  },
+  /* certificação: medalha com raios girando, check se desenhando e checklist da preparação se completando */
+  cert:function(c,k){
+    var rays='', list='';
+    for(var a=0;a<360;a+=30){
+      var r=a*Math.PI/180, x1=(214+Math.cos(r)*56).toFixed(1), y1=(84+Math.sin(r)*56).toFixed(1), x2=(214+Math.cos(r)*72).toFixed(1), y2=(84+Math.sin(r)*72).toFixed(1);
+      rays+='<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#fff" stroke-opacity=".22" stroke-width="2.4" stroke-linecap="round"/>';
+    }
+    [0,1,2,3].forEach(function(j){
+      var y=44+j*26;
+      list+='<g class="pa-pop" style="animation-delay:'+(j*.5).toFixed(1)+'s"><circle cx="40" cy="'+y+'" r="8" fill="'+c+'"/>'
+        +'<path d="M36.4 '+y+'l2.6 2.6 4.4-4.8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+        +'<rect x="54" y="'+(y-3)+'" width="'+(62-j*6)+'" height="6" rx="3" fill="#fff" fill-opacity=".55"/></g>';
+    });
+    return artBg(c,k)
+      +'<rect x="22" y="26" width="110" height="110" rx="14" fill="#fff" fill-opacity=".05" stroke="#fff" stroke-opacity=".16"/>'
+      +list
+      +'<g class="pa-spin pa-slow" style="animation-duration:30s"><circle cx="214" cy="84" r="72" fill="none"/>'+rays+'</g>'
+      +'<path d="M192 116l-10 44 32-16 32 16-10-44" fill="'+c+'" fill-opacity=".75"/>'
+      +'<circle class="pa-pulse" cx="214" cy="84" r="44" fill="'+c+'"/>'
+      +'<circle class="pa-spin pa-rev" cx="214" cy="84" r="35" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" stroke-dasharray="4 5"/>'
+      +'<path class="pa-draw" d="M198 85l11 11 22-24" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>'
+      +'<path class="pa-tw" d="M318 66l3 6 6 3-6 3-3 6-3-6-6-3 6-3z" fill="#fff"/><path class="pa-tw" style="animation-delay:-1.3s" d="M290 124l2.4 4.8 4.8 2.4-4.8 2.4-2.4 4.8-2.4-4.8-4.8-2.4 4.8-2.4z" fill="#fff"/>'
+      +chip(306,18,72,'DP-700');
   },
   /* padrão: aulas empilhadas flutuando, com brilhos */
   blocos:function(c,k){
@@ -1196,6 +1335,7 @@ function showMap(id,nodeKey){
       +'<span class="mv-kind" style="'+hueVars(d)+'">'+(d.kind==='role'?'Role-based':'Skill-based')+'</span>'
       +'<h1>'+esc(d.name)+'</h1><p class="desc">'+esc(d.desc)+'</p><p class="mv-meta">'+countMap(d)+'</p>'
       +'<div class="mv-actions"><a class="mv-btn" href="'+esc(vagasUrl(d))+'" target="_blank" rel="noopener">Ver vagas'+EXT_SVG+'</a>'
+      +'<button type="button" class="mv-btn ghost" id="mapPlanBtn"></button>'
       +(d.parent?'<a class="mv-btn ghost" href="#'+d.parent+'">Faz parte de '+esc(c.name)+GO_SVG+'</a>':'')+'</div>'
       +'<div class="legend" aria-label="Legenda">'
       +'<span><i class="lg-box main"></i>Formação obrigatória</span>'
@@ -1255,7 +1395,23 @@ function applyTypes(skipLines){
     else { var m=r.querySelector('.col.c .nd'); r.hidden=!!(m&&m.hidden); }
   });
   if(!skipLines) drawLines();
+  paintMapPlan();
 }
+document.getElementById('mapHead').addEventListener('click',function(e){
+  if(!e.target.closest('#mapPlanBtn')||!current) return;
+  var d=DEFS[current], ids=mapPlanIds(), plan=loadPlan();
+  function has(id){ return plan.some(function(y){ return y.id===id; }); }
+  if(mapInPlan(ids)){
+    plan=plan.filter(function(y){ return ids.indexOf(y.id)<0; });
+    toast('Roadmap de <b>'+esc(d.name)+'</b> removido do Meu plano');
+  }else{
+    var n=0; ids.forEach(function(id){ if(!has(id)){ plan.push({id:id,hue:d.hue}); n++; } });
+    var fork=(rowsData||[]).some(function(r){ return r.kind==='fork'; });
+    toast('<b>'+n+(n===1?' conteúdo':' conteúdos')+'</b> do roadmap de '+esc(d.name)+' no Meu plano'
+      +(fork?'. Nas partes "Escolha 1", adicione a opção que preferir.':''));
+  }
+  savePlan(plan); syncPlanCount();
+});
 document.getElementById('mapHead').addEventListener('change',function(e){
   var c=e.target; if(!c.matches('input[data-tp]')||c.disabled) return;
   hideTypes[c.getAttribute('data-tp')]=!c.checked;

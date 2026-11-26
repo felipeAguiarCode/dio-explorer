@@ -1,5 +1,5 @@
 /* =====================================================================
-   PROJECT IDEAS — ideias de projeto (aba Roadmaps > Project ideas).
+   PROJECT IDEAS — ideias de projeto (aba Roadmaps > Projects).
    A aba filtra por nível e por techs (dropdowns com caixas de marcar).
    Cada item:
      id         identificador (único)

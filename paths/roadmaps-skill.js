@@ -6,7 +6,8 @@
      from + pick   trilha de paths/guides.js e rótulo da rota escolhida
      career        em vez de from/pick: usa a trilha inteira (AWS e Azure)
      steps         em vez de from/pick/career: passos próprios (mesmo formato de guides.js),
-                   para tecnologias que não são rota de nenhuma trilha (Claude Code, Codex)
+                   para tecnologias que não são rota de nenhuma trilha (Claude Code, Codex).
+                   {r:id, s:'art'} pendura um artigo do blog no passo anterior
      alias         rotas de outras trilhas que também levam a este roadmap
      pre           ids de pré-requisitos extras (entram no começo)
      skip          ids da trilha-mãe (ou artigos do blog) que não fazem sentido nesta skill
@@ -24,8 +25,9 @@
 var ROADMAPS_SKILL=[
   /* assistentes de código com IA: passos próprios (não são rota de nenhuma trilha) */
   {id:'claude-code', name:'Claude Code',
-   steps:[{r:26,s:'base'},{r:29},{r:95},
-     {d:"Mentorias · Claude Code"},{r:68,s:'ment'},{r:69,s:'ment'},{r:70,s:'ment'},{r:71,s:'ment'},{r:72,s:'ment'},
+   steps:[{r:26,s:'base'},{r:326,s:'art'},{r:327,s:'art'},{r:95},
+     {d:"Mentorias · Claude Code"},{r:68,s:'ment'},{r:72,s:'ment'},
+     {d:"Intermediário: as 3 sessões no caminho principal"},{r:69},{r:70},{r:71},
      {d:"Nível avançado"},{r:96},
      {d:"Projetos"},{r:73,s:'proj'},{r:85,s:'proj'},{r:75,s:'proj'}],
    temas:['claude code','vibe coding'], skip:[314],

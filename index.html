@@ -383,56 +383,6 @@
     .mnode{transition:none !important}
   }
 
-  /* ============================================================
-     LEGO BAR — componente do design system, usado na agenda do plano
-     ============================================================ */
-  .lego-bar{position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;
-    gap:18px;min-height:76px;padding:14px 18px 14px 20px;border-radius:22px;
-    border:1px solid rgba(255,255,255,.12);box-shadow:var(--shadow-1);overflow:visible}
-  .lego-bar::before{content:"";position:absolute;left:26px;top:-10px;width:74px;height:20px;
-    background-image:
-      radial-gradient(circle at 10px 10px, rgba(255,255,255,.85) 0 6px, rgba(255,255,255,.36) 7px, rgba(255,255,255,.15) 9px, transparent 10px),
-      radial-gradient(circle at 37px 10px, rgba(255,255,255,.85) 0 6px, rgba(255,255,255,.36) 7px, rgba(255,255,255,.15) 9px, transparent 10px),
-      radial-gradient(circle at 64px 10px, rgba(255,255,255,.85) 0 6px, rgba(255,255,255,.36) 7px, rgba(255,255,255,.15) 9px, transparent 10px);
-    filter:drop-shadow(0 6px 8px rgba(0,0,0,.25));pointer-events:none}
-  .lego-bar::after{content:"";position:absolute;inset:1px;border-radius:21px;
-    background:linear-gradient(180deg,rgba(255,255,255,.08),transparent 22%);pointer-events:none}
-  .index-pill{position:relative;z-index:1;width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
-    font-size:1rem;font-weight:900;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.16);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.08);flex:0 0 auto}
-  .lego-main{position:relative;z-index:1;min-width:0}
-  .lego-actions{position:relative;z-index:1;display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-  .mini-btn,.tag-pill{display:inline-flex;align-items:center;justify-content:center;min-height:34px;
-    padding:0 12px;border-radius:12px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.10);
-    color:#fff;font-size:.78rem;font-weight:800;letter-spacing:-.005em;backdrop-filter:blur(6px)}
-  .icon-btn{width:34px;min-width:34px;padding:0;font-size:1rem}
-
-  /* modificador dinâmico: usa a cor por item (--evhue) no lugar das 4 cores estáticas do design system.
-     em 2 linhas (pill+nome / ações) em vez de 1 linha só — a "auto" das ações não cabe ao lado do
-     nome na largura estreita da gaveta do plano, que é bem mais estreita que o showcase original */
-  .ag-day.lego-bar{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"pill main" "actions actions";
-    column-gap:18px;row-gap:12px;align-items:start;padding:16px 18px 16px 20px;border-radius:22px;
-    background:linear-gradient(180deg,var(--evhue),color-mix(in srgb,var(--evhue) 78%,#000));
-    border-color:color-mix(in srgb,var(--evhue) 45%,white)}
-  .ag-day.lego-bar .ag-order{grid-area:pill}
-  .ag-day.lego-bar .ag-event{grid-area:main;align-self:center}
-  .ag-day.lego-bar .lego-actions{grid-area:actions}
-  .ag-day.lego-bar .ag-name,.ag-day.lego-bar .ag-fase{color:#fff}
-  .ag-order.index-pill{width:42px;height:42px;font-size:1rem;font-weight:900;
-    background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.16);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.08);flex:0 0 auto}
-  .ag-fase.tag-pill{display:inline-flex;min-height:26px;padding:0 10px;
-    font-size:.74rem;letter-spacing:0;color:#fff;background:rgba(255,255,255,.14);
-    border-color:rgba(255,255,255,.24);margin-bottom:0}
-  .ag-open.mini-btn{font-weight:800;letter-spacing:0;color:#fff;
-    background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.28)}
-  .ag-open.mini-btn:hover{background:#fff;color:var(--evhue);border-color:#fff}
-  .ag-remove.icon-btn{position:static;top:auto;right:auto;width:34px;height:34px;border-radius:12px;
-    color:#fff;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.28)}
-  .ag-remove.icon-btn:hover{background:#FF453A;color:#fff;border-color:#FF453A}
-  .ag-handle.icon-btn{width:34px;height:34px;border-radius:12px;color:#fff;
-    background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.28)}
-  .ag-handle.icon-btn:hover{background:rgba(255,255,255,.22);color:#fff}
 
   /* ============================================================
      PLANO DE ESTUDOS — botão "+" + agenda estilo Outlook
@@ -519,86 +469,9 @@
     background:var(--brand);color:#fff;font-size:.7rem;font-weight:600}
   .plan-count.zero{background:var(--fill);color:var(--ink-soft)}
 
-  /* overlay + painel (folha lateral em material translúcido) */
-  .plan-overlay{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.4);
-    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;transition:opacity .4s ease}
-  .plan-overlay.show{opacity:1}
-  body.plan-open{overflow:hidden}
-  .plan-panel{position:fixed;top:0;right:0;height:100vh;height:100dvh;width:min(440px,94vw);z-index:70;
-    display:flex;flex-direction:column;background:var(--material);border-left:.5px solid rgba(255,255,255,.12);
-    -webkit-backdrop-filter:var(--material-blur);backdrop-filter:var(--material-blur);
-    box-shadow:-30px 0 80px -30px rgba(0,0,0,.7);transform:translateX(102%);transition:transform .5s cubic-bezier(.32,.72,0,1)}
-  .plan-panel.show{transform:translateX(0)}
-  .plan-head{padding:26px 22px 14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;color:var(--ink);background:transparent}
-  .plan-title{font-size:1.75rem;font-weight:700;letter-spacing:-.03em;line-height:1.1}
-  .plan-sub{font-size:.88rem;color:var(--ink-soft);margin-top:6px}
-  .plan-x{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;cursor:pointer;
-    background:var(--fill);border:0;color:var(--ink-soft);transition:background .2s var(--ease)}
-  .plan-x svg{width:15px;height:15px}
-  .plan-x:hover{background:var(--fill-2);color:var(--ink)}
-  .plan-toolbar{display:flex;gap:10px;flex-wrap:wrap;padding:6px 22px 16px;border-bottom:.5px solid var(--line-strong);background:transparent}
-  .plan-tool{flex:1;min-width:140px;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;
-    font:inherit;font-size:.9rem;font-weight:500;text-decoration:none;padding:10px 16px;border-radius:var(--radius-pill);
-    transition:background .2s var(--ease),color .2s var(--ease);border:0}
-  .plan-tool svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  .plan-tool.ghost{background:var(--fill);color:var(--ink)}
-  .plan-tool.ghost:hover{background:var(--fill-2)}
-  .plan-tool.primary{background:var(--brand);color:#fff}
-  .plan-tool.primary:hover{background:color-mix(in srgb,var(--brand) 85%,#fff)}
-  .plan-tool.danger{background:rgba(255,69,58,.15);color:#FF453A}
-  .plan-tool.danger:hover{background:#FF453A;color:#fff}
-  .plan-body{flex:1;overflow-y:auto;padding:6px 16px 28px}
-
-  /* lista ordenável do plano — cards de fase (level-select) */
-  .ag-day{display:flex;gap:12px;align-items:center;padding:13px 12px;margin:10px 0;border-radius:18px;
-    background:linear-gradient(180deg,color-mix(in srgb,var(--evhue) 10%,var(--surface)),var(--surface));
-    border:1.5px solid color-mix(in srgb,var(--evhue) 30%,var(--line));
-    box-shadow:var(--shadow);transition:transform .18s ease,box-shadow .18s ease}
-  .ag-day:hover{transform:translateY(-2px);
-    box-shadow:0 0 0 1.5px color-mix(in srgb,var(--evhue) 45%,transparent),
-      0 0 22px -6px color-mix(in srgb,var(--evhue) 55%,transparent),var(--shadow)}
-  .ag-day.dragging{opacity:.4}
-  .ag-day.drag-over-top{box-shadow:inset 0 3px 0 -1px var(--mag-a),var(--shadow)}
-  .ag-day.drag-over-bottom{box-shadow:inset 0 -3px 0 -1px var(--mag-a),var(--shadow)}
-  .ag-order{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;position:relative;
-    font-weight:750;font-size:1.3rem;letter-spacing:-.02em;color:#fff;
-    background:linear-gradient(135deg,var(--evhue),color-mix(in srgb,var(--evhue) 66%,#000));
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -3px 0 rgba(0,0,0,.22),
-      0 0 16px -4px color-mix(in srgb,var(--evhue) 70%,transparent)}
-  .ag-order::before,.ag-order::after{content:"";position:absolute;top:-4px;width:9px;height:9px;border-radius:50%;
-    background:radial-gradient(circle at 50% 32%,#fff,color-mix(in srgb,var(--evhue) 55%,#fff) 80%);
-    box-shadow:0 1px 1px rgba(0,0,0,.25)}
-  .ag-order::before{left:9px}
-  .ag-order::after{right:9px}
-  .ag-event{flex:1;position:relative;min-width:0}
-  .ag-fase{font-size:.74rem;font-weight:700;letter-spacing:-.005em;
-    color:var(--evhue);display:block;margin-bottom:3px}
-  .ag-name{font-weight:650;font-size:.92rem;line-height:1.3;margin:0 0 9px}
-  @keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
-  .ag-day.enter{animation:cardIn .5s cubic-bezier(.22,1,.36,1) backwards}
-  .ag-handle{flex:none;width:26px;height:40px;display:grid;place-items:center;cursor:grab;
-    border:0;background:transparent;color:var(--ink-faint);border-radius:8px;transition:.15s;touch-action:none}
-  .ag-handle svg{width:16px;height:16px;fill:currentColor}
-  .ag-handle:hover{color:var(--ink);background:var(--surface-2)}
-  .ag-handle:focus-visible{outline:2px solid var(--brand);outline-offset:2px;color:var(--ink)}
-  .ag-day.dragging .ag-handle{cursor:grabbing}
-  .ag-open{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:600;text-decoration:none;
-    color:var(--evhue);padding:5px 11px;border-radius:999px;border:1px solid color-mix(in srgb,var(--evhue) 38%,var(--line));
-    background:color-mix(in srgb,var(--evhue) 10%,var(--surface));transition:.15s}
-  .ag-open svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .ag-open:hover{background:var(--evhue);color:#fff;border-color:var(--evhue)}
-  .ag-remove{position:absolute;top:9px;right:9px;width:22px;height:22px;border-radius:7px;cursor:pointer;
-    display:grid;place-items:center;border:0;background:transparent;color:var(--ink-faint);font-size:.85rem;line-height:1;transition:.15s}
-  .ag-remove:hover{background:color-mix(in srgb,#FF453A 14%,transparent);color:#FF453A}
-
-  .plan-empty{text-align:center;padding:56px 24px;color:var(--ink-soft)}
-  .plan-empty .pe-ic{font-size:2.6rem;margin-bottom:10px}
-  .plan-empty p{margin:6px 0;font-size:.9rem;line-height:1.5}
-  .plan-empty .pe-plus{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:6px;
-    background:var(--gold);color:#1c1600;font-weight:700;font-size:.8rem;vertical-align:middle}
+  body.plan-open{overflow:hidden} /* a busca em modal trava a rolagem da página */
 
   @media (max-width:560px){
-    .plan-panel{width:100vw}
     #planBtn{font-size:0;gap:0;padding:8px 10px}
     #planBtn .plan-count{font-size:.68rem}
   }
@@ -1464,81 +1337,6 @@
     .gdiv-label{font-size:.62rem;letter-spacing:.16em}}
   @media (prefers-reduced-motion:reduce){.gdiv-line::after,.gdiv-chev,.gdiv-side.l b{animation:none}}
 
-  /* ============ "Meu plano": alternador de visão e skill tree ============ */
-  .plan-views{display:flex;gap:2px;padding:2px;margin:0 20px 12px;background:var(--fill);border-radius:9px}
-  .plan-views button{flex:1;font:inherit;font-size:.8rem;font-weight:500;color:var(--ink);background:transparent;border:0;border-radius:7px;padding:6px 10px;cursor:pointer;
-    transition:background .2s var(--ease)}
-  .plan-views button[aria-pressed="true"]{background:#636366;color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.12)}
-  .pt{position:relative;margin:4px 0 20px;
-    background:radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1.5px) 0 0/20px 20px}
-  .pt-lines{position:absolute;inset:0;width:100%;height:100%}
-  .pt-l{fill:none;stroke:rgba(255,255,255,.16);stroke-width:2;vector-effect:non-scaling-stroke;stroke-dasharray:5 6}
-  .pt-l.t0{stroke:var(--evhue);stroke-dasharray:none;filter:drop-shadow(0 0 5px var(--evhue))}
-  .pt-l.t1{stroke:var(--evhue);stroke-dasharray:6 6;animation:qtFlow 1s linear infinite}
-  .pt-root{position:absolute;left:50%;top:22px;transform:translate(-50%,-50%);z-index:1;font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;
-    color:#fff;background:#111;border:1px solid var(--line-strong);border-radius:99px;padding:4px 12px}
-  .pt-node{position:absolute;translate:-50% -26px;width:46%;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
-  .pt-node.enter{animation:qPop .5s cubic-bezier(.3,1.6,.5,1) both}
-  .pt-gem{width:52px;height:52px;flex:none;display:grid;place-items:center;font-weight:800;font-size:1.1rem;color:#12091f;
-    clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:linear-gradient(160deg,#fff,var(--evhue));
-    filter:drop-shadow(0 0 10px var(--evhue))}
-  .pt-gem svg{width:20px;height:20px}
-  .pt-node.t1 .pt-gem{background:linear-gradient(160deg,color-mix(in srgb,var(--evhue) 50%,#1c1c1e),#1c1c1e);color:#fff;animation:qtPulse 1.8s ease-in-out infinite}
-  .pt-node.t2 .pt-gem{background:#232326;color:rgba(255,255,255,.5);filter:none}
-  .pt-info{display:flex;flex-direction:column;gap:2px;align-items:center}
-  .pt-info i{font-style:normal;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--evhue)}
-  .pt-node.t2 .pt-info i{color:var(--ink-faint)}
-  .pt-info b{font-size:.82rem;font-weight:600;line-height:1.2;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .pt-node.t2 .pt-info b{color:var(--ink-soft)}
-  .pt-act{display:flex;gap:10px;font-size:.72rem}
-  .pt-act a,.pt-act button{font:inherit;font-weight:600;color:var(--ink-soft);background:none;border:0;padding:0;cursor:pointer;text-decoration:none}
-  .pt-act .ag-remove{position:static;width:auto;height:auto;display:inline;border-radius:0;font-size:inherit;line-height:inherit}
-  .pt-act a:hover{color:var(--evhue)} .pt-act button:hover{color:#FF453A;background:none}
-  .pt-info{background:rgba(22,22,24,.92);border-radius:10px;padding:3px 8px 5px}
-  @media (prefers-reduced-motion:reduce){.pt-l.t1,.pt-node.t1 .pt-gem,.pt-node.enter{animation:none}}
-
-  /* ============ "Meu plano" redesenhado: painel mais largo, linhas compactas e limpas ============ */
-  .plan-panel{width:min(500px,96vw);background:linear-gradient(180deg,rgba(40,22,58,.92),rgba(18,18,20,.94) 34%);border-left:1px solid rgba(255,255,255,.1)}
-  .plan-head{padding:28px 24px 10px}
-  .plan-title{font-size:1.9rem;font-weight:800;letter-spacing:-.035em}
-  .plan-sub{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ment);margin-top:8px}
-  .plan-toolbar{padding:8px 24px 14px;border-bottom:0;gap:8px}
-  .plan-tool{min-width:0;min-height:42px;border-radius:12px;font-size:.86rem;font-weight:600}
-  .plan-tool.primary{flex:2;color:#1d1d1f;background:linear-gradient(95deg,var(--ment),#FF6FB5 60%,var(--accent) 120%)}
-  .plan-tool.primary:hover{background:linear-gradient(95deg,var(--ment),#FF6FB5 60%,var(--accent) 120%);filter:brightness(1.08)}
-  .plan-tool.danger{flex:1;background:transparent;border:1px solid rgba(255,69,58,.4);color:#FF6B63}
-  .plan-views{margin:0 24px 6px}
-  .plan-body{padding:10px 20px 30px}
-  /* cada conteúdo: cartão escuro, peça numerada na cor da fase à esquerda, ações discretas à direita */
-  .ag-day.lego-bar{display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"pill main actions";align-items:center;gap:14px;
-    margin:8px 0;padding:12px 12px 12px 14px;border-radius:16px;color:var(--ink);
-    background:rgba(255,255,255,.045);background-image:none;border:1px solid rgba(255,255,255,.09);box-shadow:none;
-    transition:transform .2s var(--ease),border-color .2s var(--ease),background .2s var(--ease)}
-  .ag-day.lego-bar:hover{transform:translateX(-3px);background:rgba(255,255,255,.07);border-color:color-mix(in srgb,var(--evhue) 60%,transparent);box-shadow:none}
-  .ag-day.lego-bar::before,.ag-day.lego-bar::after{display:none}
-  .ag-day.lego-bar .ag-name{color:var(--ink);margin:0;font-size:.95rem;font-weight:600;line-height:1.25}
-  .ag-day.lego-bar .ag-fase.tag-pill{min-height:0;padding:0;margin:0 0 3px;background:none;border:0;box-shadow:none;
-    font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:color-mix(in srgb,var(--evhue) 65%,#fff)}
-  /* número dentro de uma pecinha LEGO com dois pinos */
-  .ag-order.index-pill{width:44px;height:40px;margin-top:6px;border-radius:8px;font-size:1rem;font-weight:800;color:#fff;
-    background:var(--evhue);background-image:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0) 60%);
-    box-shadow:inset 0 2px 0 rgba(255,255,255,.4),inset 0 -4px 0 rgba(0,0,0,.22),0 4px 0 -1px color-mix(in srgb,var(--evhue) 55%,#000)}
-  .ag-order.index-pill::before,.ag-order.index-pill::after{top:-6px;width:13px;height:6px;border-radius:3px 3px 0 0;
-    background:color-mix(in srgb,var(--evhue) 80%,#fff);box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
-  .ag-order.index-pill::before{left:6px}
-  .ag-order.index-pill::after{right:6px}
-  /* ações: só ícones, em botões pequenos */
-  .ag-day.lego-bar .lego-actions{gap:4px;flex-wrap:nowrap}
-  .ag-day.lego-bar .mini-btn{position:static;width:34px;height:34px;min-height:0;padding:0;display:grid;place-items:center;border-radius:10px;
-    border:0;background:transparent;color:var(--ink-soft);box-shadow:none;transition:background .2s,color .2s}
-  .ag-day.lego-bar .ag-open.mini-btn{font-size:0;color:var(--ink);background:rgba(255,255,255,.08)}
-  .ag-day.lego-bar .ag-open.mini-btn svg{width:15px;height:15px}
-  .ag-day.lego-bar .ag-open.mini-btn:hover{background:var(--evhue);color:#fff}
-  .ag-day.lego-bar .ag-remove.mini-btn:hover{background:rgba(255,69,58,.18);color:#FF453A}
-  .ag-day.lego-bar .ag-handle.mini-btn{cursor:grab}
-  .ag-day.lego-bar .ag-handle.mini-btn:hover{background:rgba(255,255,255,.08);color:var(--ink)}
-  .ag-day.lego-bar .ag-handle svg{width:16px;height:16px;fill:currentColor}
-  .plan-empty{margin-top:30px;padding:44px 24px;border:1px dashed rgba(255,255,255,.16);border-radius:20px}
 
   /* ============ cards de trilha: efeito ao passar o mouse ============ */
   /* sobe e ganha contorno e brilho na cor da trilha; um foco de luz segue o ponteiro
@@ -1683,33 +1481,6 @@
 </main>
 
 <!-- ===== painel: plano de estudos (agenda estilo Outlook) ===== -->
-<div class="plan-overlay" id="planOverlay" hidden></div>
-<aside class="plan-panel" id="planPanel" aria-hidden="true" aria-label="Plano de estudos">
-  <div class="plan-head">
-    <div class="plan-head-t">
-      <div class="plan-title">🎯 Meu plano de estudos</div>
-      <div class="plan-sub" id="planSub">Nenhum conteúdo adicionado ainda</div>
-    </div>
-    <button class="plan-x" id="planClose" type="button" aria-label="Fechar plano">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
-    </button>
-  </div>
-  <div class="plan-toolbar">
-    <button class="plan-tool primary" id="planDownload" type="button">
-      <svg viewBox="0 0 24 24"><path d="M12 3v12M7 12l5 5 5-5M5 21h14"/></svg>
-      Baixar plano (.md)
-    </button>
-    <button class="plan-tool danger" id="planReset" type="button">
-      <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 10v7M14 10v7"/></svg>
-      Resetar estudos
-    </button>
-  </div>
-  <div class="plan-views" role="group" aria-label="Visão do plano">
-    <button type="button" data-view="list" aria-pressed="true">Lista</button>
-    <button type="button" data-view="tree" aria-pressed="false">Skill tree</button>
-  </div>
-  <div class="plan-body" id="planBody"></div>
-</aside>
 
 <!-- ===== busca ===== -->
 <div class="search-overlay" id="searchOverlay" hidden></div>
@@ -1754,6 +1525,8 @@
 <script src="data/articles.js"></script>
 <script src="data/mentorships.js"></script>
 <script src="js/catalog.js"></script>
+<!-- "Meu plano": componente que abre em qualquer página -->
+<script src="js/plan.js"></script>
 <script src="paths/guides.js"></script>
 <script>
 /* CATALOG, ORI e oriSvg vêm de js/catalog.js; IC e CAREERS de paths/guides.js */
@@ -1931,19 +1704,12 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
   document.getElementById('cards').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
 });
 
-/* ---------- plano de estudos (agenda estilo Outlook) ---------- */
+/* ---------- plano de estudos: botões "+" (o painel é o componente js/plan.js) ---------- */
 (function(){
-  var KEY='dio-study-plan';
-  var overlay=document.getElementById('planOverlay');
-  var panel=document.getElementById('planPanel');
-  var bodyEl=document.getElementById('planBody');
-  var subEl=document.getElementById('planSub');
-  var countEl=document.getElementById('planCount');
-  function loadPlan(){ try{ return JSON.parse(localStorage.getItem(KEY))||[]; }catch(e){ return []; } }
-  function savePlan(){ try{ localStorage.setItem(KEY,JSON.stringify(plan)); }catch(e){} }
-  var plan=loadPlan();
-
-  function has(id){ return plan.some(function(x){return x.id===id;}); }
+  /* o painel "Meu plano" é o componente js/plan.js (abre em qualquer página, sem sair dela).
+     Aqui ficam os botões "+" dos blocos e o "adicionar tudo" da trilha, que mudam o plano pela API dele. */
+  var P=window.DioPlan;
+  function has(id){ return P.has(id); }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
 
   function syncButtons(){
@@ -1956,7 +1722,8 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
       b.setAttribute('aria-pressed',all?'true':'false');
     });
   }
-  function updateCount(){ countEl.textContent=plan.length; countEl.classList.toggle('zero',plan.length===0); }
+  /* o plano mudou (no painel, em outra aba ou aqui mesmo): atualiza os botões */
+  window.addEventListener('dio-plan-change',syncButtons);
 
   var toastWrap=document.getElementById('toastWrap');
   var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -1974,132 +1741,18 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
     t.addEventListener('click', close);
   }
 
-  /* paleta de cores das fases: hues do projeto, embaralhada a cada abertura
-     do painel — cada etapa ganha uma cor diferente, com um toque aleatório */
-  var PAL=['#B800E7','#1E5FC0','#0F766E','#8B2FC9','#D60A52','#C2410C','#0891B2','#3949AB','#D97706','#0078D4','#4D7C0F','#A21CAF','#15803D','#0E7490'];
-  var palOrder=PAL.slice();
-  function shufflePal(){
-    palOrder=PAL.slice();
-    for(var i=palOrder.length-1;i>0;i--){
-      var j=Math.floor(Math.random()*(i+1)),t=palOrder[i];
-      palOrder[i]=palOrder[j];palOrder[j]=t;
-    }
-  }
-  shufflePal();
-
-  var reduceAnim=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  function render(animate){
-    updateCount();
-    var n=plan.length;
-    subEl.textContent = n ? (n+(n>1?' conteúdos':' conteúdo')+' no seu plano') : 'Nenhum conteúdo adicionado ainda';
-    if(!n){
-      bodyEl.innerHTML='<div class="plan-empty"><div class="pe-ic">📚</div><p><b>Seu plano está vazio</b></p>'
-        +'<p>Toque no <span class="pe-plus">+</span> em qualquer bloco das trilhas para montar seu plano de estudos.</p></div>';
-      return;
-    }
-    var doAnim=animate&&!reduceAnim;
-    if(planView==='tree'){ bodyEl.innerHTML=treeView(doAnim); return; }
-    var html='';
-    plan.forEach(function(item,i){
-      var tk=CATALOG[item.id]||{t:'—',u:'#'};
-      var hue=palOrder[i%palOrder.length];
-      html+='<div class="ag-day lego-bar'+(doAnim?' enter':'')+'" draggable="true" data-idx="'+i+'" style="--evhue:'+hue+(doAnim?';animation-delay:'+(i*70)+'ms':'')+'">'
-        +'<div class="ag-order index-pill" aria-hidden="true">'+(i+1)+'</div>'
-        +'<div class="ag-event lego-main">'
-          +'<span class="ag-fase tag-pill">Fase '+(i+1)+'</span>'
-          +'<div class="ag-name">'+esc(tk.t)+'</div>'
-        +'</div>'
-        +'<div class="lego-actions">'
-          +(tipoDe(item.id)==='artigo'
-            ?'<a class="ag-open mini-btn" href="'+tk.u+'" draggable="false">Ler artigo'
-            :'<a class="ag-open mini-btn" href="'+tk.u+'" target="_blank" rel="noopener" draggable="false">Ver na plataforma')
-            +'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a>'
-          +'<button class="ag-remove mini-btn icon-btn" type="button" data-id="'+item.id+'" aria-label="Remover do plano" title="Remover">✕</button>'
-          +'<button class="ag-handle mini-btn icon-btn" type="button" data-idx="'+i+'" aria-label="Reordenar (use as setas para cima e para baixo)" title="Arraste para reordenar">'
-            +'<svg viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>'
-          +'</button>'
-        +'</div>'
-      +'</div>';
-    });
-    bodyEl.innerHTML=html;
-  }
-
-  /* visão "skill tree": os conteúdos do plano viram nós em zigue-zague, ligados na ordem
-     de estudo. O primeiro é o "comece aqui", o seguinte pulsa como próximo e o resto fica travado. */
-  var planView='list';
-  try{ if(localStorage.getItem('dio-plan-view')==='tree') planView='tree'; }catch(e){}
-  var viewBtns=document.querySelectorAll('.plan-views button');
-  function syncView(){ Array.prototype.forEach.call(viewBtns,function(b){ b.setAttribute('aria-pressed',b.getAttribute('data-view')===planView?'true':'false'); }); }
-  Array.prototype.forEach.call(viewBtns,function(b){
-    b.addEventListener('click',function(){
-      planView=b.getAttribute('data-view');
-      try{ localStorage.setItem('dio-plan-view',planView); }catch(e){}
-      syncView(); render(true);
-    });
-  });
-  syncView();
-  var T_LOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
-  function treeView(doAnim){
-    var ROW=132, TOP=66, n=plan.length, H=TOP+n*ROW+10, lines='', nodes='';
-    function xOf(i){ return i%2?72:28; }
-    function yOf(i){ return TOP+i*ROW+26; }
-    for(var i=0;i<n;i++){
-      var item=plan[i], tk=CATALOG[item.id]||{t:'—',u:'#'}, hue=palOrder[i%palOrder.length];
-      var st=i===0?'t0':(i===1?'t1':'t2');
-      var x1=i?xOf(i-1):50, y1=i?yOf(i-1):22, x2=xOf(i), y2=yOf(i), my=(y1+y2)/2;
-      lines+='<path class="pt-l '+st+'" d="M'+x1+' '+y1+' C'+x1+' '+my+' '+x2+' '+my+' '+x2+' '+y2+'" style="--evhue:'+hue+(doAnim?';animation-delay:'+(i*90)+'ms':'')+'"/>';
-      nodes+='<div class="pt-node '+st+(i%2?' r':'')+(doAnim?' enter':'')+'" style="--evhue:'+hue+';top:'+y2+'px;left:'+x2+'%'+(doAnim?';animation-delay:'+(120+i*90)+'ms':'')+'">'
-        +'<span class="pt-gem">'+(i>1?T_LOCK:(i+1))+'</span>'
-        +'<div class="pt-info"><i>'+(i===0?'Comece aqui':(i===1?'Próximo':'Fase '+(i+1)))+'</i><b>'+esc(tk.t)+'</b>'
-        +'<span class="pt-act"><a href="'+tk.u+'" target="_blank" rel="noopener">Abrir</a>'
-        +'<button class="ag-remove" type="button" data-id="'+item.id+'" aria-label="Remover do plano">Remover</button></span></div></div>';
-    }
-    return '<div class="pt" style="height:'+H+'px"><svg class="pt-lines" viewBox="0 0 100 '+H+'" preserveAspectRatio="none" aria-hidden="true">'+lines+'</svg>'
-      +'<span class="pt-root">Você</span>'+nodes+'</div>';
-  }
-
-  /* mover item do plano da posição `from` para `to` (com re-render) */
-  function moveItem(from,to){
-    if(to<0||to>=plan.length||from===to) return;
-    var it=plan.splice(from,1)[0];
-    plan.splice(to,0,it);
-    savePlan(); render();
-  }
-
-  function openPanel(){ shufflePal(); render(true); overlay.hidden=false;
-    requestAnimationFrame(function(){ overlay.classList.add('show'); panel.classList.add('show'); });
-    panel.setAttribute('aria-hidden','false'); document.body.classList.add('plan-open'); }
-  function closePanel(){ overlay.classList.remove('show'); panel.classList.remove('show');
-    panel.setAttribute('aria-hidden','true'); document.body.classList.remove('plan-open');
-    setTimeout(function(){ overlay.hidden=true; },300); }
-
-  document.getElementById('planBtn').addEventListener('click',openPanel);
-  document.getElementById('planClose').addEventListener('click',closePanel);
-  /* o botão "Meu plano" da aba Roadmap chega aqui como index.html#plano */
-  if(/[#&]plano\b/.test(location.hash)) setTimeout(openPanel,120);
-  overlay.addEventListener('click',closePanel);
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&panel.classList.contains('show')) closePanel(); });
-
-  document.getElementById('planReset').addEventListener('click',function(){
-    if(!plan.length){ return; }
-    if(window.confirm('Resetar todo o plano de estudos? Essa ação não pode ser desfeita.')){
-      plan=[]; savePlan(); syncButtons(); render();
-    }
-  });
-
   /* clique no "+" adiciona/remove sem abrir a plataforma */
   document.addEventListener('click',function(e){
     var add=e.target.closest('.add-brick');
     if(!add) return;
     e.preventDefault(); e.stopPropagation();
     var id=parseInt(add.getAttribute('data-id'),10);
-    if(has(id)){ plan=plan.filter(function(x){return x.id!==id;}); }
+    if(has(id)) P.remove(id);
     else{
-      var hue=(getComputedStyle(add).getPropertyValue('--hue')||'').trim(); plan.push({id:id,hue:hue||'#B800E7'});
+      var hue=(getComputedStyle(add).getPropertyValue('--hue')||'').trim();
+      P.add(id,hue||'#B800E7');
       var tk=CATALOG[id]; toast('<b>'+esc(tk?tk.t:'Formação')+'</b> adicionada ao plano');
     }
-    savePlan(); syncButtons();
-    if(panel.classList.contains('show')) render(); else updateCount();
   });
 
   /* "adicionar conteúdo todo": adiciona todas as formações da trilha (toggle) */
@@ -2110,100 +1763,15 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
     var btn=e.target.closest('.add-all');
     if(!btn) return;
     e.preventDefault(); e.stopPropagation();
-    var ids=idsOf(btn), hue=(btn.getAttribute('data-hue')||'').trim()||'#B800E7';
+    var ids=idsOf(btn), hue=(btn.getAttribute('data-hue')||'').trim()||'#B800E7', plan=P.list();
     if(ids.length && ids.every(has)){
-      plan=plan.filter(function(x){ return ids.indexOf(x.id)<0; });
+      P.set(plan.filter(function(x){ return ids.indexOf(x.id)<0; }));
     } else {
       var added=0;
-      ids.forEach(function(id){ if(!has(id)){ plan.push({id:id,hue:hue}); added++; } });
+      ids.forEach(function(id){ if(!plan.some(function(x){ return x.id===id; })){ plan.push({id:id,hue:hue}); added++; } });
+      P.set(plan);
       if(added) toast('<b>'+added+(added>1?' conteúdos adicionados':' conteúdo adicionado')+'</b> ao plano 🎉');
     }
-    savePlan(); syncButtons();
-    if(panel.classList.contains('show')) render(); else updateCount();
-  });
-
-  /* remover a partir da lista */
-  bodyEl.addEventListener('click',function(e){
-    var rm=e.target.closest('.ag-remove'); if(!rm) return;
-    var id=parseInt(rm.getAttribute('data-id'),10);
-    plan=plan.filter(function(x){return x.id!==id;});
-    savePlan(); syncButtons(); render();
-  });
-
-  /* ----- reordenar por drag & drop ----- */
-  var dragIdx=-1;
-  function clearDropMarks(){
-    Array.prototype.forEach.call(bodyEl.querySelectorAll('.drag-over-top,.drag-over-bottom'),function(el){
-      el.classList.remove('drag-over-top','drag-over-bottom');
-    });
-  }
-  bodyEl.addEventListener('dragstart',function(e){
-    var row=e.target.closest('.ag-day'); if(!row) return;
-    dragIdx=parseInt(row.getAttribute('data-idx'),10);
-    row.classList.add('dragging');
-    try{ e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain',String(dragIdx)); }catch(_){}
-  });
-  bodyEl.addEventListener('dragover',function(e){
-    var row=e.target.closest('.ag-day'); if(!row||dragIdx<0) return;
-    e.preventDefault(); try{ e.dataTransfer.dropEffect='move'; }catch(_){}
-    var r=row.getBoundingClientRect(), before=(e.clientY-r.top)<r.height/2;
-    clearDropMarks();
-    row.classList.add(before?'drag-over-top':'drag-over-bottom');
-  });
-  bodyEl.addEventListener('drop',function(e){
-    var row=e.target.closest('.ag-day'); if(!row||dragIdx<0) return;
-    e.preventDefault();
-    var tIdx=parseInt(row.getAttribute('data-idx'),10);
-    var r=row.getBoundingClientRect(), before=(e.clientY-r.top)<r.height/2;
-    var insertAt=before?tIdx:tIdx+1;
-    if(dragIdx<insertAt) insertAt--;
-    clearDropMarks();
-    var from=dragIdx; dragIdx=-1;
-    if(insertAt!==from){ var it=plan.splice(from,1)[0]; plan.splice(insertAt,0,it); savePlan(); render(); }
-  });
-  bodyEl.addEventListener('dragend',function(){
-    dragIdx=-1; clearDropMarks();
-    var d=bodyEl.querySelector('.dragging'); if(d) d.classList.remove('dragging');
-  });
-
-  /* ----- reordenar por teclado (alça) ----- */
-  bodyEl.addEventListener('keydown',function(e){
-    var h=e.target.closest('.ag-handle'); if(!h) return;
-    if(e.key!=='ArrowUp'&&e.key!=='ArrowDown') return;
-    e.preventDefault();
-    var from=parseInt(h.getAttribute('data-idx'),10);
-    var to=from+(e.key==='ArrowUp'?-1:1);
-    if(to<0||to>=plan.length) return;
-    moveItem(from,to);
-    var nh=bodyEl.querySelector('.ag-day[data-idx="'+to+'"] .ag-handle'); if(nh) nh.focus();
-  });
-
-  /* ----- baixar plano como README.md ----- */
-  function mdCell(s){ return String(s).replace(/\|/g,'\\|'); }
-  function buildMarkdown(){
-    var n=plan.length;
-    var badge='https://img.shields.io/badge/%E2%96%B6%20Acessar%20meu%20conte%C3%BAdo-8A2BE2?style=for-the-badge';
-    var out='# 🎯 Meu Plano de Estudos — DIO\n\n';
-    out+='![Conteúdos](https://img.shields.io/badge/Conte%C3%BAdos-'+n+'-8A2BE2?style=for-the-badge) ';
-    out+='![Plataforma](https://img.shields.io/badge/Plataforma-DIO-A100FF?style=for-the-badge) ';
-    out+='![Status](https://img.shields.io/badge/Status-Em%20andamento-1F9D55?style=for-the-badge)\n\n';
-    out+='> **🚀 Objetivo:** concluir estes '+n+' conteúdos na ordem abaixo, evoluindo do básico ao avançado na plataforma DIO.\n\n';
-    out+='| # | Conteúdo | Concluído | Acesso |\n|:--:|:--|:--:|:--:|\n';
-    plan.forEach(function(item,i){
-      var tk=CATALOG[item.id]||{t:'—',u:'https://web.dio.me/'};
-      out+='| '+(i+1)+' | '+mdCell(tk.t)+' | ☐ | [![Acessar meu conteúdo]('+badge+')]('+tk.u+') |\n';
-    });
-    out+='\n---\n<sub>Gerado com 💜 pelo DIO Explorer · felipeaguiarcode.github.io/dio-explorer</sub>\n';
-    return out;
-  }
-  document.getElementById('planDownload').addEventListener('click',function(){
-    if(!plan.length){ toast('Seu plano está vazio 🙃'); return; }
-    var blob=new Blob([buildMarkdown()],{type:'text/markdown;charset=utf-8'});
-    var url=URL.createObjectURL(blob);
-    var a=document.createElement('a'); a.href=url; a.download='README.md';
-    document.body.appendChild(a); a.click(); a.parentNode.removeChild(a);
-    setTimeout(function(){ URL.revokeObjectURL(url); },1000);
-    toast('<b>README.md</b> do seu plano baixado 📥');
   });
 
   /* ----- busca em modal (resultados em blocos) ----- */
@@ -2291,7 +1859,7 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
     }
   });
 
-  syncButtons(); updateCount();
+  syncButtons();
 })();
 
 /* ---------- teste de aptidão de carreira ---------- */
@@ -3030,7 +2598,7 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
     ARQ:{punch:'Enquanto todo mundo admira o prédio, você é o motivo de ele não cair.',
       icons:[['Dom Cobb','A Origem','filme'],['Galen Erso','Rogue One','filme'],['Isaac Clarke','Dead Space','jogo'],['Richard Hendricks','Silicon Valley','série']]},
     ANA:{punch:'Os números mentem pra todo mundo. Menos pra você.',
-      icons:[['Spock','Star Trek','filme'],['Peter Brand','Moneyball','filme'],['Professor Layton','Professor Layton','jogo'],['L','Death Note','série']]},
+      icons:[['Spock','Star Trek','filme'],['Peter Brand','Moneyball','filme'],['Will Hunting','Gênio Indomável','filme'],['Spencer Reid','Criminal Minds','série']]},
     INV:{punch:'Se você fez a mesma coisa duas vezes na mão, já perdeu pra você mesmo.',
       icons:[['Tony Stark','Homem de Ferro','filme'],['Doc Brown','De Volta para o Futuro','filme'],['Bruce Banner','Os Vingadores','filme'],['Rick Sanchez','Rick and Morty','série']]},
     GUA:{punch:'Você encontra o bug antes mesmo de ele nascer.',
@@ -3048,7 +2616,7 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
   function careerById(id){ for(var i=0;i<CAREERS.length;i++){ if(CAREERS[i].id===id) return CAREERS[i]; } return null; }
   function initials(n){ var p=n.replace(/[^A-Za-zÀ-ÿ0-9 ]/g,'').split(' ').filter(Boolean); return (p.length>1?p[0][0]+p[p.length-1][0]:p[0].slice(0,2)).toUpperCase(); }
   /* fotos dos personagens de referência: assets/characters/<slug>.<ext> (sem foto → iniciais) */
-  var CHAR_IMG={'batman':'jpg','cid':'png','commander-shepard':'png','doc-brown':'jpg','dom-cobb':'jpg','dr-alfred-lanning':'jpg','edna-moda':'png','galen-erso':'png','hermione-granger':'jpg','isaac-clarke':'png','james-halliday':'png','l':'png','max-caulfield':'png','mestre-dos-magos':'jpg','nick-fury':'jpg','o-professor':'jpg','otacon':'png','peter-brand':'jpg','phoenix-wright':'png','michael-scofield':'jpg','elliot-alderson':'jpg','remy':'jpg','richard-hendricks':'jpg','rick-sanchez':'png','scotty':'jpg','sherlock-holmes':'jpg','shuri':'jpg','spock':'jpg','steve':'png','bruce-banner':'jpg','ted-mosby':'jpg','tony-stark':'jpg','tyrion-lannister':'jpg','willy-wonka':'jpg'};
+  var CHAR_IMG={'batman':'jpg','cid':'png','commander-shepard':'png','doc-brown':'jpg','dom-cobb':'jpg','dr-alfred-lanning':'jpg','edna-moda':'png','galen-erso':'png','hermione-granger':'jpg','isaac-clarke':'png','james-halliday':'png','max-caulfield':'png','mestre-dos-magos':'jpg','nick-fury':'jpg','o-professor':'jpg','otacon':'png','peter-brand':'jpg','phoenix-wright':'png','michael-scofield':'jpg','elliot-alderson':'jpg','remy':'jpg','richard-hendricks':'jpg','rick-sanchez':'png','scotty':'jpg','sherlock-holmes':'jpg','shuri':'jpg','spock':'jpg','steve':'png','bruce-banner':'jpg','ted-mosby':'jpg','tony-stark':'jpg','tyrion-lannister':'jpg','willy-wonka':'jpg'};
   function charSlug(n){ return n.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
   function charPhoto(n){ var s=charSlug(n), e=CHAR_IMG[s]; return e?'<img src="assets/characters/'+s+'.'+e+'" alt="" loading="lazy" onerror="this.remove()">':''; }
 
