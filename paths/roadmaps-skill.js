@@ -3,12 +3,17 @@
    O mapa é a trilha-mãe com aquela rota escolhida: passos antes da escolha +
    a rota + passos depois.
      id, name      identificador (vai na URL: roadmap.html#<id>) e nome do card
-     from + pick   trilha de paths/guias.js e rótulo da rota escolhida
+     from + pick   trilha de paths/guides.js e rótulo da rota escolhida
      career        em vez de from/pick: usa a trilha inteira (AWS e Azure)
+     steps         em vez de from/pick/career: passos próprios (mesmo formato de guides.js),
+                   para tecnologias que não são rota de nenhuma trilha (Claude Code, Codex)
      alias         rotas de outras trilhas que também levam a este roadmap
      pre           ids de pré-requisitos extras (entram no começo)
-     skip          ids da trilha-mãe que não fazem sentido nesta skill
-     temas         temas de data/mentorias.js que viram caixas "Mentorias de <tema>"
+     skip          ids da trilha-mãe (ou artigos do blog) que não fazem sentido nesta skill
+     vagas         filtro do botão "Ver vagas": id da carreira no AI Job Hunter, ou id de
+                   um roadmap role-based para usar o filtro dele. Sem ele, vale o da
+                   trilha-mãe (from) ou o da primeira rota em alias
+     temas         temas de data/mentorships.js que viram caixas "Mentorias de <tema>"
      cor           cor original da marca (fundo do ícone e destaques do mapa)
      tinta         cor do desenho do logo (padrão branco)
      acento        segunda cor do logo, quando a marca tem (ex.: amarelo do Python)
@@ -17,6 +22,45 @@
    Sem cor, o roadmap usa a cor da trilha-mãe.
    ===================================================================== */
 var ROADMAPS_SKILL=[
+  /* assistentes de código com IA: passos próprios (não são rota de nenhuma trilha) */
+  {id:'claude-code', name:'Claude Code',
+   steps:[{r:26,s:'base'},{r:29},{r:95},
+     {d:"Mentorias · Claude Code"},{r:68,s:'ment'},{r:69,s:'ment'},{r:70,s:'ment'},{r:71,s:'ment'},{r:72,s:'ment'},
+     {d:"Nível avançado"},{r:96},
+     {d:"Projetos"},{r:73,s:'proj'},{r:85,s:'proj'},{r:75,s:'proj'}],
+   temas:['claude code','vibe coding'], skip:[314],
+   cor:'#D97757',
+   logo:'<path d="M12 2.5v19M2.5 12h19M5.3 5.3l13.4 13.4M18.7 5.3 5.3 18.7M8.4 3.2l7.2 17.6M15.6 3.2 8.4 20.8M3.2 8.4l17.6 7.2M3.2 15.6l17.6-7.2" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/>'},
+  {id:'codex', name:'Codex',
+   steps:[{r:28,s:'base'},{r:26},{r:93},{r:92,s:'proj'},{r:29},{r:5,s:'opt'},
+     {d:"Projetos"},{r:75,s:'proj'},{r:89,s:'proj'},
+     {d:"Nível avançado (opcional)"},{r:96,s:'opt'}],
+   temas:['codex','chatgpt'],
+   cor:'#10A37F',
+   logo:'<rect x="2.5" y="4" width="19" height="16" rx="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 9.4l3.1 2.6L7 14.6M12.6 15.2h4.6" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>'},
+  {id:'n8n', name:'n8n', alias:[['ai-automation','No-code (n8n)']],
+   steps:[{r:26,s:'base'},{r:93},{r:4},{r:81,s:'proj'},{r:94},{r:74,s:'proj'},{r:2,s:'opt'},
+     {d:"Nível avançado (opcional)"},{r:96,s:'opt'}],
+   temas:['automação','ai agentes'],
+   vagas:'356229fb-5183-4469-844c-b362e55533a1',
+   cor:'#EA4B71',
+   logo:'<circle cx="5" cy="12" r="2.6"/><circle cx="19" cy="5.5" r="2.6"/><circle cx="19" cy="18.5" r="2.6"/><path d="M7.6 12h3.6l3.6-6.5h1.6M11.2 12l3.6 6.5h1.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'},
+  /* dados: passos próprios (Excel e Power BI não são rota de nenhuma trilha) */
+  {id:'excel', name:'Excel',
+   steps:[{r:6,s:'base'},{r:73,s:'proj'},{r:94},
+     {d:"Próximo passo"},{r:38},{r:58,s:'opt'}],
+   temas:['excel','power bi'],
+   vagas:'data-analyst',
+   cor:'#217346',
+   logo:'<rect x="3" y="3" width="18" height="18" rx="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.2 7.6l7.6 8.8M15.8 7.6l-7.6 8.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>'},
+  {id:'power-bi', name:'Power BI',
+   steps:[{r:6,s:'base'},{r:73,s:'proj'},{r:38},{r:58},{r:90,s:'proj'},{r:94},
+     {d:"Nível avançado (opcional)"},{r:11,s:'opt'},{r:76,s:'proj'}],
+   skip:[320],
+   temas:['power bi','microsoft fabric'],
+   vagas:'data-analyst',
+   cor:'#F2C811', tinta:'#252423',
+   logo:'<rect x="3.6" y="12.4" width="4.4" height="8.6" rx="1.3"/><rect x="9.8" y="7.6" width="4.4" height="13.4" rx="1.3"/><rect x="16" y="3" width="4.4" height="18" rx="1.3"/>'},
   {id:'react', name:'React', from:'frontend', pick:'React', temas:['react'],
    cor:'#61DAFB', tinta:'#20232A',
    logo:'<g fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="12" rx="10" ry="3.9"/><ellipse cx="12" cy="12" rx="10" ry="3.9" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="3.9" transform="rotate(120 12 12)"/></g><circle cx="12" cy="12" r="2.1"/>'},

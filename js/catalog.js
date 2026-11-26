@@ -1,8 +1,8 @@
 /* =====================================================================
-   catalogo.js — junta os arquivos de data/ num catálogo único.
+   catalog.js — junta os arquivos de data/ num catálogo único.
    Carregue depois de data/*.js e antes de paths/*.js e do script da página:
-     <script src="data/formacoes.js"></script>   ... (todos os de data/, inclusive artigos.js)
-     <script src="js/catalogo.js"></script>
+     <script src="data/tracks.js"></script>   ... (todos os de data/, inclusive articles.js)
+     <script src="js/catalog.js"></script>
    Expõe:
      TRACKS[id] = {t, u, k, ancora}   k = 'formacao' | 'certificacao' | 'projeto' | 'curso' | 'mentoria' | 'artigo'
                                       (artigos trazem também tag, min e sub)
@@ -16,13 +16,20 @@
      x ...     polígono na cor de fundo
      l ...     vinco/pata (traço)      m ...     traço na cor de fundo
    ===================================================================== */
+/* raiz do site, descoberta pelo endereço deste arquivo (…/js/catalog.js): links internos do
+   catálogo, como os artigos do blog, ficam certos tanto na home quanto nas páginas de pages/ */
+var SITE_ROOT=(function(){
+  var cs=typeof document!=='undefined'&&document.currentScript;
+  return cs&&cs.src?cs.src.replace(/js\/catalog\.js(\?.*)?$/,''):'';
+})();
+function siteUrl(u){ return !u||/^([a-z]+:|\/\/)/i.test(u)?u:SITE_ROOT+u; }
 var TRACKS={}, ORI={};
 (function(){
   function add(src,tipo){
     Object.keys(src||{}).forEach(function(k){
       var id=+k, it=src[k];
       if(TRACKS[id]) console.warn('[catalogo] id '+id+' repetido em '+tipo+' (já era '+TRACKS[id].k+')');
-      TRACKS[id]={t:it.t,u:it.u,k:tipo,ancora:it.ancora,tag:it.tag,min:it.min,sub:it.sub};
+      TRACKS[id]={t:it.t,u:siteUrl(it.u),k:tipo,ancora:it.ancora,tag:it.tag,min:it.min,sub:it.sub};
       if(it.ori) ORI[id]=it.ori;
     });
   }

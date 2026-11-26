@@ -75,12 +75,14 @@ Não precisa instalar nada. É só abrir no navegador. 😉
 
 | Pasta | O que tem |
 |---|---|
-| `data/` | Os conteúdos, um arquivo por tipo: `formacoes.js`, `certificacoes.js`, `projetos.js`, `cursos.js`, `mentorias.js` (sessões + temas) e `artigos.js` (índice dos posts do blog, com as formações que cada um explica). Todo conteúdo tem um **id** único em todo o catálogo. |
-| `paths/` | A configuração dos caminhos: `guias.js` (trilhas das Guias), `roadmaps-role.js`, `roadmaps-skill.js`, `lesson-packs.js` e `project-ideas.js`. |
-| `js/catalogo.js` | Junta os arquivos de `data/` num catálogo único e desenha os origamis. |
+| `index.html` | A home (aba Guias). |
+| `pages/` | As outras abas: `roadmap.html`, `mentorships.html`, `blog.html` e `plans.html`. |
+| `data/` | Os conteúdos, um arquivo por tipo: `tracks.js`, `certifications.js`, `projects.js`, `courses.js`, `mentorships.js` (sessões + temas) e `articles.js` (índice dos posts do blog, com as formações que cada um explica). Todo conteúdo tem um **id** único em todo o catálogo. |
+| `paths/` | A configuração dos caminhos: `guides.js` (trilhas das Guias), `roadmaps-role.js`, `roadmaps-skill.js`, `lesson-packs.js` e `project-ideas.js`. |
+| `js/catalog.js` | Junta os arquivos de `data/` num catálogo único e desenha os origamis. |
 
 Para incluir um curso, projeto ou mentoria novo: cadastre no arquivo certo de `data/` com um id livre
-e encaixe esse id numa trilha em `paths/guias.js`. Os roadmaps se atualizam sozinhos.
+e encaixe esse id numa trilha em `paths/guides.js`. Os roadmaps se atualizam sozinhos.
 
 <br>
 

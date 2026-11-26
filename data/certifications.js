@@ -1,6 +1,6 @@
 /* =====================================================================
    CERTIFICAÇÕES — formações da DIO voltadas a uma prova de certificação
-   (Microsoft, AWS, GitHub, Scrum). Mesmo formato de data/formacoes.js:
+   (Microsoft, AWS, GitHub, Scrum). Mesmo formato de data/tracks.js:
      id: {t, u, ori}   (id único em todo o catálogo)
    ===================================================================== */
 var CERTIFICACOES={

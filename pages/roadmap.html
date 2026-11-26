@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#000000">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-dio-32.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-dio-32.png">
 <title>DIO | Mapa do AI Builder</title>
 <!-- menu hambúrguer do celular (no head para não piscar as abas) -->
-<script src="js/menu.js"></script>
+<script src="../js/menu.js"></script>
 
 <style>
   :root{
@@ -26,7 +26,7 @@
 
     /* mapa no estilo roadmap.sh: papel branco, tópicos amarelos, complementos bege, linhas azuis */
     --rm-paper:#ffffff; --rm-ink:#111111; --rm-soft:#4b5563; --rm-faint:#6b7280;
-    --rm-yellow:#FFE53B; --rm-beige:#FFE9B8; --rm-opt:#FFF6DE;
+    --rm-yellow:#FFE53B; --rm-beige:#FFE9B8; --rm-opt:#FFF6DE; --rm-art:#FFF9EC;
     --rm-line:#2B78E4; --rm-check:#1F9D55; --rm-border:#111111;
   }
 
@@ -125,6 +125,67 @@
   .pk-it{display:flex;flex-direction:column;gap:1px;text-decoration:none;font-size:.85rem;font-weight:600;padding:8px 10px;border-radius:8px;background:var(--surface)}
   .pk-it:hover{background:var(--surface-2)}
   .pk-it i{font-style:normal;font-size:.64rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint)}
+  /* project ideas: área clara, cards no estilo de roadmap.sh/<tech>/projects */
+  .pi-wrap{margin-top:34px;padding:30px 0 70px;background:#fff;color:#111;color-scheme:light}
+  .pi-in{max-width:1080px;margin:0 auto;padding:0 22px}
+  .pi-head h2{margin:0;font-size:1.6rem;font-weight:800;letter-spacing:-.03em}
+  .pi-head p{margin:6px 0 0;color:#6b7280;font-size:.98rem}
+  .pi-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:20px 0 16px}
+  .dd{position:relative}
+  .dd-btn{display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:.88rem;font-weight:600;letter-spacing:-.01em;color:#111;background:#fff;
+    border:1px solid #d1d5db;border-radius:8px;padding:7px 11px;cursor:pointer}
+  .dd-btn:hover{border-color:#9ca3af}
+  .dd-btn[aria-expanded="true"]{border-color:#111}
+  .dd-btn svg{width:14px;height:14px;color:#6b7280}
+  .dd-n{min-width:19px;height:19px;padding:0 6px;border-radius:999px;display:inline-grid;place-items:center;background:#111;color:#fff;font-size:.7rem}
+  .dd-n:empty{display:none}
+  .dd-pop{position:absolute;top:calc(100% + 6px);left:0;z-index:40;min-width:230px;max-height:340px;overflow:auto;padding:6px;
+    background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 14px 34px rgba(0,0,0,.14)}
+  .dd-opt{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;font-size:.88rem;color:#111;cursor:pointer}
+  .dd-opt:hover{background:#f3f4f6}
+  .dd-opt input{width:15px;height:15px;margin:0;accent-color:#111}
+  .dd-opt .c{margin-left:auto;font-size:.75rem;color:#9ca3af;font-variant-numeric:tabular-nums}
+  .pi-clear{font:inherit;font-size:.84rem;font-weight:600;color:#2B78E4;background:none;border:0;padding:6px 4px;cursor:pointer}
+  .pi-clear:hover{text-decoration:underline}
+  .pi-res{margin-left:auto;font-size:.84rem;color:#6b7280}
+  .pi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+  .pi-empty{grid-column:1/-1;margin:0;padding:30px;text-align:center;color:#6b7280;border:1px dashed #d1d5db;border-radius:8px}
+  .pi{display:flex;flex-direction:column;width:100%;text-align:left;font:inherit;color:#111;background:#fff;border:1px solid #e5e7eb;border-radius:6px;
+    padding:12px;cursor:pointer;transition:border-color .15s,background .15s}
+  .pi:hover{border-color:#d1d5db;background:#f9fafb}
+  .pi:focus-visible{outline:3px solid #2B78E4;outline-offset:2px}
+  .pi-top{display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+  .pi-tgs{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:4px}
+  .lv,.tg{display:inline-block;font-size:.72rem;line-height:1.3;letter-spacing:.02em;border:1px solid;border-radius:6px;padding:1px 6px;white-space:nowrap}
+  .lv-iniciante{background:#fef9c3;color:#a16207;border-color:#fde68a}
+  .lv-intermediario{background:#dcfce7;color:#15803d;border-color:#bbf7d0}
+  .lv-avancado{background:#fee2e2;color:#b91c1c;border-color:#fecaca}
+  .tg{background:#f3f4f6;color:#374151;border-color:#e5e7eb}
+  /* mini logos das techs (quadradinho na cor da marca) */
+  .ti{position:relative;flex:none;width:22px;height:22px;border-radius:6px;display:inline-grid;place-items:center;background:var(--hue);
+    color:var(--tinta,#fff);--ori-k:var(--k,color-mix(in srgb,var(--hue) 58%,#000));box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+  .ti svg{width:15px;height:15px}
+  .ti .sr,.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .pi-tgs .tg{line-height:20px;padding:0 6px}
+  /* nível em barrinhas, como o sinal do wi-fi */
+  .sig{--lvc:#16a34a;display:inline-flex;align-items:flex-end;gap:2px;height:16px;flex:none}
+  .sig i{width:4px;border-radius:1.5px;background:#d1d5db}
+  .sig i:nth-child(1){height:6px}.sig i:nth-child(2){height:11px}.sig i:nth-child(3){height:16px}
+  .sig-intermediario{--lvc:#d97706}.sig-avancado{--lvc:#dc2626}
+  .sig-iniciante i:nth-child(1),.sig-intermediario i:nth-child(-n+2),.sig-avancado i{background:var(--lvc)}
+  .pi-top{align-items:center}
+  .pi-tgs{gap:5px}
+  .dd-opt .ti{width:20px;height:20px}.dd-opt .ti svg{width:13px;height:13px}
+  .pi-lvl,.pi-tech{display:inline-flex;align-items:center;gap:7px;font-size:.78rem;font-weight:600;color:#374151;
+    background:#f3f4f6;border:1px solid #e5e7eb;border-radius:8px;padding:3px 9px 3px 5px}
+  .pi-lvl{padding-left:8px}
+  .pi h3{margin:12px 0 4px;font-size:1rem;font-weight:600;letter-spacing:-.01em}
+  .pi p{margin:0;flex:1;min-height:42px;font-size:.86rem;line-height:1.45;color:#6b7280}
+  .pi-foot{display:flex;justify-content:space-between;gap:8px;margin-top:12px;font-size:.75rem;color:#6b7280}
+  .pi-foot b{font-weight:600;color:#111}
+  .pi-req{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+  .pi-req li{position:relative;padding-left:24px;font-size:.92rem;line-height:1.45;color:#374151}
+  .pi-req li::before{content:"";position:absolute;left:0;top:3px;width:14px;height:14px;border:2px solid #9ca3af;border-radius:4px}
   .soon-box{max-width:560px;margin:46px auto 0;padding:34px 28px;text-align:center;background:#141416;border:1px solid var(--line-strong);border-radius:16px}
   .soon-box .ic{font-size:2.2rem}
   .soon-box h2{margin:10px 0 6px;font-size:1.4rem}
@@ -160,20 +221,28 @@
   .lg-box.main{background:var(--rm-yellow)}
   .lg-box.sat{background:var(--rm-beige)}
   .lg-box.opt{background:var(--rm-opt);border-style:dashed}
+  .lg-box.art{background:var(--rm-art)}
   .lg-check{width:18px;height:18px;border-radius:50%;background:var(--rm-check);color:#fff;display:grid;place-items:center;font-size:.66rem;font-weight:900;flex:none}
   .lg-line{width:30px;height:0;border-top:3px solid var(--rm-line);flex:none}
   .lg-line.dot{border-top:3px dotted var(--rm-line)}
 
-  .map{position:relative;max-width:1100px;margin:0 auto;padding:34px 22px 90px}
+  .map{position:relative;max-width:1100px;margin:0 auto;padding:96px 22px 90px}
   .map-lines{position:absolute;left:0;top:0;pointer-events:none;overflow:visible;z-index:0}
   .ln-main{fill:none;stroke:var(--rm-line);stroke-width:3.2;stroke-linecap:round}
   .ln-sub{fill:none;stroke:var(--rm-line);stroke-width:3.2;stroke-linecap:round;stroke-dasharray:.1 7.5}
+  /* rastro de entrada (como no roadmap.sh): pontilhado que chega de cima no primeiro passo e marca o início */
+  .ln-start{fill:none;stroke-width:3.2;stroke-linecap:round;stroke-dasharray:.1 7.5}
 
   .row{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) 290px minmax(0,1fr);gap:0 70px;align-items:center;margin:0 0 38px}
   .col{display:flex;flex-direction:column;gap:10px}
   .col.l{align-items:flex-end}
   .col.r{align-items:flex-start}
   .col .nd-sat{width:auto;min-width:170px;max-width:250px}
+  /* quadro de complementos: fundo claro, borda tracejada e rótulo no canto */
+  .sat-group{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:10px;padding:28px 12px 12px;
+    border:1.5px dashed #cbd5e1;border-radius:12px;background:#f1f5f9}
+  .sat-group-h{position:absolute;top:8px;left:12px;font-size:.62rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#64748b}
+  .sat-group .nd-sat{max-width:250px}
 
   .nd{position:relative;display:block;width:100%;font:inherit;font-size:.88rem;font-weight:600;line-height:1.25;letter-spacing:-.01em;
     text-align:center;color:var(--rm-ink);background:var(--rm-beige);border:2px solid var(--rm-border);border-radius:6px;
@@ -183,6 +252,8 @@
   .nd.is-active{box-shadow:0 0 0 4px color-mix(in srgb,var(--rm-line) 45%,transparent)}
   .nd-main{background:var(--rm-yellow);font-size:.98rem;padding:12px 36px}
   .nd-opt{background:var(--rm-opt);border-style:dashed;color:#374151}
+  /* artigos do blog: tom mais clarinho que os outros complementos */
+  .nd-art{background:var(--rm-art)}
   .nd .chip{display:block;margin-bottom:3px;font-size:.62rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#8a6400}
   .nd-main .chip{color:#6b5800}
   .nd .t{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
@@ -192,6 +263,12 @@
   .nd .tp-ic{position:absolute;left:10px;top:50%;width:16px;height:16px;transform:translateY(-50%)}
   .nd-main .tp-ic{left:12px;width:18px;height:18px}
   .lg-tp{width:16px;height:16px;flex:none}
+  .lg-types{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding-top:9px;border-top:1px solid #e5e7eb}
+  .lg-types b{font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#6b7280}
+  .lg-ck{display:inline-flex;align-items:center;gap:7px;cursor:pointer;user-select:none}
+  .lg-ck input{width:15px;height:15px;margin:0;accent-color:#111;cursor:pointer}
+  .lg-ck.lock,.lg-ck.lock input{cursor:not-allowed}
+  .lg-ck.lock{opacity:.8}
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   /* alternativa de uma "escolha 1": selo verde, como o check de alternativa do roadmap.sh */
   .nd-alt::after{content:"✓";position:absolute;top:-10px;right:-10px;width:21px;height:21px;border-radius:50%;
@@ -204,13 +281,13 @@
   .alts{display:flex;flex-wrap:wrap;justify-content:center;gap:18px 16px}
   .alt{width:186px;display:flex;flex-direction:column;gap:14px}
   .alt-label{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#4b5563;text-align:center}
-  .alt .nd-main{font-size:.88rem;padding:10px 12px}
+  .alt .nd-main{font-size:.88rem;padding:10px 30px} /* espaço para o ícone do tipo à esquerda */
   .alt-link{font-size:.76rem;font-weight:700;color:var(--rm-line) !important;text-decoration:none;text-align:center;margin-top:-4px}
   .alt-link:hover{text-decoration:underline}
 
   /* celular: o mapa vira coluna — espinha à esquerda, complementos empilhados com pontilhado */
   @media (max-width:760px){
-    .map{padding:26px 16px 70px}
+    .map{padding:84px 16px 70px}
     .row{grid-template-columns:1fr;gap:10px;margin-bottom:30px}
     .col.c{order:-1}
     .col.l,.col.r{align-items:stretch;padding-left:38px}
@@ -284,19 +361,19 @@
 
 <header class="topbar">
   <div class="topbar-in">
-    <a class="brand" href="index.html" aria-label="Roadmap DIO">
-      <img class="brand-logo" src="assets/dio-logo.webp" width="28" height="28" alt="">
+    <a class="brand" href="../index.html" aria-label="Roadmap DIO">
+      <img class="brand-logo" src="../assets/dio-logo.webp" width="28" height="28" alt="">
     </a>
     <nav class="tabs" aria-label="Páginas do guia">
-      <a class="tab" href="index.html">Guias</a>
+      <a class="tab" href="../index.html">Guias</a>
       <a class="tab" href="roadmap.html" aria-current="page">Roadmaps</a>
-      <a class="tab" href="mentorias.html">Mentorias</a>
+      <a class="tab" href="mentorships.html">Mentorias</a>
       <a class="tab" href="blog.html">Blog</a>
     </nav>
     <!-- marca e abas à esquerda; o Meu plano fica sozinho no canto direito.
          O plano mora nas Guias: o botão leva para lá com o painel aberto -->
     <div class="spacer"></div>
-    <a class="tbtn" id="planBtn" href="index.html#plano" title="Abrir Meu plano nas Guias">
+    <a class="tbtn" id="planBtn" href="../index.html#plano" title="Abrir Meu plano nas Guias">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>
       Meu plano
       <span class="plan-count zero" id="planCount">0</span>
@@ -307,7 +384,7 @@
 <!-- ===== lista de roadmaps (Roadmaps / Lesson packs / Project ideas) ===== -->
 <main id="listView">
   <section class="m-hero">
-    <video class="hero-video" src="assets/videos/splash.webm" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
+    <video class="hero-video" src="../assets/videos/splash.webm" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
     <div class="hero-veil" aria-hidden="true"></div>
     <script>if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches){var hv=document.querySelector('.hero-video');hv.removeAttribute('autoplay');hv.pause();}</script>
     <div class="wrap">
@@ -329,7 +406,7 @@
     </section>
     <section class="rl-sec" id="skill-based">
       <h2>Skill-based <span class="n" id="skillCount"></span></h2>
-      <p>Para quem já escolheu uma tecnologia: cada rota alternativa das trilhas vira um mapa próprio.</p>
+      <p>Para quem já escolheu uma tecnologia ou ferramenta: cada rota alternativa das trilhas vira um mapa próprio, além de mapas como Claude Code e Codex.</p>
       <div class="rl-grid" id="skillGrid"></div>
     </section>
   </div>
@@ -346,6 +423,23 @@
   <section class="rl-sec" id="segItems" hidden>
     <h2 id="segItemsTitle"></h2>
     <div class="pk-grid" id="segItemsGrid"></div>
+  </section>
+
+  <!-- project ideas (paths/project-ideas.js): área clara como em roadmap.sh/<tech>/projects -->
+  <section class="pi-wrap" id="segIdeas" hidden>
+    <div class="pi-in">
+      <div class="pi-head">
+        <h2>Project ideas</h2>
+        <p>Ideias de projeto para ir do iniciante ao avançado, cada uma com os conteúdos da DIO que ajudam a fazer.</p>
+      </div>
+      <div class="pi-bar">
+        <div class="dd" data-dd="nivel"><button class="dd-btn" type="button" aria-expanded="false" aria-haspopup="true">Nível <span class="dd-n"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="dd-pop" role="group" aria-label="Filtrar por nível" hidden></div></div>
+        <div class="dd" data-dd="tech"><button class="dd-btn" type="button" aria-expanded="false" aria-haspopup="true">Techs <span class="dd-n"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="dd-pop" role="group" aria-label="Filtrar por tecnologia" hidden></div></div>
+        <button class="pi-clear" type="button" hidden>Limpar filtros</button>
+        <span class="pi-res" aria-live="polite"></span>
+      </div>
+      <div class="pi-grid" id="ideasGrid"></div>
+    </div>
   </section>
 
   <p class="foot">Os mapas usam o mesmo catálogo das Guias. A ordem é uma sugestão de estudo: adapte ao seu ritmo e objetivo.</p>
@@ -367,18 +461,18 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <!-- conteúdos (data/), catálogo único (js/) e configuração dos caminhos (paths/) -->
-<script src="data/formacoes.js"></script>
-<script src="data/certificacoes.js"></script>
-<script src="data/projetos.js"></script>
-<script src="data/cursos.js"></script>
-<script src="data/artigos.js"></script>
-<script src="data/mentorias.js"></script>
-<script src="js/catalogo.js"></script>
-<script src="paths/guias.js"></script>
-<script src="paths/roadmaps-role.js"></script>
-<script src="paths/roadmaps-skill.js"></script>
-<script src="paths/lesson-packs.js"></script>
-<script src="paths/project-ideas.js"></script>
+<script src="../data/tracks.js"></script>
+<script src="../data/certifications.js"></script>
+<script src="../data/projects.js"></script>
+<script src="../data/courses.js"></script>
+<script src="../data/articles.js"></script>
+<script src="../data/mentorships.js"></script>
+<script src="../js/catalog.js"></script>
+<script src="../paths/guides.js"></script>
+<script src="../paths/roadmaps-role.js"></script>
+<script src="../paths/roadmaps-skill.js"></script>
+<script src="../paths/lesson-packs.js"></script>
+<script src="../paths/project-ideas.js"></script>
 <script>
 (function(){
 'use strict';
@@ -419,7 +513,22 @@ var GLYPH={
 };
 
 function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
-function career(id){ for(var i=0;i<CAREERS.length;i++) if(CAREERS[i].id===id) return CAREERS[i]; return null; }
+function career(id){
+  for(var i=0;i<CAREERS.length;i++) if(CAREERS[i].id===id) return CAREERS[i];
+  /* roadmap role-based sem trilha nas Guias: traz os próprios passos em paths/roadmaps-role.js */
+  var r=ROLE_CFG[id]; if(r&&r.steps) return r;
+  /* skill-based com passos próprios (paths/roadmaps-skill.js) */
+  for(var j=0;j<SKILLS.length;j++) if(SKILLS[j].id===id&&SKILLS[j].steps) return SKILLS[j];
+  return null;
+}
+/* botão "Ver vagas": AI Job Hunter da DIO, filtrado pela carreira quando o roadmap tem uma */
+var JOBS_URL='https://web.dio.me/ai-job-hunter?tab=all';
+function vagasRole(id){ return (ROLE_CFG[id]&&ROLE_CFG[id].vagas)||''; }
+function vagasSkill(s){
+  if(s.vagas) return ROLE_CFG[s.vagas]?vagasRole(s.vagas):s.vagas;
+  return vagasRole(s.from)||(s.alias&&s.alias.length?vagasRole(s.alias[0][0]):'');
+}
+function vagasUrl(d){ return JOBS_URL+(d.vagas?'&career='+encodeURIComponent(d.vagas):''); }
 function title(id){ return TRACKS[id]?TRACKS[id].t:'—'; }
 function tagSlug(tag){ return encodeURIComponent(tag.replace(/ /g,'-')); }
 
@@ -435,14 +544,15 @@ var DEFS={}, ORDER_ROLE=[], ORDER_SKILL=[];
 ROLE_IDS.forEach(function(id){
   var c=career(id); if(!c) return;
   DEFS[id]={id:id,kind:'role',name:c.name,hue:c.hue,ink:'#fff',career:id,pick:null,pre:[],skip:[],desc:c.tag,
-    tags:ROLE_CFG[id].temas||[],ori:ROLE_CFG[id].ori,blocks:id};
+    tags:ROLE_CFG[id].temas||[],ori:ROLE_CFG[id].ori,vagas:vagasRole(id)};
   ORDER_ROLE.push(id);
 });
 SKILLS.forEach(function(s){
-  var base=career(s.career||s.from); if(!base) return;
+  var own=!!s.steps, base=own?s:career(s.career||s.from); if(!base) return;
+  var cid=own?s.id:(s.career||s.from);
   DEFS[s.id]={id:s.id,kind:'skill',name:s.name,hue:s.cor||base.hue,ink:s.tinta||'#fff',acc:s.acento||'',hole:s.furo||'',
-    logo:s.logo||'',career:s.career||s.from,pick:s.pick||null,pre:s.pre||[],skip:s.skip||[],
-    tags:s.temas||[],parent:s.career?null:s.from,blocks:s.career||s.from,
+    logo:s.logo||'',career:cid,pick:s.pick||null,pre:s.pre||[],skip:s.skip||[],
+    tags:s.temas||[],parent:own||s.career?null:s.from,vagas:vagasSkill(s),
     desc:'Passo a passo para aprender '+s.name+' com os conteúdos da DIO.'};
   ORDER_SKILL.push(s.id);
 });
@@ -481,9 +591,9 @@ function buildMap(def){
     if(!st.s||st.s==='base') pushSpine(st.r,st.s==='base'&&!def.pre.length);
     else { seen[st.r]=1; sats.push({id:st.r,s:st.s,after:lastNodeRow}); }
   });
-  /* artigos do blog (data/artigos.js) cuja âncora está no caminho principal deste mapa */
+  /* artigos do blog (data/articles.js) cuja âncora está no caminho principal deste mapa */
   Object.keys(TRACKS).forEach(function(k){
-    var t=TRACKS[k]; if(t.k==='artigo'&&t.ancora&&t.ancora.length) sats.push({id:+k,s:'art',artAnc:t.ancora,after:lastNodeRow});
+    var t=TRACKS[k]; if(t.k==='artigo'&&t.ancora&&t.ancora.length&&def.skip.indexOf(+k)<0) sats.push({id:+k,s:'art',artAnc:t.ancora,after:lastNodeRow});
   });
   def.tags.forEach(function(tag){ if(MENT_BY_TAG[tag]) sats.push({tag:tag,after:lastNodeRow}); });
 
@@ -590,12 +700,143 @@ function packCard(it){
     +(it.descricao?'<p>'+esc(it.descricao)+'</p>':'')
     +(itens?'<div class="pk-its">'+itens+'</div>':'')+'</article>';
 }
+/* ---------- project ideas: filtros por nível e por tech (dropdowns marcáveis) ---------- */
+var IDEAS=window.PROJECT_IDEAS||[], IDEA_BY_ID={};
+IDEAS.forEach(function(it){ IDEA_BY_ID[it.id]=it; });
+var LEVELS=[['iniciante','Iniciante'],['intermediario','Intermediário'],['avancado','Avançado']], LEVEL={};
+LEVELS.forEach(function(l){ LEVEL[l[0]]=l[1]; });
+var TECH_COUNT={};
+IDEAS.forEach(function(it){ (it.techs||[]).forEach(function(t){ TECH_COUNT[t]=(TECH_COUNT[t]||0)+1; }); });
+var TECHS=Object.keys(TECH_COUNT).sort(function(a,b){ return a.localeCompare(b,'pt'); });
+var fl={nivel:{},tech:{}}, ideasBuilt=false, ideaOpen=null;
+var segIdeas=document.getElementById('segIdeas'), ideasGrid=document.getElementById('ideasGrid');
+function sel(group){ return Object.keys(fl[group]).filter(function(k){ return fl[group][k]; }); }
+function ideasQuery(){
+  var q=[], n=sel('nivel'), t=sel('tech');
+  if(n.length) q.push('nivel='+n.map(encodeURIComponent).join(','));
+  if(t.length) q.push('tech='+t.map(encodeURIComponent).join(','));
+  return q.join('&');
+}
+function ideasHash(id){ var q=ideasQuery(); return '#project-ideas'+(id?'/'+encodeURIComponent(id):'')+(q?'?'+q:''); }
+function readIdeasQuery(q){
+  fl={nivel:{},tech:{}};
+  (q||'').split('&').forEach(function(pair){
+    var kv=pair.split('='); if(kv.length<2||!fl[kv[0]]) return;
+    kv[1].split(',').forEach(function(v){ v=decodeURIComponent(v); if(v) fl[kv[0]][v]=true; });
+  });
+}
+function buildIdeasUI(){
+  if(ideasBuilt) return; ideasBuilt=true;
+  function opts(group,list){
+    return list.map(function(o){
+      return '<label class="dd-opt"><input type="checkbox" data-g="'+group+'" value="'+esc(o[0])+'">'
+        +(group==='nivel'?levelBars(o[0]):techIcon(o[0]))+esc(o[1])+'<span class="c">'+o[2]+'</span></label>';
+    }).join('');
+  }
+  var nCount={}; IDEAS.forEach(function(it){ nCount[it.nivel]=(nCount[it.nivel]||0)+1; });
+  segIdeas.querySelector('[data-dd="nivel"] .dd-pop').innerHTML=opts('nivel',LEVELS.map(function(l){ return [l[0],l[1],nCount[l[0]]||0]; }));
+  segIdeas.querySelector('[data-dd="tech"] .dd-pop').innerHTML=opts('tech',TECHS.map(function(t){ return [t,t,TECH_COUNT[t]]; }));
+  segIdeas.addEventListener('change',function(e){
+    var c=e.target; if(!c.matches('input[data-g]')) return;
+    fl[c.getAttribute('data-g')][c.value]=c.checked;
+    paintIdeas(); history.replaceState(null,'',ideasHash());
+  });
+  segIdeas.querySelector('.pi-clear').addEventListener('click',function(){
+    fl={nivel:{},tech:{}}; paintIdeas(); history.replaceState(null,'',ideasHash());
+  });
+  /* abre/fecha os dropdowns; clique fora e Esc fecham */
+  segIdeas.addEventListener('click',function(e){
+    var b=e.target.closest('.dd-btn'); if(b){ toggleDd(b.parentNode); return; }
+    var card=e.target.closest('.pi'); if(card) openIdea(card.getAttribute('data-id'));
+  });
+  document.addEventListener('click',function(e){ if(!e.target.closest('.dd')) closeDds(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeDds(true); });
+}
+function toggleDd(dd){
+  var pop=dd.querySelector('.dd-pop'), open=pop.hidden;
+  closeDds();
+  if(open){ pop.hidden=false; dd.querySelector('.dd-btn').setAttribute('aria-expanded','true'); }
+}
+function closeDds(refocus){
+  [].forEach.call(segIdeas.querySelectorAll('.dd'),function(dd){
+    var pop=dd.querySelector('.dd-pop');
+    if(!pop.hidden){ pop.hidden=true; var b=dd.querySelector('.dd-btn'); b.setAttribute('aria-expanded','false'); if(refocus) b.focus(); }
+  });
+}
+/* mini logo de uma tech (TECH_ICONES em paths/project-ideas.js; {skill:id} reaproveita o roadmap skill-based) */
+var SKILL_BY_ID={}; SKILLS.forEach(function(sk){ SKILL_BY_ID[sk.id]=sk; });
+function techIcon(t){
+  var c=(window.TECH_ICONES||{})[t];
+  if(c&&c.skill&&SKILL_BY_ID[c.skill]){ var sk=SKILL_BY_ID[c.skill], d=DEFS[sk.id]; c={cor:d.hue,tinta:d.ink,acento:d.acc,furo:d.hole,logo:d.logo}; }
+  if(!c||!c.logo) return '<span class="tg">'+esc(t)+'</span>';
+  return '<span class="ti" title="'+esc(t)+'" style="--hue:'+c.cor+';--tinta:'+(c.tinta||'#fff')+(c.acento?';--acc:'+c.acento:'')+(c.furo?';--k:'+c.furo:'')+'">'
+    +'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'+c.logo+'</svg><span class="sr">'+esc(t)+'</span></span>';
+}
+/* nível como barrinhas de sinal: 1 = iniciante, 2 = intermediário, 3 = avançado */
+function levelBars(nivel){
+  return '<span class="sig sig-'+nivel+'" role="img" aria-label="Nível: '+LEVEL[nivel]+'" title="'+LEVEL[nivel]+'"><i></i><i></i><i></i></span>';
+}
+function ideaCard(it){
+  var n=(it.itens||[]).filter(function(id){ return TRACKS[id]; }).length;
+  return '<button class="pi" type="button" data-id="'+esc(it.id)+'">'
+    +'<span class="pi-top">'+levelBars(it.nivel)
+    +'<span class="pi-tgs">'+(it.techs||[]).slice(0,4).map(techIcon).join('')
+    +((it.techs||[]).length>4?'<span class="tg">+'+(it.techs.length-4)+'</span>':'')+'</span></span>'
+    +'<h3>'+esc(it.titulo)+'</h3><p>'+esc(it.descricao)+'</p>'
+    +'<span class="pi-foot"><span><b>'+n+'</b> '+(n===1?'conteúdo DIO':'conteúdos DIO')+'</span><span>Ver projeto →</span></span></button>';
+}
+function paintIdeas(){
+  var n=sel('nivel'), t=sel('tech');
+  [].forEach.call(segIdeas.querySelectorAll('input[data-g]'),function(c){ c.checked=!!fl[c.getAttribute('data-g')][c.value]; });
+  segIdeas.querySelector('[data-dd="nivel"] .dd-n').textContent=n.length||'';
+  segIdeas.querySelector('[data-dd="tech"] .dd-n').textContent=t.length||'';
+  segIdeas.querySelector('.pi-clear').hidden=!(n.length||t.length);
+  var list=IDEAS.filter(function(it){
+    return (!n.length||n.indexOf(it.nivel)>=0)&&(!t.length||(it.techs||[]).some(function(x){ return t.indexOf(x)>=0; }));
+  });
+  segIdeas.querySelector('.pi-res').textContent=list.length+' de '+IDEAS.length+' ideias';
+  ideasGrid.innerHTML=list.length?list.map(ideaCard).join(''):'<p class="pi-empty">Nenhuma ideia com esses filtros. Tire um nível ou uma tech.</p>';
+}
+function openIdea(id){
+  var it=IDEA_BY_ID[id]; if(!it) return;
+  var itens=(it.itens||[]).filter(function(x){ return TRACKS[x]; }).map(function(x){
+    var tk=TRACKS[x], art=tipoDe(x)==='artigo';
+    return '<li><a href="'+esc(tk.u)+'"'+(art?'':' target="_blank" rel="noopener"')+'><b>'+esc(tk.t)+'</b><small>'+TYPE_LABEL[tipoDe(x)]+(art?' · blog':' · DIO')+'</small></a></li>';
+  }).join('');
+  pnBody.innerHTML='<div class="pn-chips"><span class="pi-lvl">'+levelBars(it.nivel)+LEVEL[it.nivel]+'</span>'
+    +(it.techs||[]).map(function(t){ return '<span class="pi-tech">'+techIcon(t)+esc(t)+'</span>'; }).join('')+'</div>'
+    +'<h2 id="pnTitle">'+esc(it.titulo)+'</h2><p class="pn-role">'+esc(it.descricao)+'</p>'
+    +'<div class="pn-sec"><h3>Requisitos</h3><ul class="pi-req">'+(it.requisitos||[]).map(function(r){ return '<li>'+esc(r)+'</li>'; }).join('')+'</ul></div>'
+    +(itens?'<div class="pn-sec"><h3>Conteúdos que ajudam</h3><ul class="pn-list">'+itens+'</ul></div>':'');
+  if(!pn.classList.contains('show')){
+    lastFocus=document.activeElement;
+    pnOv.hidden=false;
+    requestAnimationFrame(function(){ pnOv.classList.add('show'); pn.classList.add('show'); });
+    pn.setAttribute('aria-hidden','false');
+  }
+  openKey='idea:'+id; ideaOpen=id;
+  history.replaceState(null,'',ideasHash(id));
+  setTimeout(function(){ document.getElementById('pnX').focus(); },60);
+}
+function showIdeas(q,id){
+  readIdeasQuery(q); buildIdeasUI(); paintIdeas();
+  if(id) openIdea(id);
+}
 function showList(seg,anchor){
   closePanel(true);
   mapView.hidden=true; listView.hidden=false; current=null;
   [].forEach.call(document.querySelectorAll('.seg a'),function(a){
     if(a.getAttribute('data-seg')===seg) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
   });
+  var ideas=seg==='project-ideas'&&IDEAS.length>0;
+  segIdeas.hidden=!ideas;
+  if(ideas){
+    document.getElementById('segRoadmaps').hidden=true;
+    document.getElementById('segSoon').hidden=true;
+    document.getElementById('segItems').hidden=true;
+    window.scrollTo(0,0);
+    return;
+  }
   var soon=SOON[seg], items=soon?SEG_ITEMS[seg]:null;
   document.getElementById('segRoadmaps').hidden=!!soon;
   document.getElementById('segSoon').hidden=!soon||!!(items&&items.length);
@@ -625,7 +866,8 @@ function nodeBtn(n,extraCls){
   else if(n.type==='curso') chip='Curso';
   else if(n.type==='certificacao') chip='Certificação';
   var label=n.type==='mentorias'?'Mentorias de '+temaNome(n.tag):title(n.id);
-  var cls='nd'+(n.cls==='sat'||n.cls==='opt'?' nd-sat':' nd-main')+(n.cls==='opt'?' nd-opt':'')+(n.cls==='alt'?' nd-alt':'')+(extraCls||'');
+  var cls='nd'+(n.cls==='sat'||n.cls==='opt'?' nd-sat':' nd-main')+(n.cls==='opt'?' nd-opt':'')+(n.cls==='alt'?' nd-alt':'')
+    +(n.type==='artigo'?' nd-art':'')+(extraCls||'');
   byKey[n.key]=n;
   return '<button class="'+cls+'" type="button" data-key="'+n.key+'">'+typeIcon(n.type)+'<span class="sr">'+TYPE_LABEL[n.type]+': </span>'
     +(chip?'<span class="chip">'+chip+'</span>':'')+'<span class="t">'+esc(label)+'</span></button>';
@@ -639,16 +881,22 @@ function showMap(id,nodeKey){
     var head='<a class="mv-back" href="#roadmaps">← Todos os roadmaps</a><br>'
       +'<span class="mv-kind" style="'+hueVars(d)+'">'+(d.kind==='role'?'Role-based':'Skill-based')+'</span>'
       +'<h1>'+esc(d.name)+'</h1><p class="desc">'+esc(d.desc)+'</p><p class="mv-meta">'+countMap(d)+'</p>'
-      +'<div class="mv-actions"><a class="mv-btn" href="index.html#trilha='+d.blocks+'">Ver em blocos'+GO_SVG+'</a>'
+      +'<div class="mv-actions"><a class="mv-btn" href="'+esc(vagasUrl(d))+'" target="_blank" rel="noopener">Ver vagas'+EXT_SVG+'</a>'
       +(d.parent?'<a class="mv-btn ghost" href="#'+d.parent+'">Faz parte de '+esc(c.name)+GO_SVG+'</a>':'')+'</div>'
       +'<div class="legend" aria-label="Legenda">'
       +'<span><i class="lg-box main"></i>Formação obrigatória</span>'
       +'<span><i class="lg-box sat"></i>Projeto ou mentoria que reforça o passo</span>'
+      +'<span><i class="lg-box art"></i>Artigo do blog</span>'
       +'<span><i class="lg-box opt"></i>Opcional</span>'
       +'<span><i class="lg-check">✓</i>Escolha 1 entre as alternativas</span>'
       +'<span><i class="lg-line"></i>Caminho principal</span>'
       +'<span><i class="lg-line dot"></i>Complementos</span>'
-      +['formacao','certificacao','projeto','curso','mentoria','artigo'].map(function(t){ return '<span>'+typeIcon(t,'lg-tp')+TYPE_LABEL[t]+'</span>'; }).join('')+'</div>';
+      +'<div class="lg-types"><b>Mostrar</b>'+['formacao','certificacao','projeto','curso','mentoria','artigo'].map(function(t){
+        var lock=t==='formacao';
+        return '<label class="lg-ck'+(lock?' lock':'')+'" title="'+(lock?'As formações sempre aparecem':'Mostrar ou ocultar este tipo')+'">'
+          +'<input type="checkbox" data-tp="'+t+'"'+(lock||!hideTypes[t]?' checked':'')+(lock?' disabled':'')+'>'
+          +typeIcon(t,'lg-tp')+TYPE_LABEL[t]+'</label>';
+      }).join('')+'</div></div>';
     var body='<svg class="map-lines" id="mapLines" aria-hidden="true"></svg>';
     rowsData.forEach(function(r){
       if(r.kind==='fork'){
@@ -659,9 +907,9 @@ function showMap(id,nodeKey){
               +(a.skill?'<a class="alt-link" href="#'+a.skill+'">Ver roadmap de '+esc(DEFS[a.skill].name)+' →</a>':'')+'</div>';
           }).join('')+'</div></div></div>';
       }else{
-        body+='<div class="row"><div class="col l">'+r.left.map(function(n){ return nodeBtn(n); }).join('')+'</div>'
+        body+='<div class="row"><div class="col l">'+sideHtml(r.left)+'</div>'
           +'<div class="col c">'+nodeBtn(r.node)+'</div>'
-          +'<div class="col r">'+r.right.map(function(n){ return nodeBtn(n); }).join('')+'</div></div>';
+          +'<div class="col r">'+sideHtml(r.right)+'</div></div>';
       }
     });
     document.getElementById('mapHead').innerHTML=head;
@@ -669,32 +917,69 @@ function showMap(id,nodeKey){
     document.getElementById('mapHead').style.setProperty('--hue',d.hue);
     listView.hidden=true; mapView.hidden=false;
     window.scrollTo(0,0);
+    applyTypes(true);
     requestAnimationFrame(function(){ requestAnimationFrame(drawLines); });
   }
   if(nodeKey&&byKey[nodeKey]) openPanel(nodeKey,false); else closePanel(true);
+}
+
+/* tipos de conteúdo que a pessoa escolheu ocultar (lembrado no navegador; formação nunca some) */
+var TYPES_KEY='dio-roadmap-ocultos', hideTypes={};
+try{ hideTypes=JSON.parse(localStorage.getItem(TYPES_KEY))||{}; }catch(e){ hideTypes={}; }
+delete hideTypes.formacao;
+function applyTypes(skipLines){
+  [].forEach.call(mapEl.querySelectorAll('.nd'),function(b){
+    var n=byKey[b.getAttribute('data-key')]; if(!n) return;
+    var t=n.type==='mentorias'?'mentoria':n.type;
+    b.hidden=t!=='formacao'&&!!hideTypes[t];
+  });
+  /* passo do caminho principal oculto: a linha inteira sai (e a espinha liga o anterior ao seguinte) */
+  [].forEach.call(mapEl.querySelectorAll('.alt'),function(a){ a.hidden=!a.querySelector('.nd:not([hidden])'); });
+  [].forEach.call(mapEl.querySelectorAll('.sat-group'),function(g){ g.hidden=!g.querySelector('.nd:not([hidden])'); });
+  [].forEach.call(mapEl.querySelectorAll('.row'),function(r){
+    if(r.classList.contains('fork')) r.hidden=!r.querySelector('.alt:not([hidden])');
+    else { var m=r.querySelector('.col.c .nd'); r.hidden=!!(m&&m.hidden); }
+  });
+  if(!skipLines) drawLines();
+}
+document.getElementById('mapHead').addEventListener('change',function(e){
+  var c=e.target; if(!c.matches('input[data-tp]')||c.disabled) return;
+  hideTypes[c.getAttribute('data-tp')]=!c.checked;
+  try{ localStorage.setItem(TYPES_KEY,JSON.stringify(hideTypes)); }catch(err){}
+  applyTypes();
+});
+
+/* a partir de GROUP_MIN caixas num lado do passo, elas ficam num quadro "Complementar" */
+var GROUP_MIN=3;
+function sideHtml(list){
+  var boxes=list.map(function(n){ return nodeBtn(n); }).join('');
+  return list.length>=GROUP_MIN?'<div class="sat-group"><span class="sat-group-h">Complementar</span>'+boxes+'</div>':boxes;
 }
 
 /* linhas: contínuas na espinha, pontilhadas até os satélites (recalculadas a cada mudança de tamanho) */
 var narrowMQ=window.matchMedia('(max-width:760px)');
 function drawLines(){
   var svg=document.getElementById('mapLines'); if(!svg||mapView.hidden) return;
-  var box=mapEl.getBoundingClientRect(), narrow=narrowMQ.matches, d1='', d2='', prev=null;
+  var box=mapEl.getBoundingClientRect(), narrow=narrowMQ.matches, d1='', d2='', prev=null, start=null;
   function R(el){ var b=el.getBoundingClientRect(); return {l:b.left-box.left,t:b.top-box.top,r:b.right-box.left,b:b.bottom-box.top,cx:(b.left+b.right)/2-box.left,cy:(b.top+b.bottom)/2-box.top}; }
   function f(n){ return Math.round(n*10)/10; }
-  [].forEach.call(mapEl.querySelectorAll('.row'),function(row){
+  [].forEach.call(mapEl.querySelectorAll('.row:not([hidden])'),function(row){
     var isFork=row.classList.contains('fork');
     var main=R(isFork?row.querySelector('.fork-box'):row.querySelector('.col.c .nd'));
     var x=narrow?main.l+18:main.cx;
     if(prev) d1+='M'+f(prev.x)+' '+f(prev.y)+'L'+f(x)+' '+f(main.t);
+    else start={x:x,y:main.t};
     prev={x:x,y:main.b};
     if(isFork){
-      [].forEach.call(row.querySelectorAll('.alt'),function(alt){
-        var ns=alt.querySelectorAll('.nd');
+      [].forEach.call(row.querySelectorAll('.alt:not([hidden])'),function(alt){
+        var ns=alt.querySelectorAll('.nd:not([hidden])');
         for(var i=1;i<ns.length;i++){ var a=R(ns[i-1]), b=R(ns[i]); d1+='M'+f(a.cx)+' '+f(a.b)+'L'+f(b.cx)+' '+f(b.t); }
       });
       return;
     }
-    [].forEach.call(row.querySelectorAll('.nd-sat'),function(s){
+    var targets=[].slice.call(row.querySelectorAll('.sat-group:not([hidden])'))
+      .concat([].slice.call(row.querySelectorAll('.nd-sat:not([hidden])')).filter(function(s){ return !s.closest('.sat-group'); }));
+    targets.forEach(function(s){
       var S=R(s);
       if(narrow){ d2+='M'+f(x)+' '+f(S.cy)+'L'+f(S.l)+' '+f(S.cy); return; }
       var left=S.cx<main.cx, x1=left?main.l:main.r, x2=left?S.r:S.l, mx=(x1+x2)/2;
@@ -706,7 +991,15 @@ function drawLines(){
   svg.setAttribute('width',0); svg.setAttribute('height',0);
   var w=mapEl.clientWidth, h=mapEl.scrollHeight;
   svg.setAttribute('width',w); svg.setAttribute('height',h); svg.setAttribute('viewBox','0 0 '+w+' '+h);
-  svg.innerHTML='<path class="ln-sub" d="'+d2+'"/><path class="ln-main" d="'+d1+'"/>';
+  var trail='';
+  if(start){ /* rastro de entrada: some aos poucos para cima, como quem vem de longe */
+    var y0=f(Math.max(4,start.y-(narrow?68:78))), y1=f(start.y-3);
+    trail='<defs><linearGradient id="lnStartFade" gradientUnits="userSpaceOnUse" x1="0" y1="'+y0+'" x2="0" y2="'+y1+'">'
+      +'<stop offset="0" style="stop-color:var(--rm-line);stop-opacity:0"/><stop offset=".55" style="stop-color:var(--rm-line);stop-opacity:.85"/>'
+      +'<stop offset="1" style="stop-color:var(--rm-line);stop-opacity:1"/></linearGradient></defs>'
+      +'<path class="ln-start" stroke="url(#lnStartFade)" d="M'+f(start.x)+' '+y0+'L'+f(start.x)+' '+y1+'"/>';
+  }
+  svg.innerHTML=trail+'<path class="ln-sub" d="'+d2+'"/><path class="ln-main" d="'+d1+'"/>';
 }
 if('ResizeObserver' in window) new ResizeObserver(function(){ drawLines(); }).observe(mapEl);
 window.addEventListener('resize',drawLines);
@@ -761,7 +1054,7 @@ function openPanel(key,updateHash){
       return '<li><a href="https://web.dio.me/lives/'+encodeURIComponent(m.s)+'" target="_blank" rel="noopener"><b>'+esc(m.t)+'</b><small>'
         +(m.d>TODAY?'<span class="fut">Em breve · </span>':'')+fmtDate(m.d)+'</small></a></li>';
     }).join('')+'</ul></div>';
-    h+='<div class="pn-acts"><a class="pn-go" href="mentorias.html#t='+tagSlug(n.tag)+'">Ver todas as '+list.length+' na aba Mentorias'+GO_SVG+'</a></div>';
+    h+='<div class="pn-acts"><a class="pn-go" href="mentorships.html#t='+tagSlug(n.tag)+'">Ver todas as '+list.length+' na aba Mentorias'+GO_SVG+'</a></div>';
   }else{
     var tk=TRACKS[n.id], isArt=n.type==='artigo';
     h+='<h2 id="pnTitle">'+esc(title(n.id))+'</h2><p class="pn-role">'+esc(roleText(n))+'</p>';
@@ -797,8 +1090,10 @@ function closePanel(silent){
   setTimeout(function(){ if(!pn.classList.contains('show')) pnOv.hidden=true; },300);
   [].forEach.call(mapEl.querySelectorAll('.nd.is-active'),function(b){ b.classList.remove('is-active'); });
   openKey=null;
+  var wasIdea=ideaOpen; ideaOpen=null;
   if(silent!==true){
-    if(current) history.replaceState(null,'','#'+current);
+    if(wasIdea) history.replaceState(null,'',ideasHash());
+    else if(current) history.replaceState(null,'','#'+current);
     if(lastFocus&&lastFocus.focus) lastFocus.focus();
   }
 }
@@ -825,7 +1120,10 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&pn.classLi
 
 /* ---------- rotas por hash ---------- */
 function route(){
-  var h=decodeURIComponent(location.hash.replace(/^#/,'')), parts=h.split('/'), key=parts[0];
+  var raw=location.hash.replace(/^#/,''), q='', qi=raw.indexOf('?');
+  if(qi>=0){ q=raw.slice(qi+1); raw=raw.slice(0,qi); }
+  var h=decodeURIComponent(raw), parts=h.split('/'), key=parts[0];
+  if(key==='project-ideas'&&IDEAS.length){ showList(key); showIdeas(q,parts[1]); return; }
   if(SOON[key]) return showList(key);
   if(DEFS[key]) return showMap(key,parts[1]);
   showList('roadmaps',key==='role-based'||key==='skill-based'?key:null);

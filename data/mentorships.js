@@ -6,7 +6,7 @@
      i   capa  -> https://hermes.dio.me/lives/<i>
      g   temas (chaves de TEMAS_MENTORIA)
      id  (opcional) número no catálogo, só para as sessões usadas como passo
-         de uma trilha em paths/guias.js
+         de uma trilha em paths/guides.js
    ===================================================================== */
 
 /* temas: nome exibido e, para os mapas da aba Roadmaps, as formações onde a caixa

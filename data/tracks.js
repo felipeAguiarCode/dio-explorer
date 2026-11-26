@@ -6,7 +6,7 @@
           o "Meu plano" das pessoas guarda esses números.
      t    título   |   u  link na DIO
      ori  (opcional) origami do conteúdo: [nome, desenho]. O desenho usa a mini-linguagem
-          explicada em js/catalogo.js (planos de papel a/b/c/d, olhos k, vincos l…).
+          explicada em js/catalog.js (planos de papel a/b/c/d, olhos k, vincos l…).
    ===================================================================== */
 var FORMACOES={
   1:{t:"AI Builder com Lovable",u:"https://web.dio.me/track/ai-builder-com-lovable",

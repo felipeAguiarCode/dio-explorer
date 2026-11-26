@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#000000">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-dio-32.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-dio-32.png">
 <title>DIO | Mapa do AI Builder</title>
 <!-- menu hambúrguer do celular (no head para não piscar as abas) -->
-<script src="js/menu.js"></script>
+<script src="../js/menu.js"></script>
 
 <style>
   :root{
@@ -225,13 +225,13 @@
 
 <header class="topbar" id="topbar">
   <div class="topbar-in">
-    <a class="brand" href="index.html" aria-label="Roadmap DIO">
-      <img class="brand-logo" src="assets/dio-logo.webp" width="28" height="28" alt="">
+    <a class="brand" href="../index.html" aria-label="Roadmap DIO">
+      <img class="brand-logo" src="../assets/dio-logo.webp" width="28" height="28" alt="">
     </a>
     <nav class="tabs" aria-label="Páginas do guia">
-      <a class="tab" href="index.html">Guias</a>
+      <a class="tab" href="../index.html">Guias</a>
       <a class="tab" href="roadmap.html">Roadmaps</a>
-      <a class="tab" href="mentorias.html" aria-current="page">Mentorias</a>
+      <a class="tab" href="mentorships.html" aria-current="page">Mentorias</a>
       <a class="tab" href="blog.html">Blog</a>
     </nav>
     <div class="spacer"></div>
@@ -240,7 +240,7 @@
 </header>
 
 <section class="m-hero">
-  <video class="hero-video" src="assets/videos/splash.webm" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
+  <video class="hero-video" src="../assets/videos/splash.webm" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
   <div class="hero-veil" aria-hidden="true"></div>
   <script>if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches){var hv=document.querySelector('.hero-video');hv.removeAttribute('autoplay');hv.pause();}</script>
   <div class="wrap">
@@ -285,8 +285,8 @@
   </footer>
 </main>
 
-<!-- sessões e temas vêm de data/mentorias.js -->
-<script src="data/mentorias.js"></script>
+<!-- sessões e temas vêm de data/mentorships.js -->
+<script src="../data/mentorships.js"></script>
 <script>
 (function(){
   var DATA=(window.MENTORIAS||[]).map(function(m){
@@ -296,7 +296,7 @@
   });
   var ALL='todos';
 
-  /* rótulos legíveis dos tópicos: nomes em TEMAS_MENTORIA (data/mentorias.js) */
+  /* rótulos legíveis dos tópicos: nomes em TEMAS_MENTORIA (data/mentorships.js) */
   var TEMAS=window.TEMAS_MENTORIA||{};
   function label(k){ if(k===ALL) return 'Todas'; return (TEMAS[k]&&TEMAS[k].nome)||k.charAt(0).toUpperCase()+k.slice(1); }
 

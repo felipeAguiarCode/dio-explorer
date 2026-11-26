@@ -697,7 +697,7 @@
   .quiz-overlay{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.55);
     -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;transition:opacity .3s ease}
   .quiz-overlay.show{opacity:1}
-  .quiz-modal{--q-gold:#F2CF7A;--q-ink:#FBF4E4;--q-serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  .quiz-modal{--q-gold:#F2CF7A;--q-ink:#FBF4E4;--q-serif:var(--sans); /* mesma fonte do resto do site */
     position:fixed;top:3vh;left:50%;transform:translateX(-50%) translateY(-10px) scale(.98);
     width:min(1040px,96vw);height:94vh;max-height:94vh;z-index:85;display:flex;flex-direction:column;
     background:
@@ -832,7 +832,7 @@
   @media (prefers-reduced-motion:reduce){.quiz-crest svg{animation:none !important;transform:none !important}}
 
   .quiz-intro,.quiz-result,.quiz-profiles{display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center}
-  .quiz-intro-title{font-family:var(--q-serif);font-size:clamp(1.5rem,3.6vw,2.1rem);font-weight:600;color:var(--q-ink);margin:4px 0 0;
+  .quiz-intro-title{font-family:var(--q-serif);font-size:clamp(1.5rem,3.6vw,2.1rem);font-weight:700;letter-spacing:-.025em;color:var(--q-ink);margin:4px 0 0;
     animation:qInk .8s cubic-bezier(.2,.8,.2,1) both}
   .quiz-intro-sub{color:var(--ink-soft);font-size:.98rem;max-width:44ch;margin:-4px 0 4px}
   /* galeria dos brasões na abertura: cada um pendurado e balançando no seu tempo */
@@ -1583,9 +1583,9 @@
     </div>
     <nav class="tabs" aria-label="Páginas do guia">
       <a class="tab" href="index.html" aria-current="page">Guias</a>
-      <a class="tab" href="roadmap.html">Roadmaps</a>
-      <a class="tab" href="mentorias.html">Mentorias</a>
-      <a class="tab" href="blog.html">Blog</a>
+      <a class="tab" href="pages/roadmap.html">Roadmaps</a>
+      <a class="tab" href="pages/mentorships.html">Mentorias</a>
+      <a class="tab" href="pages/blog.html">Blog</a>
     </nav>
     <button class="tbtn searchbar-btn" id="searchBtn" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -1747,16 +1747,16 @@
 <div class="toast-wrap" id="toastWrap" aria-live="polite" aria-atomic="false"></div>
 
 <!-- conteúdos (data/), catálogo único (js/) e configuração das trilhas (paths/) -->
-<script src="data/formacoes.js"></script>
-<script src="data/certificacoes.js"></script>
-<script src="data/projetos.js"></script>
-<script src="data/cursos.js"></script>
-<script src="data/artigos.js"></script>
-<script src="data/mentorias.js"></script>
-<script src="js/catalogo.js"></script>
-<script src="paths/guias.js"></script>
+<script src="data/tracks.js"></script>
+<script src="data/certifications.js"></script>
+<script src="data/projects.js"></script>
+<script src="data/courses.js"></script>
+<script src="data/articles.js"></script>
+<script src="data/mentorships.js"></script>
+<script src="js/catalog.js"></script>
+<script src="paths/guides.js"></script>
 <script>
-/* TRACKS, ORI e oriSvg vêm de js/catalogo.js; IC e CAREERS de paths/guias.js */
+/* TRACKS, ORI e oriSvg vêm de js/catalog.js; IC e CAREERS de paths/guides.js */
 
 var EXT='<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
 var FLAG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 5h10l-2 3 2 3H6"/></svg>';
@@ -1838,7 +1838,7 @@ cardsEl.addEventListener('pointermove',function(e){
 /* cada trilha abre o mapa mental correspondente na aba Roadmap; Especializações
    virou um conjunto de mapas skill-based, então leva para essa seção da lista */
 function mapLink(id){
-  var href='roadmap.html#'+(id==='emergentes'?'skill-based':id);
+  var href='pages/roadmap.html#'+(id==='emergentes'?'skill-based':id);
   return '<a class="map-link" href="'+href+'">Ver como mapa'+GO+'</a>';
 }
 var trailsEl=document.getElementById('trails');
@@ -2773,10 +2773,9 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
     }).join('');
     qBody.innerHTML='<div class="quiz-intro">'
       +'<h3 class="quiz-intro-title">Que tipo de builder é você?</h3>'
-      +'<p class="quiz-intro-sub">Uma origem e doze perguntas, nenhuma resposta errada. Escolha com o coração e deixe o brasão certo te encontrar.</p>'
+      +'<button class="quiz-btn q-gold" id="quizStart" type="button">Realizar teste agora ✦</button>'
       +'<div class="qdeck" id="qDeck">'+crestRow+'</div>'
-      +'<div class="qdeck-dots" id="qDeckDots">'+deckKeys.map(function(){ return '<i></i>'; }).join('')+'</div>'
-      +'<button class="quiz-btn q-gold" id="quizStart" type="button">Começar a seleção ✦</button></div>';
+      +'<div class="qdeck-dots" id="qDeckDots">'+deckKeys.map(function(){ return '<i></i>'; }).join('')+'</div></div>';
     /* baralho: o próximo card entra por cima do atual, sozinho, em loop */
     (function(){
       var deck=document.getElementById('qDeck'), cards=deck.children, dots=document.getElementById('qDeckDots').children, n=cards.length, cur=0;
@@ -3048,10 +3047,10 @@ if(heroPlanBtn) heroPlanBtn.addEventListener('click',function(){
   var MEDIA_IC={filme:'🎬',jogo:'🎮',série:'📺'};
   function careerById(id){ for(var i=0;i<CAREERS.length;i++){ if(CAREERS[i].id===id) return CAREERS[i]; } return null; }
   function initials(n){ var p=n.replace(/[^A-Za-zÀ-ÿ0-9 ]/g,'').split(' ').filter(Boolean); return (p.length>1?p[0][0]+p[p.length-1][0]:p[0].slice(0,2)).toUpperCase(); }
-  /* fotos dos personagens de referência: assets/personagens/<slug>.<ext> (sem foto → iniciais) */
+  /* fotos dos personagens de referência: assets/characters/<slug>.<ext> (sem foto → iniciais) */
   var CHAR_IMG={'batman':'jpg','cid':'png','commander-shepard':'png','doc-brown':'jpg','dom-cobb':'jpg','dr-alfred-lanning':'jpg','edna-moda':'png','galen-erso':'png','hermione-granger':'jpg','isaac-clarke':'png','james-halliday':'png','l':'png','max-caulfield':'png','mestre-dos-magos':'jpg','nick-fury':'jpg','o-professor':'jpg','otacon':'png','peter-brand':'jpg','phoenix-wright':'png','michael-scofield':'jpg','elliot-alderson':'jpg','remy':'jpg','richard-hendricks':'jpg','rick-sanchez':'png','scotty':'jpg','sherlock-holmes':'jpg','shuri':'jpg','spock':'jpg','steve':'png','bruce-banner':'jpg','ted-mosby':'jpg','tony-stark':'jpg','tyrion-lannister':'jpg','willy-wonka':'jpg'};
   function charSlug(n){ return n.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
-  function charPhoto(n){ var s=charSlug(n), e=CHAR_IMG[s]; return e?'<img src="assets/personagens/'+s+'.'+e+'" alt="" loading="lazy" onerror="this.remove()">':''; }
+  function charPhoto(n){ var s=charSlug(n), e=CHAR_IMG[s]; return e?'<img src="assets/characters/'+s+'.'+e+'" alt="" loading="lazy" onerror="this.remove()">':''; }
 
   /* mistura de afinidades: % de respostas por tipo (top 3) */
   function mixRows(){
