@@ -6,6 +6,8 @@
 <meta name="theme-color" content="#000000">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-dio-32.png">
 <title>DIO | Mapa do AI Builder</title>
+<!-- menu hambúrguer do celular (no head para não piscar as abas) -->
+<script src="js/menu.js"></script>
 
 <style>
   :root{
@@ -1562,6 +1564,14 @@
   .card:active{transform:translateY(-3px) scale(.99)}
   @media (prefers-reduced-motion:reduce){.card,.card .ic{transition:none}.card:hover,.card:focus-visible{transform:none}.card:hover .ic{transform:none}.card:hover::after{animation:none;opacity:0}}
 
+
+  /* ============ celular: hero centralizado, com o robô acima do título ============ */
+  @media (max-width:640px){
+    .hero-in{display:flex;flex-direction:column;align-items:center;text-align:center}
+    .hero-in>.hero-character{position:relative;right:auto;top:auto;order:-1;width:118px;max-width:38%;margin:0 0 8px}
+    .hero h1,.hero .lede{margin-left:auto;margin-right:auto}
+    .hero-cta-row{justify-content:center;width:100%}
+  }
 </style>
 </head>
 <body>
