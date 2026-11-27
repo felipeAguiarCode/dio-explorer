@@ -164,6 +164,10 @@
   .ev-svg .pa-flip{transform-box:fill-box;transform-origin:center;animation:paFlip 2.8s ease-in-out infinite}
   .ev-svg .pa-pop{transform-box:fill-box;transform-origin:center;opacity:0;animation:paPop 4.8s ease-out infinite}
   .ev-svg .pa-blink{transform-box:fill-box;transform-origin:center;animation:paBlink 4s ease-in-out infinite}
+  /* só nas capas animadas (js/pack-covers.js): traço correndo pela órbita, linha de varredura e lupa indo e vindo */
+  .ev-svg .pa-orbit{animation:paOrbit 3s linear infinite}
+  .ev-svg .pa-scan{animation:paScan 2.8s ease-in-out infinite alternate}
+  .ev-svg .pa-pan{animation:paPan 3.2s ease-in-out infinite alternate}
   @keyframes paSpin{to{transform:rotate(360deg)}}
   @keyframes paPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
   @keyframes paPing{0%{transform:scale(1);opacity:.75}100%{transform:scale(2.5);opacity:0}}
@@ -177,7 +181,11 @@
   @keyframes paFlip{0%,60%,100%{transform:scaleX(1)}80%{transform:scaleX(.08)}}
   @keyframes paPop{0%{opacity:0;transform:translateY(8px) scale(.92)}12%,82%{opacity:1;transform:none}96%,100%{opacity:0;transform:none}}
   @keyframes paBlink{0%,88%,100%{transform:scaleY(1)}93%{transform:scaleY(.12)}}
-  @media (prefers-reduced-motion:reduce){ .ev-svg *{animation:none !important} .ev-card{transition:none} }
+  @keyframes paOrbit{to{stroke-dashoffset:-100}}
+  @keyframes paScan{from{transform:translateY(0)}to{transform:translateY(110px)}}
+  @keyframes paPan{from{transform:translateX(0)}to{transform:translateX(64px)}}
+  /* sem animação, o que entra com pa-pop (começa invisível) fica à vista */
+  @media (prefers-reduced-motion:reduce){ .ev-svg *{animation:none !important} .ev-svg .pa-pop{opacity:1} .ev-card{transition:none} }
   @media (max-width:980px){ .ev-shelf{grid-template-columns:repeat(2,minmax(0,1fr))} }
   .lp-ic{flex:none;width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:var(--hue);color:var(--tinta,#fff)}
   .lp-ic svg{width:26px;height:26px}
@@ -208,6 +216,10 @@
   .lpv-cv img+.lpv-ph{display:none}
   /* capas de curso da DIO são mais largas (1200×564): caixa na proporção delas, sem cortar o texto da arte */
   .lpv-cv.cv-curso{aspect-ratio:1200/564}
+  /* conteúdo sem capa: capa animada sobre IA (js/pack-covers.js) */
+  .lpv-cv.cv-art{background:#0c0c11;border-color:transparent}
+  .lpv-cv .ev-svg{transition:transform .4s ease}
+  .lpv-row:hover .lpv-cv .ev-svg{transform:scale(1.04)}
   .lpv-n{position:absolute;left:6px;top:6px;z-index:1;font:700 .7rem/1 var(--mono);color:#fff;background:rgba(17,17,17,.8);
     border-radius:5px;padding:4px 6px}
   .lpv-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
@@ -601,6 +613,7 @@
 <script src="../paths/roadmaps-role.js"></script>
 <script src="../paths/roadmaps-skill.js"></script>
 <script src="../paths/lesson-packs.js"></script>
+<script src="../js/pack-covers.js"></script>
 <script src="../paths/project-ideas.js"></script>
 <script src="../js/plan.js"></script>
 <script>
@@ -1055,6 +1068,30 @@ var PACK_ART={
       +'<path class="pa-tw" d="M318 66l3 6 6 3-6 3-3 6-3-6-6-3 6-3z" fill="#fff"/><path class="pa-tw" style="animation-delay:-1.3s" d="M290 124l2.4 4.8 4.8 2.4-4.8 2.4-2.4 4.8-2.4-4.8-4.8-2.4 4.8-2.4z" fill="#fff"/>'
       +chip(306,18,72,'DP-700');
   },
+  /* IA: rede neural com sinais passando de camada em camada até o núcleo "IA", que pulsa */
+  ia:function(c,k){
+    var ins=[[118,52],[118,92],[118,132]], hid=[[200,34],[200,72],[200,112],[200,150]], o=[288,92];
+    var lines='', nodes='';
+    ins.forEach(function(a,i){ hid.forEach(function(b,j){
+      var on=(i+j)%3===0;
+      lines+='<line'+(on?' class="pa-flow"':'')+' x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'" stroke="'+(on?c:'#fff')+'"'
+        +' stroke-opacity="'+(on?.9:.16)+'" stroke-width="'+(on?2.2:1.4)+'" stroke-linecap="round"/>';
+    }); });
+    hid.forEach(function(b,j){
+      lines+='<line class="pa-flow" x1="'+b[0]+'" y1="'+b[1]+'" x2="'+o[0]+'" y2="'+o[1]+'" stroke="'+c+'" stroke-width="2.4" stroke-linecap="round"/>';
+      nodes+='<circle class="pa-pulse" style="animation-delay:-'+(j*.5).toFixed(1)+'s" cx="'+b[0]+'" cy="'+b[1]+'" r="10" fill="'+c+'" stroke="#fff" stroke-opacity=".6" stroke-width="1.6"/>';
+    });
+    ins.forEach(function(a,i){ nodes+='<circle class="pa-dot" style="animation-delay:'+(i*.3).toFixed(1)+'s" cx="'+a[0]+'" cy="'+a[1]+'" r="8" fill="#fff"/>'; });
+    return artBg(c,k)
+      +lines+nodes
+      +'<circle class="pa-spin pa-slow" cx="'+o[0]+'" cy="'+o[1]+'" r="34" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.5" stroke-dasharray="3 7"/>'
+      +'<circle class="pa-ping" cx="'+o[0]+'" cy="'+o[1]+'" r="24" fill="none" stroke="'+c+'" stroke-width="2"/>'
+      +'<circle class="pa-pulse" cx="'+o[0]+'" cy="'+o[1]+'" r="24" fill="'+c+'"/>'
+      +'<text x="'+o[0]+'" y="'+(o[1]+5.5)+'" text-anchor="middle" font-family="ui-sans-serif,system-ui,Arial" font-size="16" font-weight="800" fill="#fff">IA</text>'
+      +'<path class="pa-tw" d="M352 56l3 6 6 3-6 3-3 6-3-6-6-3 6-3z" fill="#fff"/>'
+      +'<path class="pa-tw" style="animation-delay:-1.3s" d="M56 98l2.4 4.8 4.8 2.4-4.8 2.4-2.4 4.8-2.4-4.8-4.8-2.4 4.8-2.4z" fill="#fff"/>'
+      +chip(20,18,72,'prompt')+chip(318,140,58,'LLM ✓','pa-late');
+  },
   /* padrão: aulas empilhadas flutuando, com brilhos */
   blocos:function(c,k){
     var star=function(x,y,d){ return '<path class="pa-tw" style="animation-delay:'+d+'s" d="M'+x+' '+(y-9)+'l3 6 6 3-6 3-3 6-3-6-6-3 6-3z" fill="#fff"/>'; };
@@ -1088,19 +1125,23 @@ function packCard(p,i){
     +(p.descricao?'<span>'+esc(p.descricao)+'</span>':'')+'</span></a>'
     +packLockup(p)+'</article>';
 }
-function packCover(id,t,i){
-  var tk=CATALOG[id];
-  var ph=ORI[id]?'<span class="lpv-ph ori">'+oriSvg(id)+'</span>':'<span class="lpv-ph">'+(GLYPH[t]||GLYPH.curso)+'</span>';
-  return '<span class="lpv-cv'+(t==='curso'?' cv-curso':'')+'" aria-hidden="true">'+(tk.img?'<img src="'+esc(tk.img)+'" alt="" loading="lazy" decoding="async">':'')+ph
+/* capa do item: a imagem do conteúdo ou, sem ela, uma das 20 capas animadas sobre IA (js/pack-covers.js),
+   na cor c do pack; used guarda as capas animadas que o pack já usou, para não repetir na lista */
+function packCover(id,t,i,c,used){
+  var tk=CATALOG[id], anim=!tk.img&&typeof packCoverArt==='function';
+  var ph=anim?packCoverArt(id,c,used)
+    :ORI[id]?'<span class="lpv-ph ori">'+oriSvg(id)+'</span>':'<span class="lpv-ph">'+(GLYPH[t]||GLYPH.curso)+'</span>';
+  return '<span class="lpv-cv'+(t==='curso'?' cv-curso':'')+(anim?' cv-art':'')+'" data-id="'+id+'" aria-hidden="true">'
+    +(tk.img?'<img src="'+esc(tk.img)+'" alt="" loading="lazy" decoding="async">':'')+ph
     +'<span class="lpv-n">'+(i<9?'0':'')+(i+1)+'</span></span>';
 }
 /* duração em minutos -> "45 min", "2 h", "1 h 30 min" */
 function fmtDur(m){ var h=Math.floor(m/60), r=m%60; return h?h+' h'+(r?' '+r+' min':''):r+' min'; }
-function packRow(x,i){
+function packRow(x,i,c,used){
   var tk=CATALOG[x.id], t=tipoDe(x.id), art=t==='artigo';
   var when=t==='mentoria'?mentWhen(tk.d,true):(art?'No blog':(t==='curso'&&tk.min?'Duração: '+fmtDur(tk.min):'Na DIO'));
   return '<li><a class="lpv-row" href="'+esc(tk.u)+'"'+(art?'':' target="_blank" rel="noopener"')+'>'
-    +packCover(x.id,t,i)
+    +packCover(x.id,t,i,c,used)
     +'<span class="lpv-txt"><span class="lpv-meta"><span class="lpv-tag">'+TYPE_LABEL[t]+'</span>'+when+'</span>'
     +'<b>'+esc(tk.t)+'</b>'+(x.nota?'<span class="lpv-note">'+esc(x.nota)+'</span>':'')+'</span>'
     +'<span class="lpv-go">'+(art?GO_SVG:EXT_SVG)+'</span></a></li>';
@@ -1121,7 +1162,8 @@ function showPack(id){
   var p=PACK_BY_ID[id]; if(!p) return showList('lesson-packs');
   closePanel(true);
   listView.hidden=true; mapView.hidden=true; packView.hidden=false; current=null;
-  var its=packItems(p), d=p.roadmap&&DEFS[p.roadmap], first=its.length?CATALOG[its[0].id]:null;
+  var its=packItems(p), d=p.roadmap&&DEFS[p.roadmap], first=its.length?CATALOG[its[0].id]:null, used={};
+  packCv={c:p.cor||'#BF5AF2',used:used};
   packBody.innerHTML='<a class="mv-back" href="#lesson-packs">← Todos os lesson packs</a>'
     +'<div class="lpv-eyebrow"><span class="mv-kind" style="--hue:'+esc(p.cor||'#BF5AF2')+'">Lesson pack</span>Criado pelo time DIO</div>'
     +'<h1>'+esc(p.titulo)+'</h1>'+(p.descricao?'<p class="desc">'+esc(p.descricao)+'</p>':'')
@@ -1132,7 +1174,7 @@ function showPack(id){
     +'<button type="button" data-pack-plan="'+esc(p.id)+'"></button></div>'
     +'<div class="lpv-grid"><section class="lpv-main" aria-labelledby="lpvIn">'
     +'<h2 id="lpvIn">Trilha de conteúdo <small>'+its.length+(its.length===1?' item':' itens')+'</small></h2>'
-    +'<ol class="lpv-list" style="--hue:'+esc(p.cor||'#BF5AF2')+'">'+its.map(packRow).join('')+'</ol></section>'
+    +'<ol class="lpv-list" style="--hue:'+esc(p.cor||'#BF5AF2')+'">'+its.map(function(x,i){ return packRow(x,i,p.cor||'#BF5AF2',used); }).join('')+'</ol></section>'
     +'<aside class="lpv-side">'
     +((p.aprender||[]).length?'<div class="lpv-box"><h3>O que você vai aprender</h3><ul>'
       +p.aprender.map(function(a){ return '<li>'+esc(a)+'</li>'; }).join('')+'</ul></div>':'')
@@ -1144,8 +1186,15 @@ function showPack(id){
   paintPackPlan(packBody.querySelector('[data-pack-plan]'),p);
   window.scrollTo(0,0);
 }
-/* capa que não carrega: some e fica o ícone */
-packBody.addEventListener('error',function(e){ if(e.target.tagName==='IMG') e.target.remove(); },true);
+/* capa que não carrega: some e entra uma capa animada, como nos conteúdos sem capa (sem js/pack-covers.js, fica o ícone).
+   packCv = cor e capas já usadas do pack aberto, guardadas por showPack */
+var packCv=null;
+packBody.addEventListener('error',function(e){
+  if(e.target.tagName!=='IMG') return;
+  var cv=e.target.closest('.lpv-cv'), ph=cv&&cv.querySelector('.lpv-ph');
+  e.target.remove();
+  if(ph&&packCv&&typeof packCoverArt==='function'){ ph.outerHTML=packCoverArt(+cv.getAttribute('data-id'),packCv.c,packCv.used); cv.classList.add('cv-art'); }
+},true);
 /* "Adicionar tudo ao Meu plano": põe os itens que faltam; com tudo lá, tira o pack inteiro */
 packBody.addEventListener('click',function(e){
   var b=e.target.closest('[data-pack-plan]'); if(!b) return;

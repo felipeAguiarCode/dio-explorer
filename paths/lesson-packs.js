@@ -14,12 +14,28 @@
                 'agente' (conversa de chat virando um agente com ferramentas), 'terminal'
                 (terminal com código sendo escrito), 'codigo' (diff de código e testes passando),
                 'dados' (gráficos e pontos de dados), 'cert' (medalha de certificação e
-                checklist da preparação) ou 'blocos' (padrão)
+                checklist da preparação), 'ia' (rede neural levando sinais até o núcleo "IA")
+                ou 'blocos' (padrão)
      aprender   lista "O que você vai aprender"
      itens      na ordem de estudo: ids de data/ (cursos, projetos, mentorias com id...),
-                ou {id, nota} para explicar o papel daquele item no pack
+                ou {id, nota} para explicar o papel daquele item no pack. Item sem capa (ou
+                com capa que não carrega) ganha uma das 20 capas animadas de js/pack-covers.js
    ===================================================================== */
 var LESSON_PACKS=[
+  {id:'ia-do-zero', titulo:"IA do Zero",
+   descricao:"Comece do zero na inteligência artificial: entenda como a IA funciona, de machine learning e LLMs à IA generativa e aos agentes, e use-a nos estudos e na carreira.",
+   cor:'#DB2777', roadmap:'ia-non-devs', selo:"IA, os primeiros passos", arte:'ia',
+   icone:'<ellipse cx="10.5" cy="13" rx="6.6" ry="8.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 8.4Q11.1 12.4 15.1 13Q11.1 13.6 10.5 17.6Q9.9 13.6 5.9 13Q9.9 12.4 10.5 8.4z"/><path d="M19.6 1.6Q20 4.2 22.6 4.6Q20 5 19.6 7.6Q19.2 5 16.6 4.6Q19.2 4.2 19.6 1.6z"/>',
+   aprender:["Entender como a IA funciona, sem precisar de conhecimento técnico",
+     "Diferenciar machine learning, LLMs, IA generativa e agentes",
+     "Usar chatbots, copilotos e agentes para turbinar os estudos e a carreira",
+     "Dar o contexto certo para conseguir respostas melhores da IA"],
+   itens:[
+     {id:207, nota:"Comece por aqui: o que acontece por trás de uma IA e como ela chega a uma resposta."},
+     {id:208, nota:"O essencial para começar a usar inteligência artificial no dia a dia, sem complicação."},
+     {id:209, nota:"Machine learning, LLMs, IA generativa e agentes: os conceitos que formam a IA de hoje."},
+     {id:210, nota:"Chatbots, copilotos e agentes: como cada um ajuda nos seus estudos e na sua carreira."},
+     {id:211, nota:"Feche o pack entendendo por que o contexto muda a resposta da IA e como usar isso a seu favor."}]},
   {id:'primeiro-agente', titulo:"Criando meu Primeiro Agente",
    descricao:"Do chatbot ao agente: entenda o ecossistema de agentes de IA, prepare o ambiente com OpenAgents e crie seu primeiro agente com o Google ADK.",
    cor:'#2563EB', roadmap:'ai-agents', selo:"Para começar", arte:'agente',

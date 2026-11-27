@@ -80,6 +80,7 @@ Não precisa instalar nada. É só abrir no navegador. 😉
 | `data/` | Os conteúdos, um arquivo por tipo: `tracks.js`, `certifications.js`, `projects.js`, `courses.js`, `mentorships.js` (sessões + temas) e `articles.js` (índice dos posts do blog, com as formações que cada um explica). Todo conteúdo tem um **id** único em todo o catálogo. |
 | `paths/` | A configuração dos caminhos: `guides.js` (trilhas das Guias), `roadmaps-role.js`, `roadmaps-skill.js`, `lesson-packs.js` e `project-ideas.js`. |
 | `js/catalog.js` | Junta os arquivos de `data/` num catálogo único e desenha os origamis. |
+| `js/pack-covers.js` | As 20 capas animadas sobre IA que os lesson packs usam nos conteúdos sem capa. |
 
 Para incluir um curso, projeto ou mentoria novo: cadastre no arquivo certo de `data/` com um id livre
 e encaixe esse id numa trilha em `paths/guides.js`. Os roadmaps se atualizam sozinhos.
